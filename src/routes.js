@@ -13,6 +13,7 @@ import LoginPage from './containers/Public/LoginPage';
 
 import MemberSignupPage from './containers/Member/SignupPage';
 import MemberBooksPage from './containers/Member/BooksPage';
+import MemberBookDetailsPage from './containers/Member/BookDetailsPage';
 
 import ErrorPage from './containers/404/ErrorPage';
 import Utils from './utils';
@@ -24,6 +25,7 @@ export default (
 
 	<Route path="/signup" component={MemberSignupPage}/>
 	<Route path="/member/books" component={MemberBooksPage}/>
+	<Route path="/member/book/:id" component={MemberBookDetailsPage}/>
 	
 	<Route path="/admin/books" component={AdminBooksPage}/>
 	<Route path="/admin/members" component={AdminMembersPage}/>
