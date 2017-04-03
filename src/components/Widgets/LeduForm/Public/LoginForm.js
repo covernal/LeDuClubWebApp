@@ -1,4 +1,5 @@
 import React,{PropTypes} from 'react';
+import {Link} from 'react-router';
 
 class LoginForm extends React.Component{
   render() {
@@ -19,8 +20,8 @@ class LoginForm extends React.Component{
         <div className="form-group ">
           <div className="col-xs-12">
             <div className="checkbox checkbox-primary">
-              <input id="checkbox-signup" type="checkbox" checked/>
-              <label for="checkbox-signup">
+              <input id="checkbox-signup" type="checkbox" defaultChecked={true} />
+              <label htmlFor="checkbox-signup">
                 记住登录信息
               </label>
             </div>
@@ -35,7 +36,7 @@ class LoginForm extends React.Component{
 
         <div className="form-group text-center m-t-0">
           <div className="col-sm-12">
-            <a href="page-recoverpw.html" className="text-muted"><i className="fa fa-lock m-r-5"></i> 忘记密码?</a>
+            <Link to="/forgot-pwd" className="text-muted"><i className="fa fa-lock m-r-5"></i> 忘记密码?</Link>
           </div>
         </div>
       </form>

@@ -9,12 +9,16 @@ import Footer from '../../components/Layouts/Common/Footer';
 import AdminRequestItem from '../../components/Widgets/LeduCard/AdminRequestItem';
 import RequestSearchForm from '../../components/Widgets/LeduForm/Admin/RequestSearchForm';
 
+//Dummy data
+import DummyData from '../../constants/DummyData';
+
 class RequestsPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
-      sendingRequest: false
+      sendingRequest: false,
+      requestsData: DummyData.REQUESTS
     };
   }
 
@@ -23,7 +27,6 @@ class RequestsPage extends React.Component{
       return null;
     }
 
-    let requestsList = [1, 2, 3];
     let overlayClass = (this.state.sendingRequest) ? 'endorsse-overlay show' : 'endorsse-overlay';
 
     return (
@@ -50,8 +53,8 @@ class RequestsPage extends React.Component{
             </div>
             <hr/>
             {
-              requestsList.map((item, idx) =>
-                <AdminRequestItem key={`request-${idx}`} />
+              this.state.requestsData.map((item, idx) =>
+                <AdminRequestItem key={`request-${idx}`} item={item} />
               )
             }
             <div className="row">

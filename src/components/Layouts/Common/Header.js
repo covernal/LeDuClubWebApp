@@ -29,13 +29,15 @@ class Header extends Component {
       return null;
     }
     
-    let profileImageURL = cookie.load('profileImageURL');
-    let image = (profileImageURL != undefined && profileImageURL != "undefined") ? profileImageURL : "/assets/images/defaultAvatar.jpg";
+    // let profileImageURL = cookie.load('profileImageURL');
+    let image = /*(profileImageURL != undefined && profileImageURL != "undefined") ? profileImageURL : */"/assets/images/defaultAvatar.jpg";
     let actionBar = (!this.props.isPublic || (cookie.load('username') != undefined)) ?
     <div className="menu-extras">
       <ul className="nav navbar-nav navbar-right pull-right">
         <li className="dropdown navbar-c-items">
-          <a href="" className="dropdown-toggle waves-effect waves-light profile" data-toggle="dropdown" aria-expanded="true"><img src={image} alt="user-img" className="img-circle" /> </a>
+          <a href="" className="dropdown-toggle waves-effect waves-light profile" data-toggle="dropdown" aria-expanded="true">
+            <img src={image} alt="user-img" className="img-circle" /> 
+          </a>
           <ul className="dropdown-menu dropdown-menu-right arrow-dropdown-menu arrow-menu-right user-list notify-list">
             <li><a onClick={this.logout}><i className="fa fa-power-off m-r-5"></i> 登出</a></li>
           </ul>

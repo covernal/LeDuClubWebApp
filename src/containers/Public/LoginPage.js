@@ -1,4 +1,5 @@
 import React,{PropTypes} from 'react';
+import {Link} from 'react-router';
 import LoginForm from '../../components/Widgets/LeduForm/Public/LoginForm';
 
 class LoginPage extends React.Component{
@@ -32,7 +33,7 @@ class LoginPage extends React.Component{
                 </div>
                 <div className="row m-t-50">
                   <div className="col-sm-12 text-center">
-                    <p className="text-muted">还没有加入乐读? <a href="page-register.html" className="text-primary m-l-5"><b>注册会员</b></a></p>
+                    <p className="text-muted">还没有加入乐读? <Link to="/forgot-pwd" className="text-primary m-l-5"><b>注册会员</b></Link></p>
                   </div>
                 </div>
               </div>

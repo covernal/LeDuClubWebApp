@@ -9,12 +9,16 @@ import Footer from '../../components/Layouts/Common/Footer';
 import BookSearchForm from '../../components/Widgets/LeduForm/Member/BookSearchForm';
 import BookItem from '../../components/Widgets/LeduCard/BookItem';
 
+//Dummy data
+import DummyData from '../../constants/DummyData';
+
 class BooksPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
-      sendingRequest: false
+      sendingRequest: false,
+      booksData: DummyData.BOOKS
     };
 
     this.loadMoreBooks = this.loadMoreBooks.bind(this);
@@ -29,17 +33,6 @@ class BooksPage extends React.Component{
       return null;
     }
 
-    let booksList = [{
-      status: true
-    }, {
-      status: true
-    }, {
-      status: false
-    }, {
-      status: false
-    }, {
-      status: true
-    }];
     let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
 
     return (
@@ -74,9 +67,9 @@ class BooksPage extends React.Component{
 
             <div className="row">              
               {
-                booksList.map((item, idx) =>
+                this.state.booksData.map((item, idx) =>
                   <div key={`book-${idx}`} className="col-md-3 col-sm-4">
-                    <BookItem type="member" status={item.status} />
+                    <BookItem type="member" item={item}/>
                   </div>
                 )
               }
