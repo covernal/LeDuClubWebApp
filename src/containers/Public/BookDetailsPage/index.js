@@ -89,14 +89,7 @@ class BookDetailsPage extends React.Component{
                   </div>
                 </div>
                 <div className="col-md-6">                                    
-                  <BookFeedbackList />
-                  <hr/>
-
-                  <div className="row">
-                    <div className="col-md-12 col-sm-12">
-                      <BookCommentForm />
-                    </div>
-                  </div>
+                  <BookFeedbackList />                  
                 </div>
               </div>
             </div>

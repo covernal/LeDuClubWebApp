@@ -45,6 +45,7 @@ module.exports = {
       ISBN: "XXXXXXX",
       address: "XXXXXXXXXXXXXX",
       store: "青岛",
+      datetime: "2016-02-26 14:00",
       type: "取书"
     }, {
       id: 2,
@@ -55,6 +56,7 @@ module.exports = {
       ISBN: "XXXXXXXXXXXXXX",
       address: "XXXXXXXXXXXXXXXXXX",
       store: "青岛",
+      datetime: "2016-02-26 14:00",
       type: "取书"
     }
   ],

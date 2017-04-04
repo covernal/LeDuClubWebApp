@@ -41,9 +41,9 @@ class AdminRequestItem extends React.Component{
                 <div className="property-content">
                   <div className="listingInfo">
                     <div className="">
-                      <p><Link to={`/admin/book/${item.bookId}`} className="text-primary">{item.title}</Link>（ISBN：{item.ISBN})</p>
+                      <p><Link to={`/admin/book/${item.bookId}`} className="text-primary">{item.title}</Link>（ISBN：{item.ISBN} 仓库: {item.store})</p>
                       <p className="text-muted">配送地址: {item.address}</p>
-                      <p className="text-muted">仓库: {item.store}</p>
+                      <p class="text-muted">请求时间（北京时间）: {item.datetime}</p>
                       <p className="text-warning">类型: {item.type}</p>
                       <div style={{width: "200px"}}>
                         <div className="form-group">

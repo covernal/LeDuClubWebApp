@@ -21,7 +21,6 @@ class BookEditForm extends React.Component{
   handleSubmit(e) {
     e.preventDefault();    
     let validation = $('#book-form').parsley().validate();
-    console.log(validation);
     if(validation != true) {
       return;
     }

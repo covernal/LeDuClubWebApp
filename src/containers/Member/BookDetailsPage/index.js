@@ -25,10 +25,20 @@ class BookDetailsPage extends React.Component{
     };
 
     this.handleImageLoad = this.handleImageLoad.bind(this);
+    this.handleComment = this.handleComment.bind(this);
+    this.handleBorrow = this.handleBorrow.bind(this);
   }
 
   handleImageLoad() {
     
+  }
+
+  handleBorrow() {
+
+  }
+
+  handleComment(data) {
+    console.log(data);
   }
 
   render() {
@@ -76,7 +86,8 @@ class BookDetailsPage extends React.Component{
                     slideDuration={2000}
                     slideInterval={5000}
                     onImageLoad={this.handleImageLoad}/>
-                    
+
+                  <div className="clearfix"></div>  
                   <div className="m-t-30">
                       <h5 className="text-primary m-t-0">建议阅读年龄：3－5岁</h5>
                       <p className="text-muted text-overflow">页数：24页</p>
@@ -85,7 +96,7 @@ class BookDetailsPage extends React.Component{
                       </p>
                   </div>
                   <div className="m-t-20 m-b-30">
-                      <button type="button" className="btn-lg btn-primary btn-block waves-effect waves-light">我要借阅</button>
+                      <button type="button" className="btn-lg btn-primary btn-block waves-effect waves-light" onClick={this.handleBorrow}>我要借阅</button>
                   </div>
                 </div>
                 <div className="col-md-6">                                    
@@ -94,7 +105,7 @@ class BookDetailsPage extends React.Component{
 
                   <div className="row">
                     <div className="col-md-12 col-sm-12">
-                      <BookCommentForm />
+                      <BookCommentForm handleComment={this.handleComment} />
                     </div>
                   </div>
                 </div>

@@ -9,6 +9,12 @@ class LoginPage extends React.Component{
     this.state = {
       sendingRequest: false
     };
+
+    this.login = this.login.bind(this);
+  }
+
+  login(data) {
+    console.log(data);
   }
 
   render() {
@@ -27,7 +33,7 @@ class LoginPage extends React.Component{
                     </h2>
                   </div>
                   <div className="account-content">
-                    <LoginForm />
+                    <LoginForm login={this.login}/>
                     <div className="clearfix"></div>
                   </div>
                 </div>

@@ -15,7 +15,8 @@ class BookItem extends React.Component{
       actionBtn = (<Link to={`/admin/book/${item.id}`} className="btn btn-primary btn-block waves-effect waves-light">编辑</Link>);
     }else {
       if(item.status === true) {
-        actionBtn = (<Link to={`/member/book/${item.id}`} className="btn btn-primary btn-block waves-effect waves-light">我要借阅</Link>);
+        let prefix = (this.props.type === "member") ? "/member": "";
+        actionBtn = (<Link to={`${prefix}/book/${item.id}`} className="btn btn-primary btn-block waves-effect waves-light">我要借阅</Link>);
       }else {
         actionBtn = (<button type="button" className="btn btn-grey btn-block waves-effect waves-light">已被借阅</button>);
       }
@@ -34,13 +35,14 @@ class BookItem extends React.Component{
                 <a href="#" className="text-dark">{item.title}</a>
               </h4>
               <p className="text-muted text-overflow">页数：{item.pages}页</p>
-              <p className="text-muted text-overflow">会员评价：
+              <p className="text-muted pull-left">会员评价： </p>
+              <div className="pull-left" style={{marginTop: "-1px"}}>
                 <ReactStars
                   count={5}
                   size={18}
                   value={item.reviews}                           
                   edit={false}/>
-              </p>
+              </div>
               <div className="m-t-20">
                 {actionBtn}                
               </div>
