@@ -7,7 +7,8 @@ import Header from '../../components/Layouts/Common/Header';
 import SubHeader from '../../components/Layouts/Common/SubHeader';
 import Footer from '../../components/Layouts/Common/Footer';
 import BookEditForm from '../../components/Widgets/LeduForm/Admin/BookEditForm';
-import BookImageAdder from '../../components/Layouts/Admin/BookImageAdder';
+import BookImagesUploader from '../../components/Layouts/Admin/BookImagesUploader';
+import LeduOverlay from '../../components/Widgets/LeduOverlay';
 
 require("../../assets/templates/images/books/1.jpg");
 
@@ -16,8 +17,23 @@ class BookDetailsPage extends React.Component{
     super(props);
 
     this.state = {
+      images: ["/assets/images/1.jpg"],
       sendingRequest: false
     };
+
+    this.saveBook = this.saveBook.bind(this);
+  }
+
+  saveBook(data) {
+    console.log(data);
+    this.setState({
+      sendingRequest: true
+    }, () => {
+      // call API
+      this.setState({
+        sendingRequest: false
+      });
+    });
   }
 
   render() {
@@ -25,7 +41,7 @@ class BookDetailsPage extends React.Component{
       return null;
     }
 
-    let overlayClass = (this.state.sendingRequest) ? 'endorsse-overlay show' : 'endorsse-overlay';
+    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
 
     return (
       <div>
@@ -46,11 +62,11 @@ class BookDetailsPage extends React.Component{
 
             <div className="property-detail-wrapper">
               <div className="row">
-                <BookImageAdder />
+                <BookImagesUploader images={this.state.images}/>
                 <div className="col-md-8">
                   <div className="row">
                     <div className="col-md-12 col-sm-12">
-                      <BookEditForm />
+                      <BookEditForm saveBook={this.saveBook}/>
                     </div>
                   </div>
                 </div>
@@ -60,6 +76,11 @@ class BookDetailsPage extends React.Component{
             <Footer />
           </div>
         </div>
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="Please wait..."
+        />              
       </div>
     );
   }
