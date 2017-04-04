@@ -7,15 +7,52 @@ import Header from '../../components/Layouts/Common/Header';
 import SubHeader from '../../components/Layouts/Common/SubHeader';
 import Footer from '../../components/Layouts/Common/Footer';
 import TaskSearchForm from '../../components/Widgets/LeduForm/Postman/TaskSearchForm';
-import TasksList from '../../components/Layouts/Postman/TasksList';
+import LeduOverlay from '../../components/Widgets/LeduOverlay';
+import PostmanTaskRow from '../../components/Widgets/LeduCard/PostmanTaskRow';
+
+//Dummy data
+import DummyData from '../../constants/DummyData';
 
 class MyRequestPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
-      sendingRequest: false
+      sendingRequest: false,
+      
+      skip: 0,
+      hasMoreTasks: true,
+      isLoadingMore: false,
+      isInitTable: true,
+      tasksData: DummyData.POSTMAN_TASKS,
+
+      searchType: ''
     };
+
+    this.handleConfirm = this.handleConfirm.bind(this);
+    this.searchTasks = this.searchTasks.bind(this);
+    this.loadMoreTasks = this.loadMoreTasks.bind(this);
+  }
+
+  searchTasks(type) {
+    console.log(type);
+    this.setState({
+      searchType: type,
+      sendingRequest: true
+    }, () => {
+      // call API
+      this.setState({
+        sendingRequest: false
+      });
+    });
+  }
+
+  loadMoreTasks() {
+
+  }
+
+  handleConfirm(item) {
+    console.log(item);
   }
 
   render() {
@@ -23,8 +60,9 @@ class MyRequestPage extends React.Component{
       return null;
     }
 
-    let requestsList = [1, 2, 3];
-    let overlayClass = (this.state.sendingRequest) ? 'endorsse-overlay show' : 'endorsse-overlay';
+    let disabled = (this.state.isLoadingMore || !this.state.hasMoreTasks) ? 'disabled' : '';
+    let spinnerClass = (this.state.isLoadingMore) ? 'fa fa-spinner fa-spin-custom' : 'fa fa-spinner fa-spin-custom hidden';
+    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
 
     return (
       <div>
@@ -45,22 +83,36 @@ class MyRequestPage extends React.Component{
 
             <div className="row">
               <div className="col-sm-12">
-                <TaskSearchForm />
+                <TaskSearchForm searchTasks={this.searchTasks}/>
               </div>
             </div>
             <hr/>
 
-            <TasksList />
+            <div className="row">
+              <div className="col-md-10">
+              {
+                this.state.tasksData.map((task, idx) =>
+                  <PostmanTaskRow key={`task-${idx}`} item={task} handleConfirm={this.handleConfirm}/>
+                )
+              }
+              </div>
+            </div>
 
             <div className="row">
               <div className="col-xs-12 m-b-30 text-center m-t-10">
-                <button type="button" className="btn btn-default waves-effect w-md waves-light">显示更多</button>
+              <button type="button" disabled={disabled} className="btn btn-default waves-effect w-md waves-light" onClick={this.loadMoreTasks}><i className={spinnerClass} aria-hidden="true"></i> {(this.state.hasMoreTasks) ? '显示更多' : '没有更多'}</button>
               </div>
             </div>
             
             <Footer />
           </div>
         </div>
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="Please wait..."
+        />
+
       </div>
     );
   }

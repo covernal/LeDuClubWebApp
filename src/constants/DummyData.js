@@ -46,8 +46,7 @@ module.exports = {
       address: "XXXXXXXXXXXXXX",
       store: "青岛",
       type: "取书"
-    },
-    {
+    }, {
       id: 2,
       bookId: 2,
       postmanId: '',
@@ -57,6 +56,30 @@ module.exports = {
       address: "XXXXXXXXXXXXXXXXXX",
       store: "青岛",
       type: "取书"
+    }
+  ],
+
+  POSTMAN_TASKS: [
+    {
+      bookId: 1,
+      image: "/assets/images/1.jpg",
+      title: "That's Not My Snowman - 1",
+      ISBN: "0375827781",
+      address: "青岛彰化路32号2单元601",
+      member: "王鹏",
+      phone: "13899990000",
+      type: "取书",
+      date: "2017-04-19"
+    }, {
+      bookId: 2,
+      image: "/assets/images/2.jpg",
+      title: "That's Not My Snowman - 2",
+      ISBN: "0375827782",
+      address: "青岛彰化路12号3单元603",
+      member: "王鹏",
+      phone: "13899990321",
+      type: "送书",
+      date: "2017-03-29"      
     }
   ],
 
