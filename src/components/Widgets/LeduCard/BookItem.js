@@ -1,5 +1,6 @@
 import React,{PropTypes} from 'react';
 import {Link} from 'react-router';
+import ReactStars from 'react-stars';
 
 require("../../../assets/templates/images/books/1.jpg");
 require("../../../assets/templates/images/books/2.jpg");
@@ -34,12 +35,11 @@ class BookItem extends React.Component{
               </h4>
               <p className="text-muted text-overflow">页数：{item.pages}页</p>
               <p className="text-muted text-overflow">会员评价：
-                                              
-                <i className="fa fa-star text-warning"></i>
-                <i className="fa fa-star text-warning"></i>
-                <i className="fa fa-star text-warning"></i>
-                <i className="fa fa-star text-warning"></i>
-                <i className="fa fa-star text-warning"></i>
+                <ReactStars
+                  count={5}
+                  size={18}
+                  value={item.reviews}                           
+                  edit={false}/>
               </p>
               <div className="m-t-20">
                 {actionBtn}                

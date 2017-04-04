@@ -17,9 +17,32 @@ class RequestsPage extends React.Component{
     super(props);
 
     this.state = {
+      skip: 0,
+      hasMoreRequests: true,
+      isLoadingMore: false,
+      isInitTable: true,
+
       sendingRequest: false,
       requestsData: DummyData.REQUESTS
     };
+
+    this.searchRequests = this.searchRequests.bind(this);
+    this.loadMoreRequests = this.loadMoreRequests.bind(this);
+  }
+
+  searchRequests(store) {
+    this.setState({
+      sendingRequest: true
+    }, () => {
+      // call API
+      this.setState({
+        sendingRequest: false
+      });
+    });
+  }
+
+  loadMoreRequests() {
+
   }
 
   render() {
@@ -27,7 +50,9 @@ class RequestsPage extends React.Component{
       return null;
     }
 
-    let overlayClass = (this.state.sendingRequest) ? 'endorsse-overlay show' : 'endorsse-overlay';
+    let disabled = (this.state.isLoadingMore || !this.state.hasMoreRequests) ? 'disabled' : '';
+    let spinnerClass = (this.state.isLoadingMore) ? 'fa fa-spinner fa-spin-custom' : 'fa fa-spinner fa-spin-custom hidden';
+    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
 
     return (
       <div>
@@ -48,7 +73,7 @@ class RequestsPage extends React.Component{
 
             <div className="row">
               <div className="col-sm-12">
-                <RequestSearchForm />
+                <RequestSearchForm searchRequests={this.searchRequests} />
               </div>
             </div>
             <hr/>
@@ -59,7 +84,7 @@ class RequestsPage extends React.Component{
             }
             <div className="row">
               <div className="col-xs-12 m-b-30 text-center m-t-10">
-                <button type="button" className="btn btn-default waves-effect w-md waves-light " data-toggle="modal" data-target="#custom-width-modal">显示更多</button>
+                <button type="button" disabled={disabled} className="btn btn-default waves-effect w-md waves-light" onClick={this.loadMoreRequests}><i className={spinnerClass} aria-hidden="true"></i> {(this.state.hasMoreRequests) ? '显示更多' : '没有更多'}</button>
               </div>
             </div>
             

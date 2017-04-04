@@ -24,14 +24,16 @@ class AdminRequestItem extends React.Component{
                       <p className="text-muted">配送地址: {item.address}</p>
                       <p className="text-muted">仓库: {item.store}</p>
                       <p className="text-warning">类型: {item.type}</p>
-                      <div className="form-group">
-                        <select className="selectpicker show-tick" data-style="btn-default" defaultValue="0">
-                          <option value="0" disabled>配送员</option>
-                          <option value="1">配送员一</option>
-                          <option value="1">配送员二</option>
-                        </select>
+                      <div style={{width: "200px"}}>
+                        <div className="form-group">
+                          <select className="form-control selectpicker show-tick" data-style="btn-default" defaultValue="0">
+                            <option value="0" disabled>配送员</option>
+                            <option value="1">配送员一</option>
+                            <option value="1">配送员二</option>
+                          </select>
+                        </div>
+                        <button type="button" className="btn btn-warning btn-block waves-effect waves-light">分配任务</button>
                       </div>
-                      <button type="button" className="btn btn-warning btn-block waves-effect waves-light">分配任务</button>
                     </div>
                   </div>
                 </div>

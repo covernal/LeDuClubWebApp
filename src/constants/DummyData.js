@@ -14,7 +14,7 @@ module.exports = {
       recommendAges: [7, 15],
       title: "That's Not My Snowman2",
       pages: 40,
-      reviews: 4,
+      reviews: 4.5,
       status: true
     }, {
       id: 3,
@@ -22,7 +22,7 @@ module.exports = {
       recommendAges: [13, 25],
       title: "That's Not My Snowman3",
       pages: 130,
-      reviews: 3,
+      reviews: 3.5,
       status: false
     }, {
       id: 4,
