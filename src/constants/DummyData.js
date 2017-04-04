@@ -39,6 +39,7 @@ module.exports = {
     {
       id: 1,
       bookId: 1,
+      postmanId: '',
       image: "/assets/images/3.jpg",
       title: "That's Not My Snowman - 3",
       ISBN: "XXXXXXX",
@@ -49,12 +50,19 @@ module.exports = {
     {
       id: 2,
       bookId: 2,
+      postmanId: '',
       image: "/assets/images/4.jpg",
       title: "That's Not My Snowman - 4",
       ISBN: "XXXXXXXXXXXXXX",
       address: "XXXXXXXXXXXXXXXXXX",
       store: "青岛",
       type: "取书"
+    }
+  ],
+
+  MEMBERS: [
+    {
+      
     }
   ]
 };

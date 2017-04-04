@@ -2,6 +2,8 @@ import React,{PropTypes} from 'react';
 
 class MembersList extends React.Component{
   render() {
+    let loadingClass = (this.props.isInitTable || this.props.isInitTable == undefined) ? 'loading' : 'loading hidden';
+
     return (
       <div className="row">
         <div className="col-md-12">
@@ -154,6 +156,11 @@ class MembersList extends React.Component{
                 </tbody>
               </table>
             </div>
+
+            <div className={loadingClass}>
+              <i className="fa fa-spinner fa-spin-custom" aria-hidden="true"></i>
+            </div> 
+                       
           </div>
         </div>
       </div>

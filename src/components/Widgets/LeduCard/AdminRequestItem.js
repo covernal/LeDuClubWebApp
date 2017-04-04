@@ -5,6 +5,27 @@ require("../../../assets/templates/images/books/3.jpg");
 require("../../../assets/templates/images/books/4.jpg");
 
 class AdminRequestItem extends React.Component{
+  constructor(props, context) {
+    super(props);
+
+    this.state = {
+      postmanId: ''
+    };
+
+    this.handleAssign = this.handleAssign.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleAssign() {
+    this.props.handleAssign(this.props.item.bookId, this.state.postmanId);
+  }
+
+  handleChange(e) {
+    this.setState({
+      postmanId: e.target.value
+    });
+  }
+
   render() {
     let item = this.props.item;
     return (
@@ -26,13 +47,13 @@ class AdminRequestItem extends React.Component{
                       <p className="text-warning">类型: {item.type}</p>
                       <div style={{width: "200px"}}>
                         <div className="form-group">
-                          <select className="form-control selectpicker show-tick" data-style="btn-default" defaultValue="0">
-                            <option value="0" disabled>配送员</option>
+                          <select className="form-control selectpicker show-tick" data-style="btn-default" defaultValue={item.postmanId} onChange={this.handleChange}>
+                            <option value="" disabled>配送员</option>
                             <option value="1">配送员一</option>
-                            <option value="1">配送员二</option>
+                            <option value="2">配送员二</option>
                           </select>
                         </div>
-                        <button type="button" className="btn btn-warning btn-block waves-effect waves-light">分配任务</button>
+                        <button type="button" className="btn btn-warning btn-block waves-effect waves-light" onClick={this.handleAssign}>分配任务</button>
                       </div>
                     </div>
                   </div>

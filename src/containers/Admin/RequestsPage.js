@@ -28,7 +28,12 @@ class RequestsPage extends React.Component{
 
     this.searchRequests = this.searchRequests.bind(this);
     this.loadMoreRequests = this.loadMoreRequests.bind(this);
+    this.handleAssign = this.handleAssign.bind(this);
   }
+
+  handleAssign(bookId, postmanId) {
+    console.log(bookId, postmanId);
+  }  
 
   searchRequests(store) {
     this.setState({
@@ -79,7 +84,7 @@ class RequestsPage extends React.Component{
             <hr/>
             {
               this.state.requestsData.map((item, idx) =>
-                <AdminRequestItem key={`request-${idx}`} item={item} />
+                <AdminRequestItem key={`request-${idx}`} item={item} handleAssign={this.handleAssign}/>
               )
             }
             <div className="row">
