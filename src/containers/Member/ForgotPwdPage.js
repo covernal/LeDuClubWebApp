@@ -1,9 +1,34 @@
 import React,{PropTypes} from 'react';
 import {Link} from 'react-router';
 import ForgotPwdForm from '../../components/Widgets/LeduForm/Member/ForgotPwdForm';
+import LeduOverlay from '../../components/Widgets/LeduOverlay';
 
 class ForgotPwdPage extends React.Component{
+  constructor(props, context) {
+    super(props);
+
+    this.state = {
+      sendingRequest: false
+    };
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleSubmit(data) {
+    console.log(data);
+    this.setState({
+      sendingRequest: true
+    }, () => {
+      // call API
+      this.setState({
+        sendingRequest: false
+      });
+    });
+  }
+
   render() {
+    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
+
     return (
       <section>
         <div className="container-alt">
@@ -19,7 +44,7 @@ class ForgotPwdPage extends React.Component{
                         </h2>
                     </div>
                     <div className="account-content">
-                        <ForgotPwdForm />
+                        <ForgotPwdForm handleSubmit={this.handleSubmit} />
                         <div className="clearfix"></div>
 
                     </div>
@@ -34,6 +59,11 @@ class ForgotPwdPage extends React.Component{
             </div>
           </div>                
         </div>
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="Please wait..."
+        />           
       </section>
     );
   }

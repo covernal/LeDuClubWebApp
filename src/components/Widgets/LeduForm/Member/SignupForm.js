@@ -78,7 +78,7 @@ class SignupForm extends React.Component{
 
         <div className="form-group ">
           <div className="col-xs-12">
-            <input className="form-control" type="email" placeholder="电子邮件（主要联系方式）" required value={this.state.data.email} onChange={this.handleChange.bind(this, 'email')}/>
+            <input className="form-control" type="email" placeholder="电子邮件（主要联系方式）" required value={this.state.data.email} onChange={this.handleChange.bind(this, 'email')} data-parsley-pattern="/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i" data-parsley-error-message="Please enter a valid email address in lowercase."/>
           </div>
         </div>
 
