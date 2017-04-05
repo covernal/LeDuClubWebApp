@@ -1,6 +1,9 @@
 import React,{PropTypes} from 'react';
 import parsley from 'parsleyjs';
+import 'parsleyjs/dist/i18n/zh_cn';
 import $ from 'jquery';
+
+window.Parsley.setLocale('zh-cn');
 
 class BookEditForm extends React.Component{
   constructor(props, context) {

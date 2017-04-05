@@ -1,6 +1,9 @@
 import React,{PropTypes} from 'react';
 import parsley from 'parsleyjs';
+import 'parsleyjs/dist/i18n/zh_cn';
 import $ from 'jquery';
+
+window.Parsley.setLocale('zh-cn');
 
 class ForgotPwdForm extends React.Component{
   constructor(props, context) {
@@ -30,7 +33,7 @@ class ForgotPwdForm extends React.Component{
     });
   }  
   render() {
-    return (
+    return (  
       <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)} data-parsley-validate noValidate id="forgotpwd-form">
           <div className="form-group">
               <div className="col-xs-12">
@@ -40,7 +43,7 @@ class ForgotPwdForm extends React.Component{
 
           <div className="form-group ">
               <div className="col-xs-12">
-                  <input className="form-control" type="email" required placeholder="您的电子邮件" data-parsley-pattern="/^\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b/i" data-parsley-error-message="Please enter a valid email address in lowercase." value={this.state.email} onChange={this.handleChange}/>
+                  <input className="form-control" type="email" required placeholder="您的电子邮件" data-parsley-type="email" value={this.state.email} onChange={this.handleChange}/>
               </div>
           </div>
 
