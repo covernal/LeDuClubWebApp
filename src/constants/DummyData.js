@@ -45,6 +45,8 @@ module.exports = {
       ISBN: "XXXXXXX",
       address: "XXXXXXXXXXXXXX",
       store: "青岛",
+      reviews: 4.5,
+      pages: 24,
       datetime: "2016-02-26 14:00",
       type: "取书"
     }, {
@@ -56,6 +58,8 @@ module.exports = {
       ISBN: "XXXXXXXXXXXXXX",
       address: "XXXXXXXXXXXXXXXXXX",
       store: "青岛",
+      reviews: 5,
+      pages: 30,
       datetime: "2016-02-26 14:00",
       type: "取书"
     }
