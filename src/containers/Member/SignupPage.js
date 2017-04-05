@@ -1,9 +1,34 @@
 import React,{PropTypes} from 'react';
 import {Link} from 'react-router';
 import SignupForm from '../../components/Widgets/LeduForm/Member/SignupForm';
+import LeduOverlay from '../../components/Widgets/LeduOverlay';
 
 class SignupPage extends React.Component{
+  constructor(props, context) {
+    super(props);
+
+    this.state = {
+      sendingRequest: false
+    };
+
+    this.handleSignup = this.handleSignup.bind(this);
+  }
+
+  handleSignup(data) {
+    console.log(data);
+    this.setState({
+      sendingRequest: true
+    }, () => {
+      // call API
+      this.setState({
+        sendingRequest: false
+      });
+    });
+  }
+
   render() {
+    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
+
     return (
       <section>
         <div className="container-alt">
@@ -19,7 +44,7 @@ class SignupPage extends React.Component{
                     </h2>
                   </div>
                   <div className="account-content">
-                    <SignupForm />
+                    <SignupForm handleSignup={this.handleSignup}/>
                     <div className="clearfix"></div>
                   </div>
                 </div>
@@ -33,6 +58,11 @@ class SignupPage extends React.Component{
             </div>
           </div>
         </div>
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="Please wait..."
+        />             
       </section>
     );
   }
