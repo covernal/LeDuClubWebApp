@@ -2,6 +2,7 @@ import React,{PropTypes} from 'react';
 import parsley from 'parsleyjs';
 import 'parsleyjs/dist/i18n/zh_cn';
 import $ from 'jquery';
+import AgesRangeSelector from '../../LeduInput/AgesRangeSelector';
 
 window.Parsley.setLocale('zh-cn');
 
@@ -45,12 +46,7 @@ class MyProfileForm extends React.Component{
       <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)} data-parsley-validate noValidate id="profile-form">
         <div className="form-group">
           <div className="col-xs-12">
-            <select className="form-control selectpicker show-tick" data-style="btn-default" required value={this.state.data.agesRange} onChange={this.handleChange.bind(this, 'agesRange')}>
-              <option value="" disabled>孩子所属年龄组</option>
-              <option value="1">3-5岁</option>
-              <option value="2">6-8岁</option>
-              <option value="3">9-12岁</option>
-            </select>
+            <AgesRangeSelector value={this.state.data.agesRange} placeholder="孩子所属年龄组" handleChange={this.handleChange.bind(this, 'agesRange')}/>
           </div>
         </div>
 

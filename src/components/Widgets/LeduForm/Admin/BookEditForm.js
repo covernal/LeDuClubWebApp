@@ -2,6 +2,7 @@ import React,{PropTypes} from 'react';
 import parsley from 'parsleyjs';
 import 'parsleyjs/dist/i18n/zh_cn';
 import $ from 'jquery';
+import AgesRangeSelector from '../../LeduInput/AgesRangeSelector';
 
 window.Parsley.setLocale('zh-cn');
 
@@ -14,7 +15,8 @@ class BookEditForm extends React.Component{
       bookName: '',
       ISBN: '',
       barCode: '',
-      pages: ''
+      pages: '',
+      agesRange: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -76,12 +78,7 @@ class BookEditForm extends React.Component{
 
         <div className="col-xs-12">
           <div className="form-group">
-            <select className="selectpicker form-control show-tick" data-style="btn-default" defaultValue="0">
-              <option value="0" disabled>年龄范围</option>
-              <option value="1">3-5岁</option>
-              <option value="1">6-8岁</option>
-              <option value="2">9-12岁</option>
-            </select>
+            <AgesRangeSelector value={this.state.agesRange} placeholder="年龄范围" handleChange={this.handleChange.bind(this, 'agesRange')}/>
           </div>
         </div>
 

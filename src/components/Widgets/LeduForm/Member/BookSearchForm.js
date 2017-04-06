@@ -1,4 +1,5 @@
 import React,{PropTypes} from 'react';
+import AgesRangeSelector from '../../LeduInput/AgesRangeSelector';
 
 class BookSearchForm extends React.Component{
   constructor(props, context) {
@@ -42,12 +43,7 @@ class BookSearchForm extends React.Component{
         </div>
         <div className="col-sm-6 col-md-3">
           <div className="form-group">
-            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.ageRange} onChange={this.handleChange.bind(this, 'ageRange')}>
-              <option value="" disabled>年龄范围</option>
-              <option value="1">3-5岁</option>
-              <option value="2">6-8岁</option>
-              <option value="3">9-12岁</option>
-            </select>
+            <AgesRangeSelector value={this.state.ageRange} placeholder="年龄范围" handleChange={this.handleChange.bind(this, 'ageRange')}/>
           </div>
         </div>
         <div className="col-sm-6 col-md-3">
