@@ -3,11 +3,37 @@ import React,{PropTypes} from 'react';
 import Header from '../../components/Layouts/Common/Header';
 import SubHeader from '../../components/Layouts/Common/SubHeader';
 import Footer from '../../components/Layouts/Common/Footer';
+import MyProfileForm from '../../components/Widgets/LeduForm/Member/MyProfileForm';
+import LeduOverlay from '../../components/Widgets/LeduOverlay';
 
 import "../../assets/templates/images/users/avatar-1.jpg";
 
 class MyProfilePage extends React.Component{
+  constructor(props, context) {
+    super(props);
+
+    this.state = {
+      sendingRequest: false
+    };
+
+    this.handleSave = this.handleSave.bind(this);
+  }
+
+  handleSave(data) {
+    console.log(data);
+    this.setState({
+      sendingRequest: true
+    }, () => {
+      // call API
+      this.setState({
+        sendingRequest: false
+      });
+    });
+  }
+
   render() {
+    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
+
     return (
       <div>
         <header id="topnav">
@@ -56,62 +82,24 @@ class MyProfilePage extends React.Component{
                     <div className="col-md-8 col-lg-9">
                       <div className="row">
                         <div className="col-md-12 col-sm-12">
-                          <form className="form-horizontal" action="#">
-                            <div className="form-group">
-                              <div className="col-xs-12">
-                                <select className="form-control selectpicker show-tick" data-style="btn-default" defaultValue="0">
-                                  <option value="0" disabled>孩子所属年龄组</option>
-                                  <option value="1">3-5岁</option>
-                                  <option value="1">6-8岁</option>
-                                  <option value="2">9-12岁</option>
-                                </select>
-                              </div>
-                            </div>
-
-                            <div className="form-group ">
-                              <div className="col-xs-12">
-                                <input className="form-control" type="text" required="" placeholder="您的姓名"/>
-                              </div>
-                            </div>
-
-                            <div className="form-group ">
-                              <div className="col-xs-12">
-                                <input className="form-control" type="text" required="" placeholder="电子邮件（主要联系方式）"/>
-                              </div>
-                            </div>
-
-                            <div className="form-group ">
-                              <div className="col-xs-12">
-                                <input className="form-control" type="text" required="" placeholder="书籍取送地址"/>
-                              </div>
-                            </div>
-
-                            <div className="form-group ">
-                              <div className="col-xs-12">
-                                <input className="form-control" type="text" required="" placeholder="手机号码（可选）"/>
-                              </div>
-                            </div>
-                          </form>
+                          <MyProfileForm handleSave={this.handleSave} />
                         </div>
                       </div>
 
-                      <div className="row">
-                        <div className="col-md-4">
-                          <div className="text-center">
-                            <button type="submit" className="btn btn-primary btn-block waves-effect waves-light">保存修改</button>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
 
-
             <Footer />
           </div>
         </div>
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="Please wait..."
+        />               
       </div>
     );
   }
