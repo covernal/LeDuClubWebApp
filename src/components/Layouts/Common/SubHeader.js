@@ -32,23 +32,7 @@ class SubHeader extends Component {
         );
       }   
 
-      if(item.icon == ''){
-        if(!this.checkExternalLink(item.url)){
-          rows.push(
-            <li className="has-submenu" key={'subheader_' + index}>
-              <Link to={item.url}>{item.name}</Link>
-              {subMenus}
-            </li>            
-          );
-        }else{
-          rows.push(
-            <li className="has-submenu" key={'subheader_' + index}>
-              <Link href={item.url} target="_blank">{item.name}</Link>
-              {subMenus}
-            </li>
-          );
-        }
-      }else{
+      if(item.icon){
         if(!this.checkExternalLink(item.url)){
           rows.push(
             <li className="has-submenu" key={'subheader_' + index}>
@@ -64,6 +48,22 @@ class SubHeader extends Component {
             </li>
           );
         }
+      }else{
+        if(!this.checkExternalLink(item.url)){
+          rows.push(
+            <li className="has-submenu" key={'subheader_' + index}>
+              {(item.url) ? (<Link to={item.url}>{item.name}</Link>) : (<a>{item.name}</a>)}
+              {subMenus}
+            </li>            
+          );
+        }else{
+          rows.push(
+            <li className="has-submenu" key={'subheader_' + index}>
+              <Link href={item.url} target="_blank">{item.name}</Link>
+              {subMenus}
+            </li>
+          );
+        }        
       }
     });
 

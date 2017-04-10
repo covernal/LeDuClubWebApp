@@ -1,5 +1,6 @@
 import React,{PropTypes} from 'react';
 import $ from 'jquery';
+import swal from 'sweetalert';
 import LeduOverlay from '../../Widgets/LeduOverlay';
 
 let AV = global.AV;
@@ -14,6 +15,7 @@ class BookImagesUploader extends React.Component{
 
     this.handleSelectedFiles = this.handleSelectedFiles.bind(this);
     this.handleOpenFiles = this.handleOpenFiles.bind(this);
+    this.deleteImage = this.deleteImage.bind(this);
   }
 
   handleOpenFiles() {
@@ -23,7 +25,7 @@ class BookImagesUploader extends React.Component{
   handleSelectedFiles(e) {
     let _this = this;
     let files = e.target.files;
-    let images = [];
+    let images = this.state.imagesData;
     let uploaded = 0;
     let i = 0;
 
@@ -33,7 +35,6 @@ class BookImagesUploader extends React.Component{
       for (i=0; i<files.length; i++) {
         let leancloudFile = new AV.File(files[i].name, files[i]);
         leancloudFile.save().then((res) => {
-          console.log(res.attributes.url);
           images.push(res.attributes.url);
           uploaded++;
           if(uploaded === files.length) {
@@ -49,6 +50,33 @@ class BookImagesUploader extends React.Component{
     });
   }
 
+  deleteImage(image) {
+    console.log(image);
+    let _this = this;
+    swal({
+      title: "你确定?",
+      text: "您将无法恢复图像文件!",
+      type: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#DD6B55",
+      confirmButtonText: "是的, 删除它!",
+      cancelButtonText: "取消",
+      closeOnConfirm: true
+    },
+    function(){
+      let images = [];
+      _this.state.imagesData.forEach((img, idx) => {
+        if(img !== image) {
+          images.push(img);
+        }
+      });
+      _this.setState({
+        imagesData: images
+      });
+      _this.props.setImages(images);
+    });
+  }
+
   render() {
     let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
 
@@ -57,6 +85,7 @@ class BookImagesUploader extends React.Component{
       this.state.imagesData.forEach((image, idx) => {
         images.push(
           <div key={`img-${idx}`} className="member-thumb m-b-10">
+            <a className="img-delete-btn" onClick={()=>this.deleteImage(image)}><i className="fa fa-times"></i></a>
             <img src={image} className="img-thumbnail" alt="profile-image" style={{width: "100%"}}/>
           </div>
         );
@@ -65,7 +94,7 @@ class BookImagesUploader extends React.Component{
 
     return (
       <div className="col-md-4">
-        <div className="text-center card-box">
+        <div className="text-center card-box">          
           <div className="member-card">
             {images}            
             <p className="text-muted font-13 m-t-20">

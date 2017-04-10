@@ -14,7 +14,7 @@ import BookEditForm from '../../../components/Widgets/LeduForm/Admin/BookEditFor
 import BookFeedbackList from '../../../components/Layouts/Member/BookFeedbackList';
 import BookCommentForm from '../../../components/Widgets/LeduForm/Member/BookCommentForm';
 import LeduOverlay from '../../../components/Widgets/LeduOverlay';
-import {CommonUserActions} from '../../../actions';
+import {CommonUserActions, MemberUserActions} from '../../../actions';
 
 require("../../../assets/templates/images/books/1.jpg");
 require("../../../assets/templates/images/books/2.jpg");
@@ -196,7 +196,7 @@ class BookDetailsPage extends React.Component{
                       onImageLoad={this.handleImageLoad}/>
 
                     <div className="clearfix"></div>  
-                    <div className="m-t-30">
+                    <div className="m-t-30" style={{paddingTop: "70px"}}>
                         <h5 className="text-primary m-t-0">建议阅读年龄：{this.props.book.ageGroup}</h5>
                         <p className="text-muted text-overflow">页数：{this.props.book.numOfPages}页</p>
                         <p className="m-t-20">
@@ -204,7 +204,11 @@ class BookDetailsPage extends React.Component{
                         </p>
                     </div>
                     <div className="m-t-20 m-b-30">
-                        <button type="button" className="btn-lg btn-primary btn-block waves-effect waves-light" onClick={this.handleBorrow}>我要借阅</button>
+                      {
+                        (this.props.book.isAvailableForBorrow === true) ? 
+                        (<button type="button" className="btn-lg btn-primary btn-block waves-effect waves-light" onClick={this.handleBorrow}>我要借阅</button>) : 
+                        (<button type="button" className="btn btn-grey btn-block waves-effect waves-light">已被借阅</button>)
+                      }
                     </div>
                   </div>
                   <div className="col-md-6"> 
@@ -256,7 +260,9 @@ const mapStateToProps = (state) => {
     userDetails: state.CommonUserReducer.userDetails,
     book: state.CommonUserReducer.book,
     bookReviews: state.CommonUserReducer.bookReviews,
-    serverError: state.CommonUserReducer.error
+    serverError: state.CommonUserReducer.error,
+    result: state.MemberUserReducer.result,
+    memberServerError: state.MemberUserReducer.error
   };
 };
 
@@ -272,6 +278,14 @@ const mapDispatchToProps = dispatch => {
 
     getBookReviews: (req) => {
       dispatch(CommonUserActions.getBookReviews(req.skip, req.bookId, req.cb));
+    },
+
+    memberNewBookBorrowRequest: (req) => {
+      dispatch(MemberUserActions.memberNewBookBorrowRequest(req.bookId, req.cb));
+    }, 
+
+    memberAddComment: (req) => {
+      dispatch(MemberUserActions.memberAddComment(req.data, req.cb));
     }
   };
 };

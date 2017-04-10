@@ -20,6 +20,7 @@ class RequestsPage extends React.Component{
       skip: 0,
       hasMoreRequests: true,
       isLoadingMore: false,
+      isInitTable: true,
       requests: [],
       warehouses: [],
       belongToWarehouseId: ''
@@ -35,6 +36,7 @@ class RequestsPage extends React.Component{
     this.setState({
       skip: 0,
       requests: [],
+      isInitTable: true,
       isLoadingMore: false,
       hasMoreRequests: true,
       belongToWarehouseId: belongToWarehouseId
@@ -83,6 +85,7 @@ class RequestsPage extends React.Component{
     if(this.props.serverError != null) {
       this.setState({
         serverError: this.props.serverError,
+        isInitTable: false,
         isLoadingMore: false
       });
       return;
@@ -103,10 +106,12 @@ class RequestsPage extends React.Component{
       this.setState({
         skip: this.state.skip + limit,
         requests: this.state.requests,
+        isInitTable: false,
         isLoadingMore: false
       });
     }else{
       this.setState({
+        isInitTable: false,
         hasMoreRequests: false,
         isLoadingMore: false
       });
@@ -121,6 +126,7 @@ class RequestsPage extends React.Component{
     let disabled = (this.state.isLoadingMore || !this.state.hasMoreRequests) ? 'disabled' : '';
     let spinnerClass = (this.state.isLoadingMore) ? 'fa fa-spinner fa-spin-custom' : 'fa fa-spinner fa-spin-custom hidden';
     let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
+    let loadingClass = (this.state.isInitTable || this.state.isInitTable == undefined) ? 'loading' : 'loading hidden';
 
     return (
       <div>
@@ -150,6 +156,10 @@ class RequestsPage extends React.Component{
                 <AdminRequestItem key={`request-${idx}`} item={item} handleAssign={this.handleAssign}/>
               )
             }
+            <div className="clearfix"></div>
+            <div className={loadingClass}>
+              <i className="fa fa-spinner fa-spin-custom" aria-hidden="true"></i>
+            </div>              
             <div className="row">
               <div className="col-xs-12 m-b-30 text-center m-t-10">
                 <button type="button" disabled={disabled} className="btn btn-default waves-effect w-md waves-light" onClick={this.loadMoreRequests}><i className={spinnerClass} aria-hidden="true"></i> {(this.state.hasMoreRequests) ? '显示更多' : '没有更多'}</button>

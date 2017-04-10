@@ -47,6 +47,11 @@ class SignupForm extends React.Component{
   render() {
     return (
       <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)} data-parsley-validate noValidate id="signup-form">
+      <div className="form-group">
+        <div className="col-xs-12">
+          <h4 className="m-t-0 header-title"><b>注册会员免费试用一个月</b></h4>
+        </div>
+      </div>      
         <div className="form-group">
           <div className="col-xs-12">
             <h4 className="m-t-0 header-title text-warning">因为收到大量申请，为了确保现有会员体验，我们需要您先加入等候名单。请确保资料真实，我们的专员会稍后与您联系。</h4>
@@ -102,7 +107,7 @@ class SignupForm extends React.Component{
 
         <div className="form-group ">
           <div className="col-xs-12">
-            <input className="form-control" type="text" placeholder="手机号码（可选）" value={this.state.data.phone} onChange={this.handleChange.bind(this, 'phone')}/>
+            <input className="form-control" type="text" placeholder="手机号码（取送时必要联系方式）" required value={this.state.data.phone} onChange={this.handleChange.bind(this, 'phone')}/>
           </div>
         </div>
 

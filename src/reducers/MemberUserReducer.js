@@ -16,7 +16,20 @@ const initialState = new Immutable.Map({
  */
 function MemberUserReducer(state = initialState, action) {
   switch (action.type) {
-
+  case MemberUserConstants.MEMBER_BORROW_REQUEST_SUCCESS:
+  case MemberUserConstants.MEMBER_RETURN_REQUEST_SUCCESS:
+  case MemberUserConstants.MEMBER_ADD_COMMENT_SUCCESS:
+    return Object.assign({}, state, {
+      result: action.response,
+      error: null
+    });
+  case MemberUserConstants.MEMBER_BORROW_REQUEST_ERROR:
+  case MemberUserConstants.MEMBER_RETURN_REQUEST_ERROR:
+  case MemberUserConstants.MEMBER_ADD_COMMENT_ERROR:
+    return Object.assign({}, state, {
+      result: [],
+      error: action.error
+    });
 
   default:
     return state;

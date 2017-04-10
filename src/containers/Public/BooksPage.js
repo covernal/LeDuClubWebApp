@@ -12,14 +12,14 @@ import PublicBookSearchForm from '../../components/Widgets/LeduForm/Member/BookS
 import AdminBookSearchForm from '../../components/Widgets/LeduForm/Admin/BookSearchForm';
 import BookItem from '../../components/Widgets/LeduCard/BookItem';
 import LeduOverlay from '../../components/Widgets/LeduOverlay';
-import {CommonUserActions} from '../../actions';
+import {CommonUserActions, MemberUserActions} from '../../actions';
 
 class BooksPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
-      sendingRequest: true,      
+      sendingRequest: false,      
       skip: 0,
       hasMoreBooks: true,
       isLoadingMore: false,
@@ -37,6 +37,7 @@ class BooksPage extends React.Component{
       }
     };
 
+    this.handleBorrow = this.handleBorrow.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.searchBooks = this.searchBooks.bind(this);
     this.loadMoreBooks = this.loadMoreBooks.bind(this);
@@ -72,7 +73,7 @@ class BooksPage extends React.Component{
 
         if(this.props.serverError === null) {
           let searchData = this.state.searchData;
-          searchData.belongToWarehouseId = (cookie.load('belongToWarehouseId') !== "undefined") ? cookie.load('belongToWarehouseId') : this.props.warehouses[0].objectId;
+          searchData.belongToWarehouseId = (cookie.load('belongToWarehouseId') !== undefined) ? cookie.load('belongToWarehouseId') : this.props.warehouses[0].objectId;
           this.setState({
             warehouses: this.props.warehouses,
             searchData: searchData
@@ -141,6 +142,31 @@ class BooksPage extends React.Component{
     }
   }
 
+  handleBorrow(bookId) {
+    console.log(bookId);
+    if(cookie.load('type') === undefined) {
+      this.context.router.push('/login');
+    }
+
+    this.setState({
+      sendingRequest: true
+    }, () => {
+      this.props.memberNewBookBorrowRequest({
+        bookId: bookId,
+        cb: () => {
+          this.setState({
+            serverError: this.props.memberServerError,            
+            sendingRequest: false
+          });
+
+          if(this.props.memberServerError === null) {
+            this.searchBooks();
+          }
+        }
+      });      
+    });    
+  }
+
   render() {
     if (!this.props) {
       return null;
@@ -148,7 +174,7 @@ class BooksPage extends React.Component{
 
     let disabled = (this.state.isLoadingMore || !this.state.hasMoreBooks) ? 'disabled' : '';
     let spinnerClass = (this.state.isLoadingMore) ? 'fa fa-spinner fa-spin-custom' : 'fa fa-spinner fa-spin-custom hidden';
-    let overlayClass = 'ledu-overlay'; //(this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
+    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
     let loadingClass = (this.state.isInitTable || this.state.isInitTable == undefined) ? 'loading' : 'loading hidden';
 
     return (
@@ -203,7 +229,7 @@ class BooksPage extends React.Component{
               {
                 this.state.books.map((item, idx) =>
                   <div key={`book-${idx}`} className="col-md-3 col-sm-4">
-                    <BookItem type="member" item={item}/>
+                    <BookItem type="member" item={item} handleBorrow={this.handleBorrow}/>
                   </div>
                 )
               }
@@ -245,7 +271,9 @@ const mapStateToProps = (state) => {
   return {
     warehouses: state.CommonUserReducer.warehouses,
     books: state.CommonUserReducer.books,
-    serverError: state.CommonUserReducer.error
+    serverError: state.CommonUserReducer.error,
+    result: state.CommonUserReducer.result,
+    memberServerError: state.MemberUserReducer.error
   };
 };
 
@@ -269,6 +297,9 @@ const mapDispatchToProps = dispatch => {
 
     loadWarehouses: (req) => {
       dispatch(CommonUserActions.loadWarehouses(req.cb));
+    },
+    memberNewBookBorrowRequest: (req) => {
+      dispatch(MemberUserActions.memberNewBookBorrowRequest(req.bookId, req.cb));
     }
   };
 };

@@ -1,7 +1,7 @@
 module.exports = {
   admin: [{
     "name": "图书管理",
-    "url": "javascript:;",
+    "url": "",
     "sub_menus": [
       {
         "name": "添加新书", 
@@ -30,10 +30,10 @@ module.exports = {
     "url": "/browsebooks"
   },{
     "name": "我的请求",
-    "url": "/member/my-request"
+    "url": "/member/my-requests"
   },{
     "name": "我的书包",
-    "url": "/member/my-bag"
+    "url": "/member/my-books"
   },{
     "name": "账户管理",
     "url": "/member/account"
