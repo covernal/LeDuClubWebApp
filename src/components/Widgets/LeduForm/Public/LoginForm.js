@@ -45,6 +45,9 @@ class LoginForm extends React.Component{
   }
 
   render() {
+    let serverErrorBlock = (this.props.serverError != undefined) ?
+      <h6 className="server-error">{this.props.serverError.message}</h6> : <div></div>;
+
     return (      
       <form className="form-horizontal" id="login-form" data-parsley-validate noValidate onSubmit={this.handleSubmit.bind(this)}>
         <div className="form-group ">
@@ -69,6 +72,8 @@ class LoginForm extends React.Component{
             </div>
           </div>
         </div>
+
+        {serverErrorBlock}
 
         <div className="form-group text-center m-t-30">
           <div className="col-xs-12">

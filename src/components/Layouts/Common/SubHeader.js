@@ -15,21 +15,36 @@ class SubHeader extends Component {
     }
 
     let rows = [];
-    let type = (this.props.type) ? this.props.type : Cookie.load('type');
-    let menuList = (this.props.menuList == undefined) ? MenuConstants[type] : this.props.menuList;
+    // let menuList = (this.props.menuList == undefined) ? MenuConstants[Cookie.load('type')] : this.props.menuList;
+    let menuList = (Cookie.load('type') !== undefined) ? MenuConstants[Cookie.load('type')] : MenuConstants['public'];
     
     menuList.forEach((item, index) => {
+      let subMenus = '';
+      if(item.sub_menus) {
+        let subRows = [];
+        item.sub_menus.forEach((sub_item, sIndex) => {
+          subRows.push(<li key={`sr-${sIndex}`}><Link to={sub_item.url}>{sub_item.name}</Link></li>);
+        });
+        subMenus = (
+          <ul className="submenu">
+            {subRows}
+          </ul>
+        );
+      }   
+
       if(item.icon == ''){
         if(!this.checkExternalLink(item.url)){
           rows.push(
             <li className="has-submenu" key={'subheader_' + index}>
               <Link to={item.url}>{item.name}</Link>
+              {subMenus}
             </li>            
           );
         }else{
           rows.push(
             <li className="has-submenu" key={'subheader_' + index}>
               <Link href={item.url} target="_blank">{item.name}</Link>
+              {subMenus}
             </li>
           );
         }
@@ -38,12 +53,14 @@ class SubHeader extends Component {
           rows.push(
             <li className="has-submenu" key={'subheader_' + index}>
               <Link to={item.url}><i className={item.icon}></i>{item.name}</Link>
+              {subMenus}
             </li>
           );
         }else{
           rows.push(
             <li className="has-submenu" key={'subheader_' + index}>
               <Link href={item.url} target="_blank"><i className={item.icon}></i>{item.name}</Link>
+              {subMenus}
             </li>
           );
         }

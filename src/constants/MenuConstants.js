@@ -1,7 +1,17 @@
 module.exports = {
   admin: [{
     "name": "图书管理",
-    "url": "/admin/books"
+    "url": "javascript:;",
+    "sub_menus": [
+      {
+        "name": "添加新书", 
+        "url": "/admin/book"
+      },
+      {
+        "name": "浏览图书", 
+        "url": "/browsebooks"
+      }
+    ]
   },{
     "name": "配送调度",
     "url": "/admin/requests"
@@ -17,7 +27,7 @@ module.exports = {
 
   member: [{
     "name": "浏览图书",
-    "url": "/member/books"
+    "url": "/browsebooks"
   },{
     "name": "我的请求",
     "url": "/member/my-request"
@@ -37,9 +47,9 @@ module.exports = {
     "url": "/"
   },{
     "name": "加入会员",
-    "url": "/"
+    "url": "/signup"
   },{
     "name": "会员登录",
-    "url": "/"
+    "url": "/login"
   }]
 };

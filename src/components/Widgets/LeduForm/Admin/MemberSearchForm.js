@@ -5,8 +5,8 @@ class MemberSearchForm extends React.Component{
     super(props);
 
     this.state = {
-      store: '',
-      status: ''
+      belongToWarehouseId: '',
+      membershipStatus: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -30,21 +30,24 @@ class MemberSearchForm extends React.Component{
       <form role="form" className="row" onSubmit={this.handleSubmit.bind(this)}>
         <div className="col-sm-3 col-md-3">
           <div className="form-group">
-            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.store} onChange={this.handleChange.bind(this, 'store')}>
+            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.belongToWarehouseId} onChange={this.handleChange.bind(this, 'belongToWarehouseId')}>
               <option value="" disabled>选择会员所属仓库</option>
-              <option value="1">仓库1</option>
-              <option value="2">仓库2</option>
+              {
+                this.props.warehouses.map((item, idx) =>
+                  <option key={`warehouse-${idx}`} value={item.objectId}>{item.addressString}</option>
+                )
+              }
             </select>
           </div>
         </div>
         <div className="col-sm-3 col-md-3">
           <div className="form-group">
-            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.status} onChange={this.handleChange.bind(this, 'status')}>
+            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.membershipStatus} onChange={this.handleChange.bind(this, 'membershipStatus')}>
               <option value="" disabled>选择会员状态</option>
-              <option value="1">等待批准</option>
-              <option value="2">等待付款</option>
-              <option value="3">已确认</option>
-              <option value="4">全部</option>
+              <option value="waitingForApproval">等待批准</option>
+              <option value="pendingForPayment">等待付款</option>
+              <option value="confirmed">已确认</option>
+              <option value="cancelled">已取消</option>
             </select>
           </div>
         </div>

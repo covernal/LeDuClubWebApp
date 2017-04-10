@@ -2,6 +2,8 @@ import React,{PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {browserHistory, Link} from 'react-router';
 import cookie from 'react-cookie';
+import Find from 'lodash/find';
+import SweetAlert from 'sweetalert-react';
 
 import Header from '../../components/Layouts/Common/Header';
 import SubHeader from '../../components/Layouts/Common/SubHeader';
@@ -9,45 +11,115 @@ import Footer from '../../components/Layouts/Common/Footer';
 import MembersList from '../../components/Layouts/Admin/MembersList';
 import MemberSearchForm from '../../components/Widgets/LeduForm/Admin/MemberSearchForm';
 import LeduOverlay from '../../components/Widgets/LeduOverlay';
-
-//Dummy data
-import DummyData from '../../constants/DummyData';
+import {CommonUserActions, AdminUserActions} from '../../actions';
 
 class MembersPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
-      sendingRequest: false,
-      
+      sendingRequest: true,      
       skip: 0,
       hasMoreMembers: true,
       isLoadingMore: false,
       isInitTable: true,
-      membersData: DummyData.MEMBERS,
-
-      searchData: null
+      members: [],
+      warehouses: [],
+      belongToWarehouseId: '',
+      membershipStatus: ''
     };
 
     this.searchMembers = this.searchMembers.bind(this);
     this.loadMoreMembers = this.loadMoreMembers.bind(this);
+    this._loadMembers = this._loadMembers.bind(this);
   }
 
   searchMembers(opt) {
-    console.log(opt);
     this.setState({
-      searchData: opt,
-      sendingRequest: true
+      skip: 0,
+      members: [],
+      isInitTable: true,
+      isLoadingMore: false,
+      hasMoreMembers: true,
+      belongToWarehouseId: opt.belongToWarehouseId,
+      membershipStatus: opt.membershipStatus
     }, () => {
-      // call API
-      this.setState({
-        sendingRequest: false
-      });
+      this._loadMembers();
     });
   }
 
-  loadMoreMembers() {
+  componentDidMount() {
+    this.props.loadWarehouses({
+      cb: () => {
+        this.setState({
+          sendingRequest: false
+        });        
 
+        if(this.props.commonServerError === null) {
+          this.setState({
+            warehouses: this.props.warehouses
+          });
+        }
+      }
+    });
+
+    this._loadMembers();
+  }
+
+  loadMoreMembers() {
+    this.setState({
+      isLoadingMore: true
+    }, () => {
+      this._loadMembers();
+    });
+  }
+
+  _loadMembers() {
+    this.props.loadMembers({
+      data: {
+        skip: this.state.skip,
+        belongToWarehouseId: this.state.belongToWarehouseId,
+        membershipStatus: this.state.membershipStatus
+      },
+      cb: () => this.loadMoreCallback()
+    });
+  }
+
+  loadMoreCallback() {
+    if(this.props.serverError != null) {
+      this.setState({
+        serverError: this.props.serverError,
+        isInitTable: false,
+        isLoadingMore: false
+      });
+      return;
+    }
+
+    if(this.props.members.length > 0){
+      let limit = 0;
+      this.props.members.forEach((member) => {
+        let existObj = Find(this.state.members, (l) => {
+          return l.id == member.id;
+        });
+        if(existObj == undefined) {
+          this.state.members.push(member);
+          limit++;
+        }
+      });
+
+      this.setState({
+        skip: this.state.skip + limit,
+        members: this.state.members,
+        isInitTable: false,
+        isLoadingMore: false
+      });
+    }else{
+      this.setState({
+        hasMoreMembers: false,
+        isInitTable: false,
+        isLoadingMore: false
+      });
+    }
   }
 
   render() {
@@ -57,13 +129,15 @@ class MembersPage extends React.Component{
 
     let disabled = (this.state.isLoadingMore || !this.state.hasMoreMembers) ? 'disabled' : '';
     let spinnerClass = (this.state.isLoadingMore) ? 'fa fa-spinner fa-spin-custom' : 'fa fa-spinner fa-spin-custom hidden';
-    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
+
+    let overlayClass = 'ledu-overlay';
+    // let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
 
     return (
       <div>
         <header id="topnav">
           <Header isPublic={false} />
-          <SubHeader type="admin" />
+          <SubHeader />
         </header>     
 
         <div className="wrapper">
@@ -78,10 +152,10 @@ class MembersPage extends React.Component{
 
             <div className="row">
               <div className="col-sm-12">
-                <MemberSearchForm searchMembers={this.searchMembers}/>
+                <MemberSearchForm warehouses={this.state.warehouses} searchMembers={this.searchMembers}  />
               </div>
             </div>            
-            <MembersList isInitTable={this.state.isInitTable} />
+            <MembersList isInitTable={this.state.isInitTable} members={this.state.members}/>
 
             <div className="row">
               <div className="col-md-12">                
@@ -95,9 +169,17 @@ class MembersPage extends React.Component{
           </div>
         </div>
 
+        <SweetAlert
+          show={this.state.serverError != null}
+          type="error"
+          title="错误..."
+          text={(this.state.serverError != null) ? this.state.serverError.message : ''}
+          onConfirm={()=>this.setState({serverError: null})}
+        /> 
+
         <LeduOverlay
           overlayClass={overlayClass}
-          message="Please wait..."
+          message="请稍候..."
         />            
       </div>
     );
@@ -108,4 +190,31 @@ MembersPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default MembersPage;
+const mapStateToProps = (state) => {
+  return {
+    warehouses: state.CommonUserReducer.warehouses,
+    members: state.AdminUserReducer.members,
+    serverError: state.AdminUserReducer.error,
+    commonServerError: state.CommonUserReducer.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadMembers: (req) => {
+      if(req.data.belongToWarehouseId === "") {
+        delete req.data.belongToWarehouseId;
+      }
+      if(req.data.membershipStatus === "") {
+        delete req.data.membershipStatus;
+      }
+      dispatch(AdminUserActions.adminLoadMembers(req.data, req.cb));
+    },
+
+    loadWarehouses: (req) => {
+      dispatch(CommonUserActions.loadWarehouses(req.cb));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MembersPage);

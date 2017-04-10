@@ -5,25 +5,26 @@ class BookSearchForm extends React.Component{
     super(props);
 
     this.state = {
-      store: 0,
+      belongToWarehouseId: '',
       ISBN: '',
       bookName: ''
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-
-    this.props.searchBooks(this.state);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(type, e) {
     let state = this.state;
     state[type] = e.target.value;
     this.setState(state);
+
+    this.props.handleChange(type, e.target.value);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.searchBooks();
   }
 
   render() {
@@ -31,10 +32,13 @@ class BookSearchForm extends React.Component{
       <form role="form" className="row" onSubmit={this.handleSubmit.bind(this)}>
         <div className="col-sm-6 col-md-4">
           <div className="form-group">
-            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.store} onChange={this.handleChange.bind(this, 'store')}>
-              <option value="0" disabled>仓库（必选）</option>
-              <option value="1">仓库1</option>
-              <option value="1">仓库2</option>
+            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.belongToWarehouseId} onChange={this.handleChange.bind(this, 'belongToWarehouseId')}>
+              <option value="" disabled>仓库（必选）</option>
+              {
+                this.props.warehouses.map((item, idx) =>
+                  <option key={`warehouse-${idx}`} value={item.objectId}>{item.addressString}</option>
+                )
+              }
             </select>
           </div>
         </div>

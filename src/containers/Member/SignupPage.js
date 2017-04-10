@@ -61,7 +61,7 @@ class SignupPage extends React.Component{
 
         <LeduOverlay
           overlayClass={overlayClass}
-          message="Please wait..."
+          message="请稍候..."
         />             
       </section>
     );

@@ -5,7 +5,7 @@ class RequestSearchForm extends React.Component{
     super(props);
 
     this.state = {
-      store: ''
+      belongToWarehouseId: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,12 +15,12 @@ class RequestSearchForm extends React.Component{
   handleSubmit(e) {
     e.preventDefault();
 
-    this.props.searchRequests(this.state.store);
+    this.props.searchRequests(this.state.belongToWarehouseId);
   }
 
   handleChange(e) {
     this.setState({
-      store: e.target.value
+      belongToWarehouseId: e.target.value
     });
   }
 
@@ -29,11 +29,14 @@ class RequestSearchForm extends React.Component{
       <form role="form" className="row" onSubmit={this.handleSubmit}>
         <div className="col-sm-6 col-md-4">
           <div className="form-group">
-            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.store} onChange={this.handleChange}>
+            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.belongToWarehouseId} onChange={this.handleChange}>
               <option value="" disabled>选择仓库</option>
-              <option value="1">仓库1</option>
-              <option value="2">仓库2</option>
-            </select>
+              {
+                this.props.warehouses.map((item, idx) =>
+                  <option key={`warehouse-${idx}`} value={item.objectId}>{item.addressString}</option>
+                )
+              }
+            </select>            
           </div>
         </div>
         <div className="col-sm-6 col-md-4">

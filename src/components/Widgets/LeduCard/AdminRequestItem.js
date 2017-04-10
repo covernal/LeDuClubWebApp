@@ -28,6 +28,7 @@ class AdminRequestItem extends React.Component{
 
   render() {
     let item = this.props.item;
+    console.log(item);
     return (
       <div className="row">
         <div className="col-md-10">
@@ -43,11 +44,11 @@ class AdminRequestItem extends React.Component{
                     <div className="">
                       <p><Link to={`/admin/book/${item.bookId}`} className="text-primary">{item.title}</Link>（ISBN：{item.ISBN} 仓库: {item.store})</p>
                       <p className="text-muted">配送地址: {item.address}</p>
-                      <p class="text-muted">请求时间（北京时间）: {item.datetime}</p>
+                      <p className="text-muted">请求时间（北京时间）: {item.datetime}</p>
                       <p className="text-warning">类型: {item.type}</p>
                       <div style={{width: "200px"}}>
                         <div className="form-group">
-                          <select className="form-control selectpicker show-tick" data-style="btn-default" defaultValue={item.postmanId} onChange={this.handleChange}>
+                          <select className="form-control selectpicker show-tick" data-style="btn-default" value={item.postmanId} onChange={this.handleChange}>
                             <option value="" disabled>配送员</option>
                             <option value="1">配送员一</option>
                             <option value="2">配送员二</option>

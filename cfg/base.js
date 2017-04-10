@@ -25,7 +25,6 @@ module.exports = {
     inline: true,
     proxy: {
       '/functions/**': {
-        target: process.env.PARSE_SERVER_URL,
         secure: false
       }
     }

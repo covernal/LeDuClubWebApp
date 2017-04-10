@@ -85,7 +85,6 @@
     "moment": "^2.13.0",
     "node-sass": "^3.8.0",
     "npm": "^4.0.2",
-    "parse": "^1.9.2",
     "parsleyjs": "^2.7.0",
     "path": "^0.12.7",
     "postcss-import": "^8.1.0",

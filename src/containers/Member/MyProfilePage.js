@@ -38,7 +38,7 @@ class MyProfilePage extends React.Component{
       <div>
         <header id="topnav">
           <Header isPublic={false} />
-          <SubHeader type="member" />
+          <SubHeader />
         </header>     
 
         <div className="wrapper">
@@ -98,7 +98,7 @@ class MyProfilePage extends React.Component{
 
         <LeduOverlay
           overlayClass={overlayClass}
-          message="Please wait..."
+          message="请稍候..."
         />               
       </div>
     );

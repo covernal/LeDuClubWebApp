@@ -1,7 +1,11 @@
 import React,{PropTypes} from 'react';
-import {Link} from 'react-router';
+import {connect} from 'react-redux';
+import {browserHistory, Link} from 'react-router';
+import cookie from 'react-cookie';
 import LoginForm from '../../components/Widgets/LeduForm/Public/LoginForm';
+import LeduOverlay from '../../components/Widgets/LeduOverlay';
 
+import {CommonUserActions} from '../../actions';
 class LoginPage extends React.Component{
   constructor(props, context) {
     super(props);
@@ -13,11 +17,109 @@ class LoginPage extends React.Component{
     this.login = this.login.bind(this);
   }
 
+  componentDidMount() {
+    if(this.state.session){
+      const req = {
+        data: {
+          session: this.state.session
+        }
+      };
+      //this.login(req);
+      if(cookie.load('type') === 'postman') {
+        this.context.router.push('/postman/my-requests');
+      }else {
+        this.context.router.push('/browsebooks');
+      }
+    }
+  }  
+
   login(data) {
-    console.log(data);
+    this.setState({
+      sendingRequest: true
+    }, () => {
+      //Submit the form data req.data
+      this.props.login(data, () => {
+        if(this.props.serverError != undefined){
+          this.setState({
+            serverError: {
+              message: '找不到用户'
+            },
+            sendingRequest: false,
+            session: this.state.session
+          });
+        }else{
+          if(this.props.userDetails.attributes.membershipStatus == "membershipstatus") {
+            //if mentor is still un-approved
+            this.setState({
+              serverError: {
+                message: '您的申请尚未获得批准.'
+              },
+              sendingRequest: false,
+              session: this.state.session
+            });
+            return;
+          }            
+
+          if(!this.state.session){
+            const maxAge = data.rememberMe?60*60*24*365:60*60;
+            const session = this.props.userDetails.getSessionToken();
+
+            cookie.save('session', session, {
+              path: '/',
+              maxAge: maxAge
+            });
+
+            cookie.save('username', this.props.userDetails.attributes.username, {
+              path: '/',
+              maxAge: maxAge
+            });
+            
+            cookie.save('id', this.props.userDetails.id, {
+              path: '/',
+              maxAge: maxAge
+            });              
+
+            cookie.save('type', this.props.userDetails.attributes.type, {
+              path: '/',
+              maxAge: maxAge
+            });
+
+            cookie.save('belongToWarehouseId', this.props.userDetails.attributes.belongToWarehouseId, {
+              path: '/',
+              maxAge: maxAge
+            });            
+
+            cookie.save('profileImageURL', this.props.userDetails.attributes.profileImageURL, {
+              path: '/',
+              maxAge: maxAge
+            });              
+          }
+
+          this.setState({
+            serverError: this.props.serverError,
+            sendingRequest: false,
+            session: this.state.session
+          }, () => {
+            let type = this.props.userDetails.attributes.type;
+            let homeURL = '/browsebooks';
+            if(type == 'admin') {
+              homeURL = '/browsebooks';                
+            }else if(type == 'member') {
+              homeURL = '/browsebooks';  
+            }else if(type == 'postman') {
+              homeURL = '/postman/my-requests';  
+            }
+            window.location = homeURL;
+          });
+        }
+        
+      });
+    });
   }
 
   render() {
+    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
+
     return (
       <section>
         <div className="container-alt">
@@ -33,7 +135,7 @@ class LoginPage extends React.Component{
                     </h2>
                   </div>
                   <div className="account-content">
-                    <LoginForm login={this.login}/>
+                    <LoginForm login={this.login} serverError={this.state.serverError}/>
                     <div className="clearfix"></div>
                   </div>
                 </div>
@@ -46,9 +148,33 @@ class LoginPage extends React.Component{
             </div>
           </div>
         </div>
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="现在登录您的帐户，请稍候..."
+        />        
       </section>
     );
   }
 }
 
-export default LoginPage;
+LoginPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => {
+  return {
+    userDetails: state.CommonUserReducer.userDetails,
+    serverError: state.CommonUserReducer.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: (data, cb) => {
+      dispatch(CommonUserActions.login(data, cb));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(LoginPage);

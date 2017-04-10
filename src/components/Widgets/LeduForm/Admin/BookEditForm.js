@@ -9,14 +9,15 @@ window.Parsley.setLocale('zh-cn');
 class BookEditForm extends React.Component{
   constructor(props, context) {
     super(props);
-
     this.state = {
-      store: '',
-      bookName: '',
-      ISBN: '',
-      barCode: '',
-      pages: '',
-      agesRange: ''
+      belongToWarehouseId: ((this.props.book) ? this.props.book.belongToWarehouseId : ''),
+      bookName: ((this.props.book) ? this.props.book.bookName:  ''),
+      ISBN: ((this.props.book) ? this.props.book.ISBN:  ''),
+      barCode: ((this.props.book) ? this.props.book.barCode:  ''),
+      numOfPages: ((this.props.book) ? this.props.book.numOfPages:  ''),
+      ageGroup: ((this.props.book) ? this.props.book.ageGroup:  ''),
+      language: ((this.props.book) ? this.props.book.language:  ''),
+      editorReview: ((this.props.book) ? this.props.book.editorReview : '')
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +36,7 @@ class BookEditForm extends React.Component{
 
   handleChange(type, e) {
     let state = this.state;
-    state[type] = e.target.value;
+    state[type] = (type === "numOfPages") ? parseInt(e.target.value, 10) : e.target.value;
     this.setState(state);
   }
 
@@ -44,10 +45,13 @@ class BookEditForm extends React.Component{
       <form className="form-horizontal" action="#" id="book-form" data-parsley-validate noValidate onSubmit={this.handleSubmit.bind(this)}>
         <div className="form-group">
           <div className="col-xs-12">
-            <select className="selectpicker form-control show-tick" data-style="btn-default" required value={this.state.store} onChange={this.handleChange.bind(this, 'store')}>
+            <select className="selectpicker form-control show-tick" data-style="btn-default" required value={this.state.belongToWarehouseId} onChange={this.handleChange.bind(this, 'belongToWarehouseId')}>
               <option value="" disabled>所属仓库</option>
-              <option value="1">仓库一</option>
-              <option value="1">仓库二</option>
+              {
+                this.props.warehouses.map((item, idx) =>
+                  <option key={`warehouse-${idx}`} value={item.objectId}>{item.addressString}</option>
+                )
+              }
             </select>
           </div>
         </div>
@@ -72,28 +76,29 @@ class BookEditForm extends React.Component{
 
         <div className="form-group ">
           <div className="col-xs-12">
-            <input className="form-control" type="text" required placeholder="页数" value={this.state.pages} onChange={this.handleChange.bind(this, 'pages')}/>
+            <input className="form-control" type="text" required placeholder="页数" value={this.state.numOfPages} onChange={this.handleChange.bind(this, 'numOfPages')}/>
           </div>
         </div>
 
         <div className="col-xs-12">
           <div className="form-group">
-            <AgesRangeSelector value={this.state.agesRange} placeholder="年龄范围" handleChange={this.handleChange.bind(this, 'agesRange')}/>
+            <AgesRangeSelector value={this.state.ageGroup} required={true} placeholder="年龄范围" handleChange={this.handleChange.bind(this, 'ageGroup')}/>
           </div>
         </div>
 
         <div className="col-xs-12">
           <div className="form-group">
-            <select className="selectpicker form-control show-tick" data-style="btn-default" defaultValue="0">
-              <option value="0" disabled>语言</option>
-              <option value="1">英语</option>
+            <select className="selectpicker form-control show-tick" data-style="btn-default" required value={this.state.language} onChange={this.handleChange.bind(this, 'language')}>
+              <option value="" disabled>语言</option>
+              <option value="english">英语</option>
+              <option value="chinese">中国语</option>
             </select>
           </div>
         </div>
 
         <div className="form-group">
           <div className="col-xs-12">
-            <textarea className="form-control" rows="10" placeholder="编辑评论"></textarea>
+            <textarea className="form-control" rows="10" placeholder="编辑评论" value={this.state.editorReview} onChange={this.handleChange.bind(this, 'editorReview')}></textarea>
           </div>
         </div>
         <div className="form-group">

@@ -33,7 +33,6 @@ var config = Object.assign({}, baseConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         'BROWSER': JSON.stringify(true),
-        'PARSE_SERVER_URL': JSON.stringify('https://backend-staging.endorsse.com/parse'),
         'NODE_ENV': JSON.stringify('development'),
         'REACT_WEBPACK_ENV': JSON.stringify(process.env.REACT_WEBPACK_ENV)
       }

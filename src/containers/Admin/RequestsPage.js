@@ -2,52 +2,115 @@ import React,{PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {browserHistory, Link} from 'react-router';
 import cookie from 'react-cookie';
+import Find from 'lodash/find';
 
 import Header from '../../components/Layouts/Common/Header';
 import SubHeader from '../../components/Layouts/Common/SubHeader';
 import Footer from '../../components/Layouts/Common/Footer';
 import AdminRequestItem from '../../components/Widgets/LeduCard/AdminRequestItem';
 import RequestSearchForm from '../../components/Widgets/LeduForm/Admin/RequestSearchForm';
-
-//Dummy data
-import DummyData from '../../constants/DummyData';
+import {CommonUserActions, AdminUserActions} from '../../actions';
 
 class RequestsPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
+      sendingRequest: true,      
       skip: 0,
       hasMoreRequests: true,
       isLoadingMore: false,
-      isInitTable: true,
-
-      sendingRequest: false,
-      requestsData: DummyData.REQUESTS
+      requests: [],
+      warehouses: [],
+      belongToWarehouseId: ''
     };
 
     this.searchRequests = this.searchRequests.bind(this);
     this.loadMoreRequests = this.loadMoreRequests.bind(this);
-    this.handleAssign = this.handleAssign.bind(this);
+    this._loadRequests = this._loadRequests.bind(this);
   }
 
-  handleAssign(bookId, postmanId) {
-    console.log(bookId, postmanId);
-  }  
-
-  searchRequests(store) {
+  searchRequests(belongToWarehouseId) {
+    console.log(belongToWarehouseId);
     this.setState({
-      sendingRequest: true
+      skip: 0,
+      requests: [],
+      isLoadingMore: false,
+      hasMoreRequests: true,
+      belongToWarehouseId: belongToWarehouseId
     }, () => {
-      // call API
-      this.setState({
-        sendingRequest: false
-      });
+      this._loadRequests();
     });
   }
 
-  loadMoreRequests() {
+  componentDidMount() {
+    this.props.loadWarehouses({
+      cb: () => {
+        this.setState({
+          sendingRequest: false
+        });        
 
+        if(this.props.commonServerError === null) {
+          this.setState({
+            warehouses: this.props.warehouses
+          });
+        }
+      }
+    });
+
+    this._loadRequests();
+  }
+
+  loadMoreRequests() {
+    this.setState({
+      isLoadingMore: true
+    }, () => {
+      this._loadRequests();
+    });
+  }
+
+  _loadRequests() {
+    this.props.loadRequests({
+      data: {
+        skip: this.state.skip,
+        belongToWarehouseId: this.state.belongToWarehouseId
+      },
+      cb: () => this.loadMoreCallback()
+    });
+  }
+
+  loadMoreCallback() {
+    if(this.props.serverError != null) {
+      this.setState({
+        serverError: this.props.serverError,
+        isLoadingMore: false
+      });
+      return;
+    }
+
+    if(this.props.requests.length > 0){
+      let limit = 0;
+      this.props.requests.forEach((request) => {
+        let existObj = Find(this.state.requests, (l) => {
+          return l.objectId == request.objectId;
+        });
+        if(existObj == undefined) {
+          this.state.requests.push(request);
+          limit++;
+        }
+      });
+
+      this.setState({
+        skip: this.state.skip + limit,
+        requests: this.state.requests,
+        isLoadingMore: false
+      });
+    }else{
+      this.setState({
+        hasMoreRequests: false,
+        isLoadingMore: false
+      });
+    }
   }
 
   render() {
@@ -63,7 +126,7 @@ class RequestsPage extends React.Component{
       <div>
         <header id="topnav">
           <Header isPublic={false} />
-          <SubHeader type="admin" />
+          <SubHeader />
         </header>     
 
         <div className="wrapper">
@@ -78,12 +141,12 @@ class RequestsPage extends React.Component{
 
             <div className="row">
               <div className="col-sm-12">
-                <RequestSearchForm searchRequests={this.searchRequests} />
+                <RequestSearchForm searchRequests={this.searchRequests} warehouses={this.state.warehouses}/>
               </div>
             </div>
             <hr/>
             {
-              this.state.requestsData.map((item, idx) =>
+              this.state.requests.map((item, idx) =>
                 <AdminRequestItem key={`request-${idx}`} item={item} handleAssign={this.handleAssign}/>
               )
             }
@@ -105,4 +168,28 @@ RequestsPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default RequestsPage;
+const mapStateToProps = (state) => {
+  return {
+    warehouses: state.CommonUserReducer.warehouses,
+    requests: state.AdminUserReducer.requests,
+    serverError: state.AdminUserReducer.error,
+    commonServerError: state.CommonUserReducer.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadRequests: (req) => {
+      if(req.data.belongToWarehouseId === "") {
+        delete req.data.belongToWarehouseId;
+      }
+      dispatch(AdminUserActions.adminLoadRequests(req.data, req.cb));
+    },
+
+    loadWarehouses: (req) => {
+      dispatch(CommonUserActions.loadWarehouses(req.cb));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(RequestsPage);

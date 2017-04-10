@@ -1,8 +1,52 @@
 import React,{PropTypes} from 'react';
+import moment from 'moment';
 
 class MembersList extends React.Component{
   render() {
     let loadingClass = (this.props.isInitTable || this.props.isInitTable == undefined) ? 'loading' : 'loading hidden';
+    let rows = [];
+
+    this.props.members.forEach((member, index) => {
+      let operation = (<ul className="dropdown-menu"> <li><a href="#">批准会员</a></li> </ul>);
+      if(member.membershipStatus === "waitingForApproval") {
+        operation = (
+          <ul className="dropdown-menu">
+            <li><a href="#">押金支付确认</a></li>
+            <li><a href="#">每月会员费支付</a></li>
+            <li><a href="#">添加／更改手机号码</a></li>
+          </ul>
+        );
+      }
+      rows.push(
+        <tr key={`member-${member.objectId}`} className="">
+          <td>{member.childrenAgeGroup}</td>
+          <td>{member.fullName}</td>
+          <td>{member.email}</td>
+          <td>
+            <a className="text-primary" href="">{member.deliveryAddressString}</a>
+          </td>
+          <td>{(member.mobilePhoneNumber) ? member.mobilePhoneNumber : '-'}</td>
+          <td>{(member.membershipStatus === "confirmed") ? `¥${member.deposit}` : '-'}</td>
+          <td>{(member.membershipStatus === "confirmed") ? moment(member.membershipStartDate).format('YYYY-MM-DD') : '-'}</td>
+          <td>{(member.membershipStatus === "confirmed") ? moment(member.membershipExpireOn).format('YYYY-MM-DD') : '-'}</td>
+          <td>
+            <div className="btn-group">
+              <button type="button" className="btn btn-primary btn-sm dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false"> 操作 <span className="caret"></span> </button>
+              {operation}
+            </div>
+          </td>
+          <td>
+          {
+            (member.membershipStatus === "confirmed") ? (<div className="text-primary">已确认</div>) :
+            (member.membershipStatus === "cancelled") ? (<div className="text-error">已取消</div>) :
+            (member.membershipStatus === "waitingForApproval") ? (<div className="">等待批准</div>) :
+            (member.membershipStatus === "pendingForPayment") ? (<div className="text-warning">等待付款</div>) : ''
+          }
+          </td>
+
+        </tr>        
+      );
+    });
 
     return (
       <div className="row">
@@ -27,132 +71,7 @@ class MembersList extends React.Component{
                 </thead>
 
                 <tbody>
-                  <tr className="">
-
-                    <td>
-                      3-5岁
-                    </td>
-
-                    <td>
-                      王鹏
-                    </td>
-
-                    <td>
-                      wangpeng@qq.com
-                    </td>
-                    <td>
-                      <a className="text-primary" href="">青岛彰化路32号2单元601</a>
-                    </td>
-                    <td>
-                      1389999000
-                    </td>
-                    <td>
-                      ¥200
-                    </td>
-                    <td>
-                      2016-02-13
-                    </td>
-                    <td>
-                      2017-02-13
-                    </td>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-primary btn-sm dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false"> 操作 <span className="caret"></span> </button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#">押金支付确认</a></li>
-                          <li><a href="#">每月会员费支付</a></li>
-                          <li><a href="#">添加／更改手机号码</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="text-primary">已确认</div>
-                    </td>
-          
-                  </tr>
-                  <tr className="">
-
-                    <td>
-                      3-5岁
-                    </td>
-
-                    <td>
-                      王鹏
-                    </td>
-
-                    <td>
-                      wangpeng@qq.com
-                    </td>
-                    <td>
-                      <a className="text-primary" href="">青岛彰化路32号2单元601</a>
-                    </td>
-                    <td>
-                      1389999000
-                    </td>
-                    <td>
-                      -
-                    </td>
-                    <td>
-                      -
-                    </td>
-                    <td>
-                      -
-                    </td>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-primary btn-sm dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false"> 操作 <span className="caret"></span> </button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#">批准会员</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="">等待批准</div>
-                    </td>
-          
-                  </tr>
-                  <tr className="">
-
-                    <td>
-                      3-5岁
-                    </td>
-
-                    <td>
-                      王鹏
-                    </td>
-
-                    <td>
-                      wangpeng@qq.com
-                    </td>
-                    <td>
-                      <a className="text-primary" href="">青岛彰化路32号2单元601</a>
-                    </td>
-                    <td>
-                      -
-                    </td>
-                    <td>
-                      -
-                    </td>
-                    <td>
-                      -
-                    </td>
-                    <td>
-                      -
-                    </td>
-                    <td>
-                      <div className="btn-group">
-                        <button type="button" className="btn btn-primary btn-sm dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false"> 操作 <span className="caret"></span> </button>
-                        <ul className="dropdown-menu">
-                          <li><a href="#">押金支付确认</a></li>
-                          <li><a href="#">每月会员费支付</a></li>
-                          <li><a href="#">添加／更改手机号码</a></li>
-                        </ul>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="text-warning">等待付款</div>
-                    </td>    
-                  </tr>
+                  {rows}                  
                 </tbody>
               </table>
             </div>

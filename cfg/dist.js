@@ -25,15 +25,11 @@ var config = Object.assign({}, baseConfig, {
     new webpack.DefinePlugin({
       'process.env': {
         'BROWSER': JSON.stringify(true),
-        'PARSE_SERVER_URL': JSON.stringify(process.env.PARSE_SERVER_URL),
         'NODE_ENV': JSON.stringify('production'),
         'REACT_WEBPACK_ENV': JSON.stringify(process.env.REACT_WEBPACK_ENV),
-        'PARSE_APP_ID': JSON.stringify(process.env.PARSE_APP_ID),
-        'PARSE_SERVER_URL': JSON.stringify(process.env.PARSE_SERVER_URL),
-        'STRIPE_PUBLIC_KEY': JSON.stringify(process.env.STRIPE_PUBLIC_KEY),
-        'STRIPE_SECRET_KEY': JSON.stringify(process.env.STRIPE_SECRET_KEY),
-        'STRIPE_CLIENT_ID': JSON.stringify(process.env.STRIPE_CLIENT_ID),
-        'STRIPE_API': JSON.stringify(process.env.STRIPE_API)
+        'LEANCLOUD_APP_ID': JSON.stringify(process.env.LEANCLOUD_APP_ID),
+        'LEANCLOUD_APP_KEY': JSON.stringify(process.env.LEANCLOUD_APP_KEY),
+        'LEANCLOUD_MASTER_KEY': JSON.stringify(process.env.LEANCLOUD_MASTER_KEY)
       }
     }),
     new webpack.optimize.UglifyJsPlugin({

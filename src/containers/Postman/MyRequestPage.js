@@ -68,7 +68,7 @@ class MyRequestPage extends React.Component{
       <div>
         <header id="topnav">
           <Header isPublic={false} />
-          <SubHeader type="postman" />
+          <SubHeader />
         </header>     
 
         <div className="wrapper">
@@ -110,7 +110,7 @@ class MyRequestPage extends React.Component{
 
         <LeduOverlay
           overlayClass={overlayClass}
-          message="Please wait..."
+          message="请稍候..."
         />
 
       </div>

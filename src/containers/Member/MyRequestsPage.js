@@ -46,7 +46,7 @@ class MyRequestsPage extends React.Component{
       <div>
         <header id="topnav">
           <Header isPublic={false} />
-          <SubHeader type="member" />
+          <SubHeader />
         </header>     
 
         <div className="wrapper">

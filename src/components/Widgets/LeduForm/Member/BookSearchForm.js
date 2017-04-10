@@ -4,28 +4,28 @@ import AgesRangeSelector from '../../LeduInput/AgesRangeSelector';
 class BookSearchForm extends React.Component{
   constructor(props, context) {
     super(props);
-
     this.state = {
-      city: '',
-      ageRange: '',
-      reviews: '',
+      belongToWarehouseId: '',
+      ageGroup: '',
+      customerRate: '',
       bookName: ''
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-
-    this.props.searchBooks(this.state);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleChange(type, e) {
     let state = this.state;
-    state[type] = e.target.value;
+    state[type] = (type === "customerRate") ? parseFloat(e.target.value) : e.target.value;
     this.setState(state);
+
+    this.props.handleChange(type, state[type]);
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.searchBooks();
   }
 
   render() {
@@ -33,28 +33,30 @@ class BookSearchForm extends React.Component{
       <form role="form" className="row" onSubmit={this.handleSubmit.bind(this)}>
         <div className="col-sm-6 col-md-3">
           <div className="form-group">
-            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.city} onChange={this.handleChange.bind(this, 'city')}>
-              <option value="" disabled selected>所在城市</option>
-              <option value="1">默认选择该用户所属仓库</option>
-              <option value="2">青岛</option>
-              <option value="3">上海</option>
+            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.belongToWarehouseId} onChange={this.handleChange.bind(this, 'belongToWarehouseId')}>
+              <option value="" disabled>所在城市</option>
+              {
+                this.props.warehouses.map((item, idx) =>
+                  <option key={`warehouse-${idx}`} value={item.objectId}>{item.addressString}</option>
+                )
+              }
             </select>
           </div>
         </div>
         <div className="col-sm-6 col-md-3">
           <div className="form-group">
-            <AgesRangeSelector value={this.state.ageRange} placeholder="年龄范围" handleChange={this.handleChange.bind(this, 'ageRange')}/>
+            <AgesRangeSelector value={this.state.ageGroup} placeholder="年龄范围" handleChange={this.handleChange.bind(this, 'ageGroup')}/>
           </div>
         </div>
         <div className="col-sm-6 col-md-3">
           <div className="form-group">
-            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.reviews} onChange={this.handleChange.bind(this, 'reviews')}>
+            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.customerRate} onChange={this.handleChange.bind(this, 'customerRate')}>
               <option value="">会员评价</option>
-              <option value="1">五星</option>
-              <option value="2">四星以上</option>
+              <option value="5">五星</option>
+              <option value="4">四星以上</option>
               <option value="3">三星以上</option>
-              <option value="4">二星以上</option>
-              <option value="5">一星以上</option>
+              <option value="2">二星以上</option>
+              <option value="1">一星以上</option>
             </select>
           </div>
         </div>

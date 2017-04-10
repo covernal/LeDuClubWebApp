@@ -45,7 +45,9 @@ class BookCommentForm extends React.Component{
         <div className="form-group">
           <div className="col-xs-12">
             <textarea className="form-control" rows="3" placeholder="我说几句" required value={this.state.comment} onChange={this.handleChange.bind(this, 'comment')}></textarea>
-            <ReactStars count={5} size={20} value={this.state.rating} onChange={(v)=>this.handleChange(v, 'rating')}/>
+            <div style={{marginTop: "10px"}}>
+              <ReactStars count={5} size={22} value={this.state.rating} onChange={(v)=>this.handleChange(v, 'rating')}/>
+            </div>
           </div>
         </div>
         <div className="row">
