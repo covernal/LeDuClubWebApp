@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import {browserHistory, Link} from 'react-router';
 import cookie from 'react-cookie';
 import Find from 'lodash/find';
+import SweetAlert from 'sweetalert-react';
 
 import Header from '../../components/Layouts/Common/Header';
 import SubHeader from '../../components/Layouts/Common/SubHeader';
@@ -10,29 +11,32 @@ import Footer from '../../components/Layouts/Common/Footer';
 import AdminRequestItem from '../../components/Widgets/LeduCard/AdminRequestItem';
 import RequestSearchForm from '../../components/Widgets/LeduForm/Admin/RequestSearchForm';
 import {CommonUserActions, AdminUserActions} from '../../actions';
+import LeduOverlay from '../../components/Widgets/LeduOverlay';
 
 class RequestsPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
-      sendingRequest: true,      
+      sendingRequest: false,      
       skip: 0,
       hasMoreRequests: true,
       isLoadingMore: false,
       isInitTable: true,
       requests: [],
       warehouses: [],
-      belongToWarehouseId: ''
+      belongToWarehouseId: '',
+      postmen: [],
+      serverError: null
     };
 
+    this.handleAssign = this.handleAssign.bind(this);
     this.searchRequests = this.searchRequests.bind(this);
     this.loadMoreRequests = this.loadMoreRequests.bind(this);
     this._loadRequests = this._loadRequests.bind(this);
   }
 
   searchRequests(belongToWarehouseId) {
-    console.log(belongToWarehouseId);
     this.setState({
       skip: 0,
       requests: [],
@@ -51,16 +55,27 @@ class RequestsPage extends React.Component{
         this.setState({
           sendingRequest: false
         });        
-
         if(this.props.commonServerError === null) {
           this.setState({
-            warehouses: this.props.warehouses
+            warehouses: this.props.warehouses,
+            belongToWarehouseId: this.props.warehouses[0].objectId
           });
+
+          this.refs.requestSearchForm.setState({
+            belongToWarehouseId: this.props.warehouses[0].objectId
+          });          
+
+          this.props.adminLoadPostmen({
+            cb: () => {
+              this.setState({
+                postmen: this.props.postmen
+              });
+              this._loadRequests();
+            }
+          });           
         }
       }
     });
-
-    this._loadRequests();
   }
 
   loadMoreRequests() {
@@ -93,21 +108,42 @@ class RequestsPage extends React.Component{
 
     if(this.props.requests.length > 0){
       let limit = 0;
+      let tmpRequests = [];
       this.props.requests.forEach((request) => {
-        let existObj = Find(this.state.requests, (l) => {
-          return l.objectId == request.objectId;
-        });
-        if(existObj == undefined) {
-          this.state.requests.push(request);
-          limit++;
-        }
-      });
+        this.props.getUser({
+          id: request.memberId,
+          cb: () => {
+            request['member'] = this.props.userDetails;
+            this.props.getBook({
+              id: request.bookId,
+              cb: () => {
+                request['book'] = this.props.book;
+                tmpRequests.push(request);
 
-      this.setState({
-        skip: this.state.skip + limit,
-        requests: this.state.requests,
-        isInitTable: false,
-        isLoadingMore: false
+                limit++;              
+                if(this.props.requests.length === limit) {
+                  let sub_limit = 0;
+                  tmpRequests.forEach((r) => {
+                    let existObj = Find(this.state.requests, (l) => {
+                      return l.objectId == r.objectId;
+                    });
+                    if(existObj == undefined) {
+                      this.state.requests.push(r);
+                      sub_limit++;
+                    }
+                  });
+
+                  this.setState({
+                    skip: this.state.skip + limit,
+                    requests: this.state.requests,
+                    isInitTable: false,
+                    isLoadingMore: false
+                  });
+                }
+              }
+            });
+          }
+        });
       });
     }else{
       this.setState({
@@ -116,6 +152,27 @@ class RequestsPage extends React.Component{
         isLoadingMore: false
       });
     }
+  }
+
+  handleAssign(requestId, postmanId) {
+    console.log(requestId, postmanId);
+    this.setState({
+      sendingRequest: true
+    }, ()=> {
+      this.props.adminAllocateRequestToPostman({
+        requestId: requestId,
+        postmanId: postmanId,
+        cb: () => {
+          this.setState({
+            sendingRequest: false,
+            serverError: this.props.serverError
+          });
+          if(this.props.serverError === null) {
+            this.searchRequests(this.state.belongToWarehouseId);
+          }
+        }
+      });
+    });
   }
 
   render() {
@@ -147,13 +204,13 @@ class RequestsPage extends React.Component{
 
             <div className="row">
               <div className="col-sm-12">
-                <RequestSearchForm searchRequests={this.searchRequests} warehouses={this.state.warehouses}/>
+                <RequestSearchForm ref="requestSearchForm" searchRequests={this.searchRequests} warehouses={this.state.warehouses}/>
               </div>
             </div>
             <hr/>
             {
               this.state.requests.map((item, idx) =>
-                <AdminRequestItem key={`request-${idx}`} item={item} handleAssign={this.handleAssign}/>
+                <AdminRequestItem key={`admin-request-row-${idx}`} item={item} postmen={this.state.postmen} warehouses={this.state.warehouses} handleAssign={this.handleAssign}/>
               )
             }
             <div className="clearfix"></div>
@@ -169,6 +226,18 @@ class RequestsPage extends React.Component{
             <Footer />
           </div>
         </div>
+        <SweetAlert
+          show={this.state.serverError != null}
+          type="error"
+          title="错误..."
+          text={(this.state.serverError != null) ? this.state.serverError.message : ''}
+          onConfirm={()=>this.setState({serverError: null})}
+        />          
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="请稍候..."
+        />        
       </div>
     );
   }
@@ -180,8 +249,11 @@ RequestsPage.contextTypes = {
 
 const mapStateToProps = (state) => {
   return {
+    userDetails: state.CommonUserReducer.userDetails,
     warehouses: state.CommonUserReducer.warehouses,
+    book: state.CommonUserReducer.book,
     requests: state.AdminUserReducer.requests,
+    postmen: state.AdminUserReducer.postmen,
     serverError: state.AdminUserReducer.error,
     commonServerError: state.CommonUserReducer.error
   };
@@ -189,6 +261,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = dispatch => {
   return {
+    getUser: (req) => {
+      dispatch(CommonUserActions.getUser(req.id, req.cb));
+    },
+
+    getBook: (req) => {
+      dispatch(CommonUserActions.getBook(req.id, req.cb));
+    },
+
     loadRequests: (req) => {
       if(req.data.belongToWarehouseId === "") {
         delete req.data.belongToWarehouseId;
@@ -198,6 +278,14 @@ const mapDispatchToProps = dispatch => {
 
     loadWarehouses: (req) => {
       dispatch(CommonUserActions.loadWarehouses(req.cb));
+    },
+
+    adminAllocateRequestToPostman: (req) => {
+      dispatch(AdminUserActions.adminAllocateRequestToPostman(req.requestId, req.postmanId, req.cb));
+    },
+
+    adminLoadPostmen: (req) => {
+      dispatch(AdminUserActions.adminLoadPostmen(req.cb));
     }
   };
 };

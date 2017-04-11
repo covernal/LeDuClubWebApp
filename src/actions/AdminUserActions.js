@@ -179,7 +179,73 @@ let AdminUserActions = {
             cb();
           }
         });        
-  }     
+  },
+
+  adminLoadPostmenError: function(error) {
+    return {
+      error,
+      type: AdminUserConstants.ADMIN_LOAD_POSTMEN_ERROR
+    };
+  },
+
+  adminLoadPostmenSuccess: function(response) {
+    return {
+      response,
+      type: AdminUserConstants.ADMIN_LOAD_POSTMEN_SUCCESS
+    };
+  },
+
+  adminLoadPostmen: function(cb){
+    let _obj = this;
+
+    return dispatch =>
+      AV.Cloud.run('adminGetPostmen')
+        .then(response => {
+          dispatch(_obj.adminLoadPostmenSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.adminLoadPostmenError(error));
+          if(cb != null){
+            cb();
+          }
+        });
+  },
+
+  adminAllocateRequestToPostmanError:  function(error) {
+    return {
+      error,
+      type: AdminUserConstants.ADMIN_ALLOCATE_REQUEST_TO_POSTMAN_ERROR
+    };
+  },
+
+  adminAllocateRequestToPostmanSuccess: function(response) {
+    return {
+      response,
+      type: AdminUserConstants.ADMIN_ALLOCATE_REQUEST_TO_POSTMAN_SUCCESS
+    };
+  },
+
+  adminAllocateRequestToPostman: function(requestId, postmanId, cb){
+    let _obj = this;
+
+    return dispatch =>
+      AV.Cloud.run('adminAllocateRequestToPostman', {requestId: requestId, postmanId: postmanId})
+        .then(response => {
+          dispatch(_obj.adminAllocateRequestToPostmanSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.adminAllocateRequestToPostmanError(error));
+          if(cb != null){
+            cb();
+          }
+        });
+  }
 };
 
 export default AdminUserActions;

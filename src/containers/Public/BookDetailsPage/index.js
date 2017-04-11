@@ -5,6 +5,7 @@ import cookie from 'react-cookie';
 import ImageGallery from 'react-image-gallery';
 import ReactStars from 'react-stars';
 import Find from 'lodash/find';
+import SweetAlert from 'sweetalert-react';
 import './_bookDetailsPage.less';
 
 import Header from '../../../components/Layouts/Common/Header';
@@ -16,16 +17,14 @@ import BookCommentForm from '../../../components/Widgets/LeduForm/Member/BookCom
 import LeduOverlay from '../../../components/Widgets/LeduOverlay';
 import {CommonUserActions, MemberUserActions} from '../../../actions';
 
-require("../../../assets/templates/images/books/1.jpg");
-require("../../../assets/templates/images/books/2.jpg");
-require("../../../assets/templates/images/books/3.jpg");
-
 class BookDetailsPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
-      sendingRequest: true,
+      firstLoadingRequest: true,
+      sendingRequest: false,
+      serverError: null,
 
       skip: 0,
       hasMoreReviews: true,
@@ -46,9 +45,8 @@ class BookDetailsPage extends React.Component{
       id: this.props.params.id,
       cb: () => {
         this.setState({
-          sendingRequest: false
+          firstLoadingRequest: false
         });
-        console.log(this.props.book);
         this._loadReviews();
       }
     });
@@ -139,11 +137,42 @@ class BookDetailsPage extends React.Component{
   }
 
   handleBorrow() {
-
+    this.setState({
+      sendingRequest: true
+    }, () => {
+      this.props.memberNewBookBorrowRequest({
+        bookId: this.props.params.id,
+        cb: () => {
+          this.setState({
+            sendingRequest: false,
+            serverError: this.props.memberServerError
+          });
+          if(this.props.memberServerError === null) {
+            this.context.router.push('/login');
+          }
+        }
+      });
+    });
   }
 
   handleComment(data) {
-    console.log(data);
+    data['bookId'] = this.props.params.id;
+    this.setState({
+      sendingRequest: true
+    }, () => {
+      this.props.memberAddComment({
+        data: data,
+        cb: () => {
+          this.setState({
+            sendingRequest: false,
+            serverError: this.props.memberServerError
+          });
+          if(this.props.memberServerError === null) {
+            this.context.router.push('/login');
+          }
+        }
+      });
+    });
   }
 
   render() {
@@ -154,6 +183,7 @@ class BookDetailsPage extends React.Component{
     let images = [];
     let disabled = (this.state.isLoadingMore || !this.state.hasMoreReviews) ? 'disabled' : '';
     let spinnerClass = (this.state.isLoadingMore) ? 'fa fa-spinner fa-spin-custom' : 'fa fa-spinner fa-spin-custom hidden';
+    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
 
     if(this.state.sendingRequest === false && this.props.book && this.props.book.images.length > 0) {
       this.props.book.images.forEach((img, idx) => {
@@ -181,7 +211,7 @@ class BookDetailsPage extends React.Component{
               </div>
             </div>
             {
-              (this.state.sendingRequest) ?
+              (this.state.firstLoadingRequest) ?
               (<LeduOverlay overlayClass='ledu-overlay show' message="请稍候..."/>) :
               (<div className="property-detail-wrapper">
                 <div className="row">
@@ -246,6 +276,19 @@ class BookDetailsPage extends React.Component{
             <Footer />
           </div>
         </div>
+
+        <SweetAlert
+          show={this.state.serverError != null}
+          type="error"
+          title="错误..."
+          text={(this.state.serverError != null) ? this.state.serverError.message : ''}
+          onConfirm={()=>this.setState({serverError: null})}
+        />         
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="请稍候..."
+        />           
       </div>
     );
   }

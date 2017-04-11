@@ -26,7 +26,8 @@ class MembersPage extends React.Component{
       members: [],
       warehouses: [],
       belongToWarehouseId: '',
-      membershipStatus: ''
+      membershipStatus: '',
+      serverError: null
     };
 
     this.searchMembers = this.searchMembers.bind(this);

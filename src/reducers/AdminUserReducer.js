@@ -65,6 +65,28 @@ function AdminUserReducer(state = initialState, action) {
       error: action.error
     });    
 
+  case AdminUserConstants.ADMIN_LOAD_POSTMEN_SUCCESS:
+    return Object.assign({}, state, {
+      postmen: action.response,
+      error: null
+    });
+  case AdminUserConstants.ADMIN_LOAD_POSTMEN_ERROR:
+    return Object.assign({}, state, {
+      postmen: [],
+      error: action.error
+    }); 
+
+  case AdminUserConstants.ADMIN_ALLOCATE_REQUEST_TO_POSTMAN_SUCCESS:
+    return Object.assign({}, state, {
+      request: action.response,
+      error: null
+    });
+  case AdminUserConstants.ADMIN_ALLOCATE_REQUEST_TO_POSTMAN_ERROR:
+    return Object.assign({}, state, {
+      request: [],
+      error: action.error
+    });     
+
   default:
     return state;
   }

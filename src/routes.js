@@ -84,7 +84,7 @@ export default (
 	<Route path="/admin/book/:id" component={AdminBookDetailsPage} onEnter={requireAdminAuth}/>
   <Route path="/admin/book" component={AdminBookDetailsPage} onEnter={requireAdminAuth}/>
 
-	<Route path="/postman/my-request" component={MyRequestPage} onEnter={requirePostmanAuth}/>
+	<Route path="/postman/my-requests" component={MyRequestPage} onEnter={requirePostmanAuth}/>
 	<Route path="*" component={ErrorPage} />
   </Route>
 );

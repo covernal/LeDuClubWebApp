@@ -73,7 +73,7 @@ class BooksPage extends React.Component{
 
         if(this.props.serverError === null) {
           let searchData = this.state.searchData;
-          searchData.belongToWarehouseId = (cookie.load('belongToWarehouseId') !== undefined) ? cookie.load('belongToWarehouseId') : this.props.warehouses[0].objectId;
+          searchData.belongToWarehouseId = (cookie.load('belongToWarehouseId') !== undefined && cookie.load('belongToWarehouseId') !== "undefined") ? cookie.load('belongToWarehouseId') : this.props.warehouses[0].objectId;
           this.setState({
             warehouses: this.props.warehouses,
             searchData: searchData

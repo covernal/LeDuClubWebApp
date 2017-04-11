@@ -11,7 +11,7 @@ class BookCommentForm extends React.Component{
     super(props);
 
     this.state = {
-      rating: 0,
+      rate: 0,
       comment: ''
     };
 
@@ -34,7 +34,7 @@ class BookCommentForm extends React.Component{
     if(type === "comment") {
       state[type] = e.target.value;
     }else {
-      state["rating"] = type;
+      state["rate"] = type;
     }
     this.setState(state);
   }
@@ -46,7 +46,7 @@ class BookCommentForm extends React.Component{
           <div className="col-xs-12">
             <textarea className="form-control" rows="3" placeholder="我说几句" required value={this.state.comment} onChange={this.handleChange.bind(this, 'comment')}></textarea>
             <div style={{marginTop: "10px"}}>
-              <ReactStars count={5} size={22} value={this.state.rating} onChange={(v)=>this.handleChange(v, 'rating')}/>
+              <ReactStars count={5} size={22} value={this.state.rate} onChange={(v)=>this.handleChange(v, 'rate')}/>
             </div>
           </div>
         </div>
