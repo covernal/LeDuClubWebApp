@@ -1,6 +1,5 @@
 import MemberUserConstants from '../constants/MemberUserConstants';
 import ServerConfig from '../../cfg/NodeJS';
-import Parse from 'parse';
 
 let AV = global.AV;
 let MemberUserActions = {
@@ -99,7 +98,71 @@ let MemberUserActions = {
             cb();
           }
         });        
-  }   
+  },
+
+  memberGetMyBookRequestsError: function(error) {
+    return {
+      error,
+      type: MemberUserConstants.MEMBER_GET_MYBOOK_REQUESTS_ERROR
+    };
+  },
+
+  memberGetMyBookRequestsSuccess: function(response) {
+    return {
+      response,
+      type: MemberUserConstants.MEMBER_GET_MYBOOK_REQUESTS_SUCCESS
+    };
+  },
+
+  memberGetMyBookRequests: function(cb){
+    let _obj = this;
+    return dispatch =>
+      AV.Cloud.run('memberGetMyBookRequests')
+        .then(response => {
+          dispatch(_obj.memberGetMyBookRequestsSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.memberGetMyBookRequestsError(error));
+          if(cb != null){
+            cb();
+          }
+        });        
+  },
+
+  memberGetMyBorrowedBooksError: function(error) {
+    return {
+      error,
+      type: MemberUserConstants.MEMBER_GET_MYBORROWED_BOOKS_ERROR
+    };
+  },
+
+  memberGetMyBorrowedBooksSuccess: function(response) {
+    return {
+      response,
+      type: MemberUserConstants.MEMBER_GET_MYBORROWED_BOOKS_SUCCESS
+    };
+  },
+
+  memberGetMyBorrowedBooks: function(cb){
+    let _obj = this;
+    return dispatch =>
+      AV.Cloud.run('memberGetMyBorrowedBooks')
+        .then(response => {
+          dispatch(_obj.memberGetMyBorrowedBooksSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.memberGetMyBorrowedBooksError(error));
+          if(cb != null){
+            cb();
+          }
+        });        
+  }     
 };
 
 export default MemberUserActions;

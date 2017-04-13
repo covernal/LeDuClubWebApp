@@ -30,7 +30,7 @@ class AdminRequestItem extends React.Component{
   render() {
     let item = this.props.item;
     let wareHouse = '';
-    let createdAt = moment.utc(item.createdAt).add(-8, 'hours').format('YYYY-MM-DD HH:mm');    
+    let createdAt = moment.utc(item.createdAt).add(8, 'hours').format('YYYY-MM-DD HH:mm');    
     this.props.warehouses.forEach((w, idx)=>{
       if(w.objectId === item.belongToWarehouseId) {
         wareHouse = w.addressString;
@@ -54,7 +54,7 @@ class AdminRequestItem extends React.Component{
                       <p><Link to={`/admin/book/${item.bookId}`} className="text-primary">{item.book.bookName}</Link>（ISBN：{item.book.ISBN} 仓库: {wareHouse})</p>
                       <p className="text-muted">配送地址: {item.member.deliveryAddressString}</p>
                       <p className="text-muted">请求时间（北京时间）: {createdAt}</p>
-                      <p className="text-warning">类型: {(item.type == "borrrow") ? "借书" : "送书"}</p>
+                      <p className="text-warning">类型: {(item.requestType == "borrow") ? "借书" : "还书"}</p>
                       <div style={{width: "200px"}}>
                         <div className="form-group">
                           <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.postmanId} onChange={this.handleChange}>

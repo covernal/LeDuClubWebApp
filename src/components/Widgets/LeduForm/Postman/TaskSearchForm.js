@@ -5,7 +5,7 @@ class TaskSearchForm extends React.Component{
     super(props);
 
     this.state = {
-      type: ''
+      requestType: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -15,12 +15,12 @@ class TaskSearchForm extends React.Component{
   handleSubmit(e) {
     e.preventDefault();
 
-    this.props.searchTasks(this.state.type);
+    this.props.searchRequests(this.state.requestType);
   }
 
   handleChange(e) {
     this.setState({
-      type: e.target.value
+      requestType: e.target.value
     });
   }
 
@@ -29,11 +29,11 @@ class TaskSearchForm extends React.Component{
       <form role="form" className="row" onSubmit={this.handleSubmit}>
         <div className="col-sm-6 col-md-4">
           <div className="form-group">
-            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.store} onChange={this.handleChange}>
-              <option value="" disabled>选择任务类型</option>
-              <option value="1">送书</option>
-              <option value="2">取书</option>
-              <option value="3">全部</option>
+            <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.requestType} onChange={this.handleChange}>
+              <option value="none" disabled>选择任务类型</option>
+              <option value="return">还书</option>
+              <option value="borrow">借书</option>
+              <option value="">全部</option>
             </select>
           </div>
         </div>

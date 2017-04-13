@@ -3,6 +3,13 @@ import parsley from 'parsleyjs';
 import 'parsleyjs/dist/i18n/zh_cn';
 import $ from 'jquery';
 import AgesRangeSelector from '../../LeduInput/AgesRangeSelector';
+import ServerConfig from '../../../../../cfg/NodeJS';
+
+const AV = global.AV;
+
+let geocoder = new window.AMap.Geocoder({
+  city: "全国"
+});
 
 window.Parsley.setLocale('zh-cn');
 
@@ -12,18 +19,22 @@ class SignupForm extends React.Component{
 
     this.state = {
       data: {
-        city: '',
-        agesRange: '',
+        belongToWarehouseId: '',
+        childrenAgeGroup: '',
         fullName: '',
         email: '',
-        userName: '',
+        username: '',
         password: '',
-        address: '',
-        phone: ''
+        mobilePhoneNumber: '',
+        profileImageURL: '',
+        deliveryAddressString: '',        
+        lat: '',
+        lon: ''
       },
       agree: false
     };
 
+    this.setWarehouseId = this.setWarehouseId.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
@@ -38,10 +49,33 @@ class SignupForm extends React.Component{
     this.props.handleSignup(this.state.data);
   }
 
-  handleChange(type, e) {
+  setWarehouseId(id) {
     let state = this.state;
-    state.data[type] = e.target.value;
+    state.data.belongToWarehouseId = id;
     this.setState(state);
+  }
+
+  handleChange(type, e) {
+    let _this = this;
+    let state = this.state;
+    let value = e.target.value;
+
+    if(type === "agree") {
+      state[type] = value;
+    }else {
+      state.data[type] = value;
+    }    
+    this.setState(state);
+
+    if(type === "deliveryAddressString") {
+      geocoder.getLocation(value, function(status, result) {
+        if (status === 'complete' && result.info === 'OK') {
+          state.data.lat = "" + result.geocodes[0].location.lat;
+          state.data.lon = "" + result.geocodes[0].location.lng;
+          _this.setState(state);
+        }
+      });
+    }
   }
 
   render() {
@@ -60,17 +94,20 @@ class SignupForm extends React.Component{
 
         <div className="form-group">
           <div className="col-xs-12">
-            <select className="form-control selectpicker show-tick" data-style="btn-default" required value={this.state.data.city} onChange={this.handleChange.bind(this, 'city')}>
+            <select className="form-control selectpicker show-tick" data-style="btn-default" required value={this.state.data.belongToWarehouseId} onChange={this.handleChange.bind(this, 'belongToWarehouseId')}>
               <option value="" disabled>所在城市</option>
-              <option value="1">仓库一</option>
-              <option value="2">仓库二</option>
+              {
+                this.props.warehouses.map((item, idx) =>
+                  <option key={`warehouse-${idx}`} value={item.objectId}>{item.addressString}</option>
+                )
+              }
             </select>
           </div>
         </div>
 
         <div className="form-group">
           <div className="col-xs-12">
-            <AgesRangeSelector value={this.state.data.agesRange} placeholder="孩子所属年龄组" handleChange={this.handleChange.bind(this, 'agesRange')}/>
+            <AgesRangeSelector value={this.state.data.childrenAgeGroup} required placeholder="孩子所属年龄组" handleChange={this.handleChange.bind(this, 'childrenAgeGroup')}/>
           </div>
         </div>
 
@@ -88,7 +125,7 @@ class SignupForm extends React.Component{
 
         <div className="form-group ">
           <div className="col-xs-12">
-            <input className="form-control" type="text" placeholder="用户名" required value={this.state.data.userName} onChange={this.handleChange.bind(this, 'userName')}/>
+            <input className="form-control" type="text" placeholder="用户名" required value={this.state.data.username} onChange={this.handleChange.bind(this, 'username')}/>
           </div>
         </div>
 
@@ -101,13 +138,13 @@ class SignupForm extends React.Component{
 
         <div className="form-group ">
           <div className="col-xs-12">
-            <input className="form-control" type="text" placeholder="书籍取送地址" required value={this.state.data.address} onChange={this.handleChange.bind(this, 'address')}/>
+            <input className="form-control" type="text" placeholder="书籍取送地址" required value={this.state.data.deliveryAddressString} onChange={this.handleChange.bind(this, 'deliveryAddressString')}/>
           </div>
         </div>
 
         <div className="form-group ">
           <div className="col-xs-12">
-            <input className="form-control" type="text" placeholder="手机号码（取送时必要联系方式）" required value={this.state.data.phone} onChange={this.handleChange.bind(this, 'phone')}/>
+            <input className="form-control" type="text" placeholder="手机号码（取送时必要联系方式）" required value={this.state.data.mobilePhoneNumber} onChange={this.handleChange.bind(this, 'mobilePhoneNumber')}/>
           </div>
         </div>
 

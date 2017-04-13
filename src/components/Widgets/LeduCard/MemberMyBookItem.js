@@ -1,11 +1,6 @@
 import React,{PropTypes} from 'react';
 import ReactStars from 'react-stars';
 
-require("../../../assets/templates/images/books/1.jpg");
-require("../../../assets/templates/images/books/2.jpg");
-require("../../../assets/templates/images/books/3.jpg");
-require("../../../assets/templates/images/books/4.jpg");
-
 class MemberMyBookItem extends React.Component{
   render() {
     let item = this.props.item;

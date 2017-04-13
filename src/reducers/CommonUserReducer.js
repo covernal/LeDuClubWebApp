@@ -115,7 +115,18 @@ function CommonUserReducer(state = initialState, action) {
     return Object.assign({}, state, {
       bookReviews: {},
       error: action.error
-    });            
+    }); 
+
+  case CommonUserConstants.GET_NEW_MEMBER_APPLICATION_SUCCESS:  
+    return Object.assign({}, state, {
+      user: action.response,
+      error: null
+    });
+  case CommonUserConstants.GET_NEW_MEMBER_APPLICATION_ERROR:
+    return Object.assign({}, state, {
+      user: {},
+      error: action.error
+    });                
 
   default:
     return state;

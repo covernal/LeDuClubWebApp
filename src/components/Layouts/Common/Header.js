@@ -3,7 +3,6 @@ import {Link} from 'react-router';
 import Utils from '../../../utils';
 import '../../../assets/templates/js/waves.js';
 import cookie from 'react-cookie';
-import Parse from 'parse';
 
 require("./_common.less");
 require("../../../assets/templates/images/defaultAvatar.jpg");

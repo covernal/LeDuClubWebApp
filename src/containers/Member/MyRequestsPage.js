@@ -2,35 +2,65 @@ import React,{PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {browserHistory, Link} from 'react-router';
 import cookie from 'react-cookie';
+import Find from 'lodash/find';
+import SweetAlert from 'sweetalert-react';
+import moment from 'moment';
 
 import Header from '../../components/Layouts/Common/Header';
 import SubHeader from '../../components/Layouts/Common/SubHeader';
 import Footer from '../../components/Layouts/Common/Footer';
 import MemberRequestItem from '../../components/Widgets/LeduCard/MemberRequestItem';
 import LeduOverlay from '../../components/Widgets/LeduOverlay';
-
-//Dummy data
-import DummyData from '../../constants/DummyData';
+import {CommonUserActions, MemberUserActions} from '../../actions';
 
 class MyRequestsPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
-      sendingRequest: false,
-      
-      skip: 0,
-      hasMoreRequests: true,
-      isLoadingMore: false,
+      sendingRequest: false,      
       isInitTable: true,
-      requestsData: DummyData.REQUESTS
+      requests: []
     };
-
-    this.loadMoreRequests = this.loadMoreRequests.bind(this);
   }
 
-  loadMoreRequests() {
+  componentDidMount() {
+    let requests = [];    
+    let limit = 0;  
+    this.props.loadRequests({
+      cb: () => {
+        console.log(this.props.requests);
+        this.setState({
+          serverError: this.props.serverError
+        });          
 
+        if(this.props.serverError === null) {
+          if(this.props.requests.length > 0) {
+            this.props.requests.forEach((request, idx) => {
+              this.props.getBook({
+                id: request.bookId,
+                cb: () => {
+                  request['book'] = this.props.book;
+                  requests.push(request);
+                  limit++;
+                  if(this.props.requests.length === limit) {
+                    this.setState({
+                      requests: requests,
+                      isInitTable: false
+                    });
+                  }
+                }
+              });
+            });
+          }else {
+            this.setState({
+              requests: [],
+              isInitTable: false
+            });
+          }
+        }
+      }
+    });
   }
 
   render() {
@@ -38,9 +68,8 @@ class MyRequestsPage extends React.Component{
       return null;
     }
 
-    let disabled = (this.state.isLoadingMore || !this.state.hasMoreRequests) ? 'disabled' : '';
-    let spinnerClass = (this.state.isLoadingMore) ? 'fa fa-spinner fa-spin-custom' : 'fa fa-spinner fa-spin-custom hidden';
     let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
+    let loadingClass = (this.state.isInitTable || this.state.isInitTable == undefined) ? 'loading' : 'loading hidden';
 
     return (
       <div>
@@ -62,23 +91,35 @@ class MyRequestsPage extends React.Component{
             <div className="row">
               <div className="col-md-10">
                 {
-                  this.state.requestsData.map((item, idx) =>
+                  this.state.requests.map((item, idx) =>
                     <MemberRequestItem key={`request-${idx}`} item={item} />
                   )
                 }
               </div>
             </div>
             
-            <div className="row">
-              <div className="col-xs-12 m-b-30 text-center m-t-10">
-                <button type="button" className="btn btn-default waves-effect w-md waves-light " data-toggle="modal" data-target="#custom-width-modal">显示更多</button>
-                <button type="button" disabled={disabled} className="btn btn-default waves-effect w-md waves-light" onClick={this.loadMoreRequests}><i className={spinnerClass} aria-hidden="true"></i> {(this.state.hasMoreRequests) ? '显示更多' : '没有更多'}</button>
-              </div>
+            <div className="clearfix"></div>
+            <div className={loadingClass}>
+              <i className="fa fa-spinner fa-spin-custom" aria-hidden="true"></i>
             </div>
-            
+
             <Footer />
           </div>
         </div>
+
+        <SweetAlert
+          show={this.state.serverError != null}
+          type="error"
+          title="错误..."
+          text={(this.state.serverError != null) ? this.state.serverError.message : ''}
+          onConfirm={()=>this.setState({serverError: null})}
+        />         
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="请稍候..."
+        /> 
+
       </div>
     );
   }
@@ -88,4 +129,25 @@ MyRequestsPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default MyRequestsPage;
+const mapStateToProps = (state) => {
+  return {
+    book: state.CommonUserReducer.book,
+    requests: state.MemberUserReducer.requests,
+    serverError: state.MemberUserReducer.error,
+    commonServerError: state.CommonUserReducer.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    getBook: (req) => {
+      dispatch(CommonUserActions.getBook(req.id, req.cb));
+    },
+
+    loadRequests: (req) => {     
+      dispatch(MemberUserActions.memberGetMyBookRequests(req.cb));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyRequestsPage);

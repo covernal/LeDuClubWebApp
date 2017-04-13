@@ -2,35 +2,43 @@ import React,{PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {browserHistory, Link} from 'react-router';
 import cookie from 'react-cookie';
+import Find from 'lodash/find';
+import SweetAlert from 'sweetalert-react';
 
 import Header from '../../components/Layouts/Common/Header';
 import SubHeader from '../../components/Layouts/Common/SubHeader';
 import Footer from '../../components/Layouts/Common/Footer';
 import MemberMyBookItem from '../../components/Widgets/LeduCard/MemberMyBookItem';
 import LeduOverlay from '../../components/Widgets/LeduOverlay';
-
-//Dummy data
-import DummyData from '../../constants/DummyData';
+import {MemberUserActions} from '../../actions';
 
 class MyBooksPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
-      sendingRequest: false,
-      
-      skip: 0,
-      hasMoreBooks: true,
-      isLoadingMore: false,
+      sendingRequest: false,      
       isInitTable: true,
-      booksData: DummyData.BOOKS
+      books: []
     };
-
-    this.loadMoreBooks = this.loadMoreBooks.bind(this);
   }
 
-  loadMoreBooks() {
+  componentDidMount() {
+    this.props.loadBooks({
+      cb: () => {
+        console.log(this.props.books);
+        this.setState({
+          serverError: this.props.serverError,
+          isInitTable: false
+        });          
+        if(this.props.serverError === null) {
 
+          this.setState({
+            books: this.props.books
+          });
+        }
+      }
+    });
   }
 
   render() {
@@ -38,9 +46,8 @@ class MyBooksPage extends React.Component{
       return null;
     }
 
-    let disabled = (this.state.isLoadingMore || !this.state.hasMoreBooks) ? 'disabled' : '';
-    let spinnerClass = (this.state.isLoadingMore) ? 'fa fa-spinner fa-spin-custom' : 'fa fa-spinner fa-spin-custom hidden';
     let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
+    let loadingClass = (this.state.isInitTable || this.state.isInitTable == undefined) ? 'loading' : 'loading hidden';
 
     return (
       <div>
@@ -62,22 +69,34 @@ class MyBooksPage extends React.Component{
             <div className="row">
               <div className="col-md-10">
                 {
-                  this.state.booksData.map((item, idx) =>
+                  this.state.books.map((item, idx) =>
                     <MemberMyBookItem key={`book-${idx}`} item={item} />
                   )
                 }
               </div>
             </div>
-            
-            <div className="row">
-              <div className="col-xs-12 m-b-30 text-center m-t-10">
-                <button type="button" disabled={disabled} className="btn btn-default waves-effect w-md waves-light" onClick={this.loadMoreBooks}><i className={spinnerClass} aria-hidden="true"></i> {(this.state.hasMoreBooks) ? '显示更多' : '没有更多'}</button>
-              </div>
+
+            <div className="clearfix"></div>
+            <div className={loadingClass}>
+              <i className="fa fa-spinner fa-spin-custom" aria-hidden="true"></i>
             </div>
-            
+
             <Footer />
           </div>
         </div>
+
+        <SweetAlert
+          show={this.state.serverError != null}
+          type="error"
+          title="错误..."
+          text={(this.state.serverError != null) ? this.state.serverError.message : ''}
+          onConfirm={()=>this.setState({serverError: null})}
+        />         
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="请稍候..."
+        />              
       </div>
     );
   }
@@ -87,4 +106,24 @@ MyBooksPage.contextTypes = {
   router: PropTypes.object.isRequired
 };
 
-export default MyBooksPage;
+const mapStateToProps = (state) => {
+  return {
+    books: state.MemberUserReducer.books,
+    serverError: state.MemberUserReducer.error,
+    result: state.MemberUserReducer.result
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    loadBooks: (req) => {     
+      dispatch(MemberUserActions.memberGetMyBorrowedBooks(req.cb));
+    },
+
+    memberNewBookReturnRequest: (req) => {
+      dispatch(MemberUserActions.memberNewBookReturnRequest(req.bookId, req.cb));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MyBooksPage);

@@ -402,6 +402,39 @@ let CommonUserActions = {
             cb();
           }
         });
+  },
+
+  newMemberApplicationError: function(error) {
+    return {
+      error,
+      type: CommonUserConstants.GET_NEW_MEMBER_APPLICATION_ERROR
+    };
+  },
+
+  newMemberApplicationSuccess: function(response) {
+    return {
+      response,
+      type: CommonUserConstants.GET_NEW_MEMBER_APPLICATION_SUCCESS
+    };
+  },
+
+  newMemberApplication: function(data, cb){
+    let _obj = this;
+
+    return dispatch =>
+      AV.Cloud.run('newMemberApplication', data)
+        .then(response => {
+          dispatch(_obj.newMemberApplicationSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.newMemberApplicationError(error));
+          if(cb != null){
+            cb();
+          }
+        });
   }
 };
 

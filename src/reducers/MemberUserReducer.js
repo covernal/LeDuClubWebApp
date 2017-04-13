@@ -31,6 +31,28 @@ function MemberUserReducer(state = initialState, action) {
       error: action.error
     });
 
+  case MemberUserConstants.MEMBER_GET_MYBOOK_REQUESTS_SUCCESS:
+    return Object.assign({}, state, {
+      requests: action.response,
+      error: null
+    });    
+  case MemberUserConstants.MEMBER_GET_MYBOOK_REQUESTS_ERROR:
+    return Object.assign({}, state, {
+      requests: [],
+      error: action.error
+    });
+
+  case MemberUserConstants.MEMBER_GET_MYBORROWED_BOOKS_SUCCESS:
+    return Object.assign({}, state, {
+      books: action.response,
+      error: null
+    });    
+  case MemberUserConstants.MEMBER_GET_MYBORROWED_BOOKS_ERROR:
+    return Object.assign({}, state, {
+      books: [],
+      error: action.error
+    });    
+
   default:
     return state;
   }
