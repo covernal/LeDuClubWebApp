@@ -198,39 +198,33 @@ let CommonUserActions = {
   },
 
   // Update user
-  userUpdateRequest: function() {
-    return {
-      type: CommonUserConstants.USER_UPDATE
-    };
-  },
-
-  userUpdateError: function(error) {
+  memberUpdateProfileError: function(error) {
     return {
       error,
       type: CommonUserConstants.USER_UPDATE_ERROR
     };
   },
 
-  userUpdateSuccess: function(response) {
+  memberUpdateProfileSuccess: function(response) {
     return {
       response,
       type: CommonUserConstants.USER_UPDATE_SUCCESS
     };
   },
 
-  userUpdate: function(data, cb){
+  memberUpdateProfile: function(data, cb){
     let _obj = this;
 
     return dispatch =>
-      AV.Cloud.run('updateUserProfile', data)
+      AV.Cloud.run('memberUpdateProfile', data)
         .then(response => {
-          dispatch(_obj.userUpdateSuccess(response));
+          dispatch(_obj.memberUpdateProfileSuccess(response));
           if(cb != null){
             cb();
           }
         })
         .catch(error => {
-          dispatch(_obj.userUpdateError(error));
+          dispatch(_obj.memberUpdateProfileError(error));
           if(cb != null){
             cb();
           }
@@ -435,7 +429,40 @@ let CommonUserActions = {
             cb();
           }
         });
-  }
+  },
+
+  getBookBoxError: function(error) {
+    return {
+      error,
+      type: CommonUserConstants.GET_BOOKBOX_ERROR
+    };
+  },
+
+  getBookBoxSuccess: function(response) {
+    return {
+      response,
+      type: CommonUserConstants.GET_BOOKBOX_SUCCESS
+    };
+  },
+
+  getBookBox: function(id, cb){
+    let _obj = this;
+
+    return dispatch =>
+      AV.Cloud.run('getBookBox', {id: id})
+        .then(response => {
+          dispatch(_obj.getBookBoxSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.getBookBoxError(error));
+          if(cb != null){
+            cb();
+          }
+        });
+  }  
 };
 
 export default CommonUserActions;

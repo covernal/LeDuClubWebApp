@@ -1,5 +1,6 @@
 import React,{PropTypes} from 'react';
 import moment from 'moment';
+import {Link} from 'react-router';
 
 class MembersList extends React.Component{
   render() {
@@ -7,16 +8,27 @@ class MembersList extends React.Component{
     let rows = [];
 
     this.props.members.forEach((member, index) => {
-      let operation = (<ul className="dropdown-menu"> <li><a href="#">批准会员</a></li> </ul>);
+      let operation = '';
       if(member.membershipStatus === "waitingForApproval") {
+        operation = (<ul className="dropdown-menu"> <li><a onClick={()=>this.props.adminApproveMemberApplication(member.objectId)}>批准会员</a></li> </ul>);  
+      }else {
         operation = (
           <ul className="dropdown-menu">
-            <li><a href="#">押金支付确认</a></li>
-            <li><a href="#">每月会员费支付</a></li>
-            <li><a href="#">添加／更改手机号码</a></li>
+            <li><a onClick={()=>this.props.adminConfirmMemberDeposit(member.objectId)}>押金支付确认</a></li>
+            <li><a onClick={()=>this.props.adminConfirmMemberMonthlyFee(member.objectId)}>每月会员费支付</a></li>
+            <li><a onClick={()=>this.props.adminEditMemberProfile(member.objectId)}>更改会员信息</a></li>
           </ul>
-        );
+        );        
+        if(parseInt(member.deposit, 10) > 0) {
+          operation = (
+            <ul className="dropdown-menu">
+              <li><a onClick={()=>this.props.adminConfirmMemberMonthlyFee(member.objectId)}>每月会员费支付</a></li>
+              <li><a onClick={()=>this.props.adminEditMemberProfile(member.objectId)}>更改会员信息</a></li>
+            </ul>
+          );
+        }
       }
+
       rows.push(
         <tr key={`member-${member.objectId}`} className="">
           <td>{member.childrenAgeGroup}</td>

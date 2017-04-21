@@ -19,7 +19,6 @@ class PostmanTaskRow extends React.Component{
 
     let item = this.props.item;
     let estimatedDeliveryDate = moment.utc(item.estimatedDeliveryDate).add(8, 'hours').format('YYYY-MM-DD HH:mm');    
-    console.log(item);
     return (
       <div className="property-card property-horizontal">
         <div className="row">

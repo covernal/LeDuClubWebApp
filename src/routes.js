@@ -5,6 +5,7 @@ import App from './App';
 import AdminMembersPage from './containers/Admin/MembersPage';
 import AdminRequestsPage from './containers/Admin/RequestsPage';
 import AdminBookDetailsPage from './containers/Admin/BookDetailsPage';
+import AdminProfilePage from './containers/admin/ProfilePage';
 
 import MyRequestPage from './containers/Postman/MyRequestPage';
 
@@ -16,6 +17,7 @@ import MemberSignupPage from './containers/Member/SignupPage';
 import MemberForgotPwdPage from './containers/Member/ForgotPwdPage';
 import MemberMyRequestsPage from './containers/Member/MyRequestsPage';
 import MemberMyBooksPage from './containers/Member/MyBooksPage';
+import MemberThisWeekPage from './containers/Member/ThisWeekPage';
 import MyProfilePage from './containers/Member/MyProfilePage';
 
 import ErrorPage from './containers/404/ErrorPage';
@@ -77,12 +79,15 @@ export default (
 	<Route path="/forgot-pwd" component={MemberForgotPwdPage}/>
 	<Route path="/member/my-requests" component={MemberMyRequestsPage} onEnter={requireMemberAuth}/>
 	<Route path="/member/my-books" component={MemberMyBooksPage} onEnter={requireMemberAuth}/>
+  <Route path="/thisweek" component={MemberThisWeekPage} onEnter={requireMemberAuth}/>
 	<Route path="/my-profile" component={MyProfilePage} onEnter={requireAuth}/>	
 	
 	<Route path="/admin/members" component={AdminMembersPage} onEnter={requireAdminAuth}/>
 	<Route path="/admin/requests" component={AdminRequestsPage} onEnter={requireAdminAuth}/>
 	<Route path="/admin/book/:id" component={AdminBookDetailsPage} onEnter={requireAdminAuth}/>
   <Route path="/admin/book" component={AdminBookDetailsPage} onEnter={requireAdminAuth}/>
+  <Route path="/admin/profile/:id" component={AdminProfilePage} onEnter={requireAdminAuth}/>
+  
 
 	<Route path="/postman/my-requests" component={MyRequestPage} onEnter={requirePostmanAuth}/>
 	<Route path="*" component={ErrorPage} />

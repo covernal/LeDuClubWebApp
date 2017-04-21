@@ -43,13 +43,15 @@ function MemberUserReducer(state = initialState, action) {
     });
 
   case MemberUserConstants.MEMBER_GET_MYBORROWED_BOOKS_SUCCESS:
+  case MemberUserConstants.MEMBER_GET_THISWEEK_BOOKBOX_SUCCESS:
     return Object.assign({}, state, {
-      books: action.response,
+      bookboxes: action.response,
       error: null
     });    
   case MemberUserConstants.MEMBER_GET_MYBORROWED_BOOKS_ERROR:
+  case MemberUserConstants.MEMBER_GET_THISWEEK_BOOKBOX_ERROR:
     return Object.assign({}, state, {
-      books: [],
+      bookboxes: [],
       error: action.error
     });    
 

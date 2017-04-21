@@ -26,7 +26,6 @@ class MyBooksPage extends React.Component{
   componentDidMount() {
     this.props.loadBooks({
       cb: () => {
-        console.log(this.props.books);
         this.setState({
           serverError: this.props.serverError,
           isInitTable: false

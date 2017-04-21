@@ -128,6 +128,17 @@ function CommonUserReducer(state = initialState, action) {
       error: action.error
     });                
 
+  case CommonUserConstants.GET_BOOKBOX_SUCCESS:  
+    return Object.assign({}, state, {
+      bookbox: action.response,
+      error: null
+    });
+  case CommonUserConstants.GET_BOOKBOX_ERROR:
+    return Object.assign({}, state, {
+      bookbox: {},
+      error: action.error
+    });
+
   default:
     return state;
   }

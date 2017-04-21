@@ -155,7 +155,6 @@ class RequestsPage extends React.Component{
   }
 
   handleAssign(requestId, postmanId) {
-    console.log(requestId, postmanId);
     this.setState({
       sendingRequest: true
     }, ()=> {

@@ -51,7 +51,6 @@ class BookImagesUploader extends React.Component{
   }
 
   deleteImage(image) {
-    console.log(image);
     let _this = this;
     swal({
       title: "你确定?",

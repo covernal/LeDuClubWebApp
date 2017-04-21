@@ -6,12 +6,14 @@ import AgesRangeSelector from '../../LeduInput/AgesRangeSelector';
 
 window.Parsley.setLocale('zh-cn');
 
-class MyProfileForm extends React.Component{
+class ProfileForm extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
       data: {
+        memberId: this.props.userData.objectId,
+        deliveryDay: (this.props.userData.deliveryDay) ? this.props.userData.deliveryDay : '周一',
         childrenAgeGroup: this.props.userData.childrenAgeGroup,
         fullName: this.props.userData.fullName,
         email: this.props.userData.email,
@@ -48,6 +50,21 @@ class MyProfileForm extends React.Component{
       <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)} data-parsley-validate noValidate id="profile-form">
         <div className="form-group">
           <div className="col-xs-12">
+            <select className="selectpicker show-tick" data-style="btn-default" required value={this.state.data.deliveryDay} onChange={this.handleChange.bind(this, 'deliveryDay')}>
+              <option value="" disabled>送取日</option>
+              <option value="周一">周一</option>
+              <option value="周二">周二</option>
+              <option value="周三">周三</option>
+              <option value="周四">周四</option>
+              <option value="周五">周五</option>
+              <option value="周六">周六</option>
+              <option value="周日">周日</option>
+            </select>
+          </div>
+        </div>
+
+        <div className="form-group">
+          <div className="col-xs-12">
             <AgesRangeSelector value={this.state.data.childrenAgeGroup} placeholder="孩子所属年龄组" required handleChange={this.handleChange.bind(this, 'childrenAgeGroup')}/>
           </div>
         </div>
@@ -82,16 +99,9 @@ class MyProfileForm extends React.Component{
             </div>
           </div>
         </div>
-        <div className="row">
-          <div className="col-md-12">
-            <div className="text-muted font-13">
-              * 请联系客服修改孩子所属年龄组和书籍送去地址。
-            </div>
-          </div>
-        </div>        
       </form>
     );
   }
 }
 
-export default MyProfileForm;
+export default ProfileForm;

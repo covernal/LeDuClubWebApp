@@ -28,7 +28,7 @@ class LoginPage extends React.Component{
       if(cookie.load('type') === 'postman') {
         this.context.router.push('/postman/my-requests');
       }else {
-        this.context.router.push('/browsebooks');
+        this.context.router.push('/thisweek');
       }
     }
   }  
@@ -101,11 +101,11 @@ class LoginPage extends React.Component{
             session: this.state.session
           }, () => {
             let type = this.props.userDetails.attributes.type;
-            let homeURL = '/browsebooks';
+            let homeURL = '/thisweek';
             if(type == 'admin') {
-              homeURL = '/browsebooks';                
+              homeURL = '/admin/members';                
             }else if(type == 'member') {
-              homeURL = '/browsebooks';  
+              homeURL = '/thisweek';  
             }else if(type == 'postman') {
               homeURL = '/postman/my-requests';  
             }

@@ -4,6 +4,7 @@ import {browserHistory, Link} from 'react-router';
 import cookie from 'react-cookie';
 import Find from 'lodash/find';
 import SweetAlert from 'sweetalert-react';
+import swal from 'sweetalert';
 
 import Header from '../../components/Layouts/Common/Header';
 import SubHeader from '../../components/Layouts/Common/SubHeader';
@@ -13,12 +14,22 @@ import MemberSearchForm from '../../components/Widgets/LeduForm/Admin/MemberSear
 import LeduOverlay from '../../components/Widgets/LeduOverlay';
 import {CommonUserActions, AdminUserActions} from '../../actions';
 
+const optConfirm = {
+  title: "你确定?",
+  text: "",
+  type: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#DD6B55",
+  cancelButtonText: "取消",
+  confirmButtonText: "确定",
+  closeOnConfirm: true
+};
 class MembersPage extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
-      sendingRequest: true,      
+      sendingRequest: false,      
       skip: 0,
       hasMoreMembers: true,
       isLoadingMore: false,
@@ -27,12 +38,18 @@ class MembersPage extends React.Component{
       warehouses: [],
       belongToWarehouseId: '',
       membershipStatus: '',
-      serverError: null
+      serverError: null,
+      showConfirm: false
     };
 
     this.searchMembers = this.searchMembers.bind(this);
     this.loadMoreMembers = this.loadMoreMembers.bind(this);
     this._loadMembers = this._loadMembers.bind(this);
+
+    this.adminConfirmMemberDeposit = this.adminConfirmMemberDeposit.bind(this);
+    this.adminApproveMemberApplication  = this.adminApproveMemberApplication.bind(this);
+    this.adminConfirmMemberMonthlyFee = this.adminConfirmMemberMonthlyFee.bind(this);
+    this.adminEditMemberProfile = this.adminEditMemberProfile.bind(this);
   }
 
   searchMembers(opt) {
@@ -52,24 +69,38 @@ class MembersPage extends React.Component{
   componentDidMount() {
     this.props.loadWarehouses({
       cb: () => {
-        this.setState({
-          sendingRequest: false
-        });        
-
         if(this.props.commonServerError === null) {
           this.setState({
-            warehouses: this.props.warehouses
+            warehouses: this.props.warehouses,
+            belongToWarehouseId: this.props.warehouses[0].objectId
+          }, ()=> {
+            this.refs.searchForm.setState({
+              belongToWarehouseId: this.state.belongToWarehouseId
+            });            
+            this._loadMembers();
           });
         }
       }
     });
-
-    this._loadMembers();
   }
 
   loadMoreMembers() {
     this.setState({
       isLoadingMore: true
+    }, () => {
+      this._loadMembers();
+    });
+  }
+
+  refreshList() {
+    this.setState({
+      sendingRequest: false,      
+      skip: 0,
+      hasMoreMembers: true,
+      isLoadingMore: false,
+      isInitTable: true,
+      members: [],      
+      serverError: null
     }, () => {
       this._loadMembers();
     });
@@ -100,7 +131,7 @@ class MembersPage extends React.Component{
       let limit = 0;
       this.props.members.forEach((member) => {
         let existObj = Find(this.state.members, (l) => {
-          return l.id == member.id;
+          return l.objectId == member.objectId;
         });
         if(existObj == undefined) {
           this.state.members.push(member);
@@ -123,6 +154,74 @@ class MembersPage extends React.Component{
     }
   }
 
+  adminEditMemberProfile(memberId) {
+    let _this = this;
+    swal(optConfirm,
+    function(){
+      _this.context.router.push(`/admin/profile/${memberId}`);
+    });
+  }
+
+  adminConfirmMemberDeposit(memberId) {
+    let _this = this;
+    swal(optConfirm,
+    function(){       
+      _this.setState({
+        sendingRequest: true
+      }, () => {
+        _this.props.adminConfirmMemberDeposit({
+          memberId: memberId,
+          cb: () => {
+            _this.setState({
+              sendingRequest: false
+            });
+            _this.refreshList();
+          }
+        });
+      });
+    });
+  }
+
+  adminApproveMemberApplication(memberId) {
+    let _this = this;
+    swal(optConfirm,
+    function(){
+      _this.setState({
+        sendingRequest: true
+      }, () => {
+        _this.props.adminApproveMemberApplication({
+          memberId: memberId,
+          cb: () => {
+            _this.setState({
+              sendingRequest: false
+            });
+            _this.refreshList();
+          }
+        });
+      });
+    });
+  }  
+
+  adminConfirmMemberMonthlyFee(memberId) {
+    let _this = this;
+    swal(optConfirm,
+    function(){    
+      _this.setState({
+        sendingRequest: true
+      }, () => {
+        _this.props.adminConfirmMemberMonthlyFee({
+          memberId: memberId,
+          cb: () => {
+            _this.setState({
+              sendingRequest: false
+            });
+            _this.refreshList();
+          }
+        });
+      });
+    });
+  }
+
   render() {
     if (!this.props) {
       return null;
@@ -130,9 +229,7 @@ class MembersPage extends React.Component{
 
     let disabled = (this.state.isLoadingMore || !this.state.hasMoreMembers) ? 'disabled' : '';
     let spinnerClass = (this.state.isLoadingMore) ? 'fa fa-spinner fa-spin-custom' : 'fa fa-spinner fa-spin-custom hidden';
-
-    let overlayClass = 'ledu-overlay';
-    // let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
+    let overlayClass = (this.state.sendingRequest) ? 'ledu-overlay show' : 'ledu-overlay';
 
     return (
       <div>
@@ -153,10 +250,16 @@ class MembersPage extends React.Component{
 
             <div className="row">
               <div className="col-sm-12">
-                <MemberSearchForm warehouses={this.state.warehouses} searchMembers={this.searchMembers}  />
+                <MemberSearchForm ref="searchForm" warehouses={this.state.warehouses} searchMembers={this.searchMembers}  />
               </div>
             </div>            
-            <MembersList isInitTable={this.state.isInitTable} members={this.state.members}/>
+            <MembersList 
+              isInitTable={this.state.isInitTable} 
+              members={this.state.members}
+              adminConfirmMemberDeposit={this.adminConfirmMemberDeposit}
+              adminConfirmMemberMonthlyFee={this.adminConfirmMemberMonthlyFee}
+              adminApproveMemberApplication={this.adminApproveMemberApplication}
+              adminEditMemberProfile={this.adminEditMemberProfile}/>
 
             <div className="row">
               <div className="col-md-12">                
@@ -194,6 +297,7 @@ MembersPage.contextTypes = {
 const mapStateToProps = (state) => {
   return {
     warehouses: state.CommonUserReducer.warehouses,
+    result: state.AdminUserReducer.result,
     members: state.AdminUserReducer.members,
     serverError: state.AdminUserReducer.error,
     commonServerError: state.CommonUserReducer.error
@@ -214,6 +318,22 @@ const mapDispatchToProps = dispatch => {
 
     loadWarehouses: (req) => {
       dispatch(CommonUserActions.loadWarehouses(req.cb));
+    },
+
+    adminConfirmMemberDeposit: (req) => {
+      dispatch(AdminUserActions.adminConfirmMemberDeposit(req.memberId, req.cb));
+    },
+
+    adminConfirmMemberMonthlyFee: (req) => {
+      dispatch(AdminUserActions.adminConfirmMemberMonthlyFee(req.memberId, req.cb));
+    },
+
+    adminApproveMemberApplication: (req) => {
+      dispatch(AdminUserActions.adminApproveMemberApplication(req.memberId, req.cb));
+    },
+
+    adminUpdateMemberProfile: (req) => {
+      dispatch(AdminUserActions.adminUpdateMemberProfile(req.data, req.cb));
     }
   };
 };

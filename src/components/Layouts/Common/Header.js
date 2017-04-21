@@ -29,8 +29,8 @@ class Header extends Component {
       return null;
     }
     
-    // let profileImageURL = cookie.load('profileImageURL');
-    let image = /*(profileImageURL != undefined && profileImageURL != "undefined") ? profileImageURL : */"/assets/images/defaultAvatar.jpg";
+    let profileImageURL = cookie.load('profileImageURL');
+    let image = (profileImageURL != undefined && profileImageURL != "undefined") ? profileImageURL : "/assets/images/defaultAvatar.jpg";
     let actionBar = (!this.props.isPublic || (cookie.load('username') != undefined)) ?
     <div className="menu-extras">
       {

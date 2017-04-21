@@ -244,7 +244,139 @@ let AdminUserActions = {
             cb();
           }
         });
-  }
+  },
+
+  adminApproveMemberApplicationError:  function(error) {
+    return {
+      error,
+      type: AdminUserConstants.ADMIN_APPROVE_MEMBER_APPLICATION_ERROR
+    };
+  },
+
+  adminApproveMemberApplicationSuccess: function(response) {
+    return {
+      response,
+      type: AdminUserConstants.ADMIN_APPROVE_MEMBER_APPLICATION_SUCCESS
+    };
+  },
+
+  adminApproveMemberApplication: function(memberId, cb){
+    let _obj = this;
+
+    return dispatch =>
+      AV.Cloud.run('adminApproveMemberApplication', {memberId: memberId})
+        .then(response => {
+          dispatch(_obj.adminApproveMemberApplicationSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.adminApproveMemberApplicationError(error));
+          if(cb != null){
+            cb();
+          }
+        });
+  },
+
+  adminConfirmMemberDepositError:  function(error) {
+    return {
+      error,
+      type: AdminUserConstants.ADMIN_CONFIRM_MEMBER_DEPOSIT_ERROR
+    };
+  },
+
+  adminConfirmMemberDepositSuccess: function(response) {
+    return {
+      response,
+      type: AdminUserConstants.ADMIN_CONFIRM_MEMBER_DEPOSIT_SUCCESS
+    };
+  },
+
+  adminConfirmMemberDeposit: function(memberId, cb){
+    let _obj = this;
+
+    return dispatch =>
+      AV.Cloud.run('adminConfirmMemberDeposit', {memberId: memberId})
+        .then(response => {
+          dispatch(_obj.adminConfirmMemberDepositSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.adminConfirmMemberDepositError(error));
+          if(cb != null){
+            cb();
+          }
+        });
+  },
+
+  adminConfirmMemberMonthlyFeeError:  function(error) {
+    return {
+      error,
+      type: AdminUserConstants.ADMIN_CONFIRM_MEMBER_MONTHLY_FEE_ERROR
+    };
+  },
+
+  adminConfirmMemberMonthlyFeeSuccess: function(response) {
+    return {
+      response,
+      type: AdminUserConstants.ADMIN_CONFIRM_MEMBER_MONTHLY_FEE_SUCCESS
+    };
+  },
+
+  adminConfirmMemberMonthlyFee: function(memberId, cb){
+    let _obj = this;
+
+    return dispatch =>
+      AV.Cloud.run('adminConfirmMemberMonthlyFee', {memberId: memberId})
+        .then(response => {
+          dispatch(_obj.adminConfirmMemberMonthlyFeeSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.adminConfirmMemberMonthlyFeeError(error));
+          if(cb != null){
+            cb();
+          }
+        });
+  },
+
+  adminUpdateMemberProfileError:  function(error) {
+    return {
+      error,
+      type: AdminUserConstants.ADMIN_UPDATE_MEMBER_PROFILE_ERROR
+    };
+  },
+
+  adminUpdateMemberProfileSuccess: function(response) {
+    return {
+      response,
+      type: AdminUserConstants.ADMIN_UPDATE_MEMBER_PROFILE_SUCCESS
+    };
+  },
+
+  adminUpdateMemberProfile: function(data, cb){
+    let _obj = this;
+
+    return dispatch =>
+      AV.Cloud.run('adminUpdateMemberProfile', data)
+        .then(response => {
+          dispatch(_obj.adminUpdateMemberProfileSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.adminUpdateMemberProfileError(error));
+          if(cb != null){
+            cb();
+          }
+        });
+  }  
 };
 
 export default AdminUserActions;

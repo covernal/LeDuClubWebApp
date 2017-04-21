@@ -29,7 +29,6 @@ class MyRequestsPage extends React.Component{
     let limit = 0;  
     this.props.loadRequests({
       cb: () => {
-        console.log(this.props.requests);
         this.setState({
           serverError: this.props.serverError
         });          

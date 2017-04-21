@@ -13,9 +13,6 @@ module.exports = {
       }
     ]
   },{
-    "name": "配送调度",
-    "url": "/admin/requests"
-  },{
     "name": "会员管理",
     "url": "/admin/members"
   }],
@@ -26,17 +23,11 @@ module.exports = {
   }],
 
   member: [{
-    "name": "浏览图书",
-    "url": "/browsebooks"
-  },{
-    "name": "我的请求",
-    "url": "/member/my-requests"
-  },{
-    "name": "我的书包",
-    "url": "/member/my-books"
-  },{
+    "name": "本周阅读",
+    "url": "/thisweek"
+  }, {
     "name": "账户管理",
-    "url": "/member/account"
+    "url": "/my-profile"
   }],
 
   public: [{

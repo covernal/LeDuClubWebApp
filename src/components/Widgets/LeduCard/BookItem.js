@@ -8,14 +8,18 @@ class BookItem extends React.Component{
     let actionBtn = '';
     let item = this.props.item;
     let detailURL = `/book/${item.objectId}`;
-    if(cookie.load('type') === "admin") {
-      detailURL = `/admin/book/${item.objectId}`;
-      actionBtn = (<Link to={detailURL} className="btn btn-primary btn-block waves-effect waves-light">编辑</Link>);
-    }else {      
-      if(item.isAvailableForBorrow === true) {        
-        actionBtn = (<button className="btn btn-primary btn-block waves-effect waves-light" onClick={()=>this.props.handleBorrow(item.objectId)}>我要借阅</button>);
-      }else {
-        actionBtn = (<button type="button" className="btn btn-grey btn-block waves-effect waves-light">已被借阅</button>);
+    if(this.props.hideButton && this.props.hideButton === true) {
+      actionBtn = '';
+    }else {
+      if(cookie.load('type') === "admin") {
+        detailURL = `/admin/book/${item.objectId}`;
+        actionBtn = (<Link to={detailURL} className="btn btn-primary btn-block waves-effect waves-light">编辑</Link>);
+      }else {      
+        if(item.isAvailableForBorrow === true) {        
+          actionBtn = (<button className="btn btn-primary btn-block waves-effect waves-light" onClick={()=>this.props.handleBorrow(item.objectId)}>我要借阅</button>);
+        }else {
+          actionBtn = (<button type="button" className="btn btn-grey btn-block waves-effect waves-light">已被借阅</button>);
+        }
       }
     }
 
@@ -40,9 +44,10 @@ class BookItem extends React.Component{
                   value={item.customerRate}                           
                   edit={false}/>
               </div>
-              <div className="m-t-20">
+              <div className="clearfix"></div>
+              <div className="">
                 {actionBtn}                
-              </div>
+              </div>              
             </div>
           </div>
         </div>

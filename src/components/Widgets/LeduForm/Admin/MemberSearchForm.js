@@ -43,7 +43,7 @@ class MemberSearchForm extends React.Component{
         <div className="col-sm-3 col-md-3">
           <div className="form-group">
             <select className="form-control selectpicker show-tick" data-style="btn-default" value={this.state.membershipStatus} onChange={this.handleChange.bind(this, 'membershipStatus')}>
-              <option value="" disabled>选择会员状态</option>
+              <option value="">选择会员状态</option>
               <option value="waitingForApproval">等待批准</option>
               <option value="pendingForPayment">等待付款</option>
               <option value="confirmed">已确认</option>

@@ -87,6 +87,23 @@ function AdminUserReducer(state = initialState, action) {
       error: action.error
     });     
 
+  case AdminUserConstants.ADMIN_UPDATE_MEMBER_PROFILE_SUCCESS:
+  case AdminUserConstants.ADMIN_CONFIRM_MEMBER_MONTHLY_FEE_SUCCESS:
+  case AdminUserConstants.ADMIN_CONFIRM_MEMBER_DEPOSIT_SUCCESS:
+  case AdminUserConstants.ADMIN_APPROVE_MEMBER_APPLICATION_SUCCESS:
+    return Object.assign({}, state, {
+      result: action.response,
+      error: null
+    });
+  case AdminUserConstants.ADMIN_UPDATE_MEMBER_PROFILE_ERROR:
+  case AdminUserConstants.ADMIN_CONFIRM_MEMBER_MONTHLY_FEE_ERROR:
+  case AdminUserConstants.ADMIN_CONFIRM_MEMBER_DEPOSIT_ERROR:
+  case AdminUserConstants.ADMIN_APPROVE_MEMBER_APPLICATION_ERROR:
+    return Object.assign({}, state, {
+      result: [],
+      error: action.error
+    });     
+
   default:
     return state;
   }

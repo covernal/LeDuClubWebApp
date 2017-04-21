@@ -162,7 +162,39 @@ let MemberUserActions = {
             cb();
           }
         });        
-  }     
+  },
+
+  memberGetThisWeekBookBoxError: function(error) {
+    return {
+      error,
+      type: MemberUserConstants.MEMBER_GET_THISWEEK_BOOKBOX_ERROR
+    };
+  },
+
+  memberGetThisWeekBookBoxSuccess: function(response) {
+    return {
+      response,
+      type: MemberUserConstants.MEMBER_GET_THISWEEK_BOOKBOX_SUCCESS
+    };
+  },
+
+  memberGetThisWeekBookBox: function(cb){
+    let _obj = this;
+    return dispatch =>
+      AV.Cloud.run('memberGetThisWeekBookBox')
+        .then(response => {
+          dispatch(_obj.memberGetThisWeekBookBoxSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.memberGetThisWeekBookBoxError(error));
+          if(cb != null){
+            cb();
+          }
+        });        
+  }
 };
 
 export default MemberUserActions;

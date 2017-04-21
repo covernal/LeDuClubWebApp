@@ -132,7 +132,6 @@ class MyRequestPage extends React.Component{
   }
 
   handleConfirm(requestId) {
-    console.log(requestId);
     this.setState({
       sendingRequest: true
     }, ()=> {

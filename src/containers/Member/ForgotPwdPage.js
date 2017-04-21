@@ -1,7 +1,9 @@
 import React,{PropTypes} from 'react';
+import {connect} from 'react-redux';
 import {Link} from 'react-router';
 import ForgotPwdForm from '../../components/Widgets/LeduForm/Member/ForgotPwdForm';
 import LeduOverlay from '../../components/Widgets/LeduOverlay';
+import {CommonUserActions} from '../../actions';
 
 class ForgotPwdPage extends React.Component{
   constructor(props, context) {
@@ -15,13 +17,24 @@ class ForgotPwdPage extends React.Component{
   }
 
   handleSubmit(data) {
-    console.log(data);
     this.setState({
       sendingRequest: true
     }, () => {
-      // call API
-      this.setState({
-        sendingRequest: false
+      //Submit the form data req.data
+      this.props.resetPassword(data.email, () => {
+        if(this.props.serverError != null){
+          this.setState({
+            serverError: this.props.serverError.message,
+            sendingRequest: false
+          });
+        }else{
+          this.setState({
+            serverError: null,
+            sendingRequest: false
+          });
+
+          this.context.router.push('/login');
+        }
       });
     });
   }
@@ -69,4 +82,23 @@ class ForgotPwdPage extends React.Component{
   }
 }
 
-export default ForgotPwdPage;
+ForgotPwdPage.contextTypes = {
+  router: PropTypes.object.isRequired
+};
+
+const mapStateToProps = (state) => {
+  return {
+    resetPasswordEmailStatus: state.CommonUserReducer.resetPasswordEmailStatus,
+    serverError: state.CommonUserReducer.error
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    resetPassword: (data, cb) => {
+      dispatch(CommonUserActions.resetPassword(data, cb));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ForgotPwdPage);

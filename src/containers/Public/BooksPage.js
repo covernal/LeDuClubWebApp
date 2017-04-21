@@ -143,7 +143,6 @@ class BooksPage extends React.Component{
   }
 
   handleBorrow(bookId) {
-    console.log(bookId);
     if(cookie.load('type') === undefined) {
       this.context.router.push('/login');
     }
