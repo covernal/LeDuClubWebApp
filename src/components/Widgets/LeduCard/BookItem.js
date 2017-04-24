@@ -25,7 +25,7 @@ class BookItem extends React.Component{
 
     return (
       <div className="property-card">
-        <div className="property-image" style={{background: `url('${item.images[0]}') center center / cover no-repeat`}}></div>
+        <Link to={detailURL} className="property-image" style={{background: `url('${item.images[0]}') center center / cover no-repeat`}}></Link>
         <div className="property-content">
           <div className="listingInfo">
             <div className="">
@@ -37,7 +37,7 @@ class BookItem extends React.Component{
               </h4>
               <p className="text-muted text-overflow">页数：{item.numOfPages}页</p>
               <p className="text-muted pull-left">会员评价： </p>
-              <div className="pull-left" style={{marginTop: "-1px"}}>
+              <div className="pull-left non-editable-stars" style={{marginTop: "-1px"}}>
                 <ReactStars
                   count={5}
                   size={18}

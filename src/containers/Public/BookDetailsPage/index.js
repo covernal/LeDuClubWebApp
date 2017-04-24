@@ -234,10 +234,12 @@ class BookDetailsPage extends React.Component{
                         </p>
                     </div>
                     <div className="m-t-20 m-b-30">
-                      {
-                        (this.props.book.isAvailableForBorrow === true) ? 
-                        (<button type="button" className="btn-lg btn-primary btn-block waves-effect waves-light" onClick={this.handleBorrow}>我要借阅</button>) : 
-                        (<button type="button" className="btn btn-grey btn-block waves-effect waves-light">已被借阅</button>)
+                      { (0) ? 
+                        (
+                          (this.props.book.isAvailableForBorrow === true) ? 
+                          (<button type="button" className="btn-lg btn-primary btn-block waves-effect waves-light" onClick={this.handleBorrow}>我要借阅</button>) : 
+                          (<button type="button" className="btn btn-grey btn-block waves-effect waves-light">已被借阅</button>)
+                        ) : ''
                       }
                     </div>
                   </div>
