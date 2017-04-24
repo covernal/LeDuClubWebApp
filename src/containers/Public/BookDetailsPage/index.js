@@ -68,6 +68,17 @@ class BookDetailsPage extends React.Component{
     });
   }
 
+  renderPlayPauseButton(onClick, isPlaying) {
+    return (
+      <button
+        type='button'
+        className={
+          `image-gallery-play-button${isPlaying ? ' active' : ''}`}
+        onClick={onClick}
+      />
+    );
+  }
+
   loadMoreCallback() {
     if(this.props.serverError != null) {
       this.setState({
@@ -223,6 +234,8 @@ class BookDetailsPage extends React.Component{
                       showPlayButton={false}
                       slideDuration={2000}
                       slideInterval={5000}
+                      showPlayButton={false}
+                      renderPlayPauseButton={this.renderPlayPauseButton}
                       onImageLoad={this.handleImageLoad}/>
 
                     <div className="clearfix"></div>  
