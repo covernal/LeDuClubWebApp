@@ -2,6 +2,7 @@ import React,{PropTypes} from 'react';
 import {Link} from 'react-router';
 import ReactStars from 'react-stars';
 import cookie from 'react-cookie';
+require("../../../assets/templates/images/bookImagePlaceholder.jpg");
 
 class BookItem extends React.Component{
   render() {
@@ -22,10 +23,10 @@ class BookItem extends React.Component{
         }
       }
     }
-
+    let thumb = (item.images.length > 0) ? item.images[0] : '/assets/images/bookImagePlaceholder.jpg';
     return (
       <div className="property-card">
-        <Link to={detailURL} className="property-image" style={{background: `url('${item.images[0]}') center center / cover no-repeat`}}></Link>
+        <Link to={detailURL} className="property-image" style={{background: `url('${thumb}') center center / cover no-repeat`}}></Link>
         <div className="property-content">
           <div className="listingInfo">
             <div className="">
