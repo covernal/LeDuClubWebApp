@@ -5,6 +5,7 @@ import SweetAlert from 'sweetalert-react';
 import SignupForm from '../../components/Widgets/LeduForm/Member/SignupForm';
 import LeduOverlay from '../../components/Widgets/LeduOverlay';
 import {CommonUserActions} from '../../actions';
+import swal from 'sweetalert';
 
 class SignupPage extends React.Component{
   constructor(props, context) {
@@ -50,7 +51,15 @@ class SignupPage extends React.Component{
           });
 
           if(this.props.serverError === null) {
-            this.context.router.push('/login');
+            let _this = this;
+            swal({
+              title: "正确", 
+              text: "您已经成功加入等候名单，我们的会员专员会尽快与您联系。",
+              type: "success"
+            },
+            function () {
+              _this.context.router.push('/login');
+            });            
           }
         }
       });

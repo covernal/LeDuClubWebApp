@@ -231,10 +231,9 @@ class BookDetailsPage extends React.Component{
                       items={images}
                       autoPlay={true}
                       showFullscreenButton={false}
-                      showPlayButton={false}
+                      showPlayButton={true}
                       slideDuration={2000}
                       slideInterval={5000}
-                      showPlayButton={false}
                       renderPlayPauseButton={this.renderPlayPauseButton}
                       onImageLoad={this.handleImageLoad}/>
 

@@ -4,6 +4,7 @@ import {browserHistory, Link} from 'react-router';
 import cookie from 'react-cookie';
 import LoginForm from '../../components/Widgets/LeduForm/Public/LoginForm';
 import LeduOverlay from '../../components/Widgets/LeduOverlay';
+import swal from 'sweetalert';
 
 import {CommonUserActions} from '../../actions';
 class LoginPage extends React.Component{
@@ -42,7 +43,7 @@ class LoginPage extends React.Component{
         if(this.props.serverError != undefined){
           this.setState({
             serverError: {
-              message: '找不到用户'
+              message: (this.props.serverError.code === 219) ? this.props.serverError.message : '找不到用户'
             },
             sendingRequest: false,
             session: this.state.session
@@ -58,7 +59,21 @@ class LoginPage extends React.Component{
               session: this.state.session
             });
             return;
-          }            
+          }           
+
+          if(this.props.userDetails.attributes.deposit === 0) {
+            swal({
+              title: "错误...",
+              text: "您的会员申请仍在等候名单中，我们的会员专员会稍后与您联系。",
+              type: "error"
+            });    
+
+            this.setState({
+              serverError: null,
+              sendingRequest: false
+            });      
+            return;
+          }          
 
           if(!this.state.session){
             const maxAge = data.rememberMe?60*60*24*365:60*60;

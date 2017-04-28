@@ -91,7 +91,6 @@ class BookEditForm extends React.Component{
             <select className="selectpicker form-control show-tick" data-style="btn-default" required value={this.state.language} onChange={this.handleChange.bind(this, 'language')}>
               <option value="" disabled>语言</option>
               <option value="english">英语</option>
-              <option value="chinese">中国语</option>
             </select>
           </div>
         </div>

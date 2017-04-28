@@ -78,7 +78,13 @@ class ThisWeekPage extends React.Component{
                 }
               });
             });
+          }else {
+            //If it's empty.
+            this.setState({
+              isInitTable: false
+            });
           }
+
         }else {
           this.setState({
             isInitTable: false
