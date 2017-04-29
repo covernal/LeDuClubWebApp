@@ -82,7 +82,7 @@ class ProfilePage extends React.Component{
             <div className="row">
               <div className="col-sm-12">
                 <div className="page-title-box">
-                  <h4 className="page-title">会员帐户管理（姓名）</h4>
+                  <h4 className="page-title">会员帐户管理（{(this.state.loadingRequest == true) ? '姓名' : user.fullName}）</h4>
                 </div>
               </div>
             </div>            

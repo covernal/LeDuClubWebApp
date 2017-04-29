@@ -10,7 +10,7 @@ class BookFeedbackList extends React.Component{
         rows.push(
           <div key={`book-review-${idx}`} className=" p-t-10">
             <h5 className="text-muted m-b-5">{review.fullName}</h5>
-            <ReactStars count={5} size={18} value={review.rate} edit={false}/>
+            <ReactStars count={5} size={20} value={review.rate} edit={false} color2="#f9c851" color1="#797979"/>
             <p className="text-muted font-13 m-b-0">{review.comment}</p>
           </div>
         );

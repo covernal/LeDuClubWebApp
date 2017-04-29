@@ -3,14 +3,22 @@ import parsley from 'parsleyjs';
 import 'parsleyjs/dist/i18n/zh_cn';
 import $ from 'jquery';
 import AgesRangeSelector from '../../LeduInput/AgesRangeSelector';
+import LeduOverlay from '../../LeduOverlay';
+import swal from 'sweetalert';
+
+// require('react-bootstrap-select');
 
 window.Parsley.setLocale('zh-cn');
+let geocoder = new window.AMap.Geocoder({
+  city: "全国"
+});
 
 class ProfileForm extends React.Component{
   constructor(props, context) {
     super(props);
 
     this.state = {
+      getLocationRequest: false,
       data: {
         memberId: this.props.userData.objectId,
         deliveryDay: (this.props.userData.deliveryDay) ? this.props.userData.deliveryDay : '周一',
@@ -29,28 +37,60 @@ class ProfileForm extends React.Component{
     this.handleChange = this.handleChange.bind(this);
   }
 
+  componentDidMount() {
+
+  }  
+
   handleSubmit(e) {
+    let _this = this;
     e.preventDefault();
     let validation = $('#profile-form').parsley().validate();
     if(validation != true) {
       return;
-    }    
+    }
+  
+    this.setState({
+      getLocationRequest: true
+    });
 
-    this.props.handleSave(this.state.data);
+    let state = this.state;
+    geocoder.getLocation(this.state.data.deliveryAddressString, function(status, result) {
+      if (status === 'complete' && result.info === 'OK') {
+        state.data.lat = "" + result.geocodes[0].location.lat;
+        state.data.lon = "" + result.geocodes[0].location.lng;          
+      }else {
+        state.data.lat = "";
+        state.data.lon = "";
+      }
+      
+      state.getLocation = false;
+      _this.setState(state);        
+      if(state.data.lat === "" || state.data.lon === "") {
+        swal({
+          title: "错误...",
+          text: "请输入正确的地址。",
+          type: "error"
+        });
+        return;
+      }
+
+      _this.props.handleSave(_this.state.data);      
+    });
   }
 
-  handleChange(type, e) {
+  handleChange(type, e) {    
     let state = this.state;
     state.data[type] = e.target.value;
     this.setState(state);
   }
 
   render() {
+    let overlayClass = (this.state.getLocationRequest) ? 'ledu-overlay show' : 'ledu-overlay';
     return (
       <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)} data-parsley-validate noValidate id="profile-form">
         <div className="form-group">
           <div className="col-xs-12">
-            <select className="selectpicker show-tick" data-style="btn-default" required value={this.state.data.deliveryDay} onChange={this.handleChange.bind(this, 'deliveryDay')}>
+            <select className="form-control selectpicker show-tick" data-style="btn-default" required value={this.state.data.deliveryDay} onChange={this.handleChange.bind(this, 'deliveryDay')}>
               <option value="" disabled>送取日</option>
               <option value="周一">周一</option>
               <option value="周二">周二</option>
@@ -83,7 +123,7 @@ class ProfileForm extends React.Component{
 
         <div className="form-group ">
           <div className="col-xs-12">
-            <input className="form-control" type="text" placeholder="书籍取送地址" required value={this.state.data.deliveryAddressString} onChange={this.handleChange.bind(this, 'deliveryAddressString')} disabled="disabled"/>
+            <input className="form-control" type="text" placeholder="书籍取送地址" required value={this.state.data.deliveryAddressString} onChange={this.handleChange.bind(this, 'deliveryAddressString')}/>
           </div>
         </div>
 
@@ -99,6 +139,11 @@ class ProfileForm extends React.Component{
             </div>
           </div>
         </div>
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="请稍候..."
+        />            
       </form>
     );
   }

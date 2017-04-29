@@ -238,7 +238,7 @@ class BookDetailsPage extends React.Component{
                       onImageLoad={this.handleImageLoad}/>
 
                     <div className="clearfix"></div>  
-                    <div className="m-t-30" style={{paddingTop: "70px"}}>
+                    <div className="m-t-30">
                         <h5 className="text-primary m-t-0">建议阅读年龄：{this.props.book.ageGroup}</h5>
                         <p className="text-muted text-overflow">页数：{this.props.book.numOfPages}页</p>
                         <p className="m-t-20">
@@ -260,7 +260,7 @@ class BookDetailsPage extends React.Component{
                       <div className="col-md-12 col-sm-12">
                         <h4 className="pull-left">会员评价： </h4>
                         <div className="pull-left" style={{marginTop: '1px'}}>
-                          <ReactStars count={5} size={25} value={this.props.book.customerRate} edit={false}/>
+                          <ReactStars count={5} size={25} color2="#f9c851" color1="#797979" value={this.props.book.customerRate} edit={false}/>
                         </div>
                         <div className="clearfix"></div>
                         <BookFeedbackList isInitTable={this.state.isInitTable} bookReviews={this.state.bookReviews}/>

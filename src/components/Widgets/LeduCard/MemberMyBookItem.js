@@ -23,7 +23,7 @@ class MemberMyBookItem extends React.Component{
                   <p className="text-muted text-overflow">页数：{item.pages}页</p>
                   <p className="text-muted pull-left">会员评价：</p>
                   <div className="pull-left" style={{marginTop: "-1px"}}>
-                    <ReactStars count={5} size={18} value={item.reviews} edit={false}/>
+                    <ReactStars count={5} size={20} value={item.reviews} edit={false} color2="#f9c851" color1="#797979"/>
                   </div>                  
                   <div className="clearfix"></div>
                   <p className="text-muted text-overflow">已借阅：3天</p>

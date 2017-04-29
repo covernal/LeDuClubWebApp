@@ -71,9 +71,12 @@ class SignupForm extends React.Component{
       geocoder.getLocation(value, function(status, result) {
         if (status === 'complete' && result.info === 'OK') {
           state.data.lat = "" + result.geocodes[0].location.lat;
-          state.data.lon = "" + result.geocodes[0].location.lng;
-          _this.setState(state);
+          state.data.lon = "" + result.geocodes[0].location.lng;          
+        }else {
+          state.data.lat = "";
+          state.data.lon = "";
         }
+        _this.setState(state);
       });
     }
   }

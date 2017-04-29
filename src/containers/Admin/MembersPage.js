@@ -14,8 +14,8 @@ import MemberSearchForm from '../../components/Widgets/LeduForm/Admin/MemberSear
 import LeduOverlay from '../../components/Widgets/LeduOverlay';
 import {CommonUserActions, AdminUserActions} from '../../actions';
 
-const optConfirm = {
-  title: "你确定?",
+let optConfirm = {
+  title: "提示",
   text: "",
   type: "warning",
   showCancelButton: true,
@@ -156,6 +156,7 @@ class MembersPage extends React.Component{
 
   adminEditMemberProfile(memberId) {
     let _this = this;
+    optConfirm.text = "你确认将更改会员资料?";
     swal(optConfirm,
     function(){
       _this.context.router.push(`/admin/profile/${memberId}`);
@@ -164,6 +165,7 @@ class MembersPage extends React.Component{
 
   adminConfirmMemberDeposit(memberId) {
     let _this = this;
+    optConfirm.text = "你确认该会员已付押金?";
     swal(optConfirm,
     function(){       
       _this.setState({
@@ -184,6 +186,7 @@ class MembersPage extends React.Component{
 
   adminApproveMemberApplication(memberId) {
     let _this = this;
+    optConfirm.text = "你将确认该会员资格?";
     swal(optConfirm,
     function(){
       _this.setState({
@@ -204,6 +207,7 @@ class MembersPage extends React.Component{
 
   adminConfirmMemberMonthlyFee(memberId) {
     let _this = this;
+    optConfirm.text = "你确认该会员已付月费？会员期将延长一个月。";
     swal(optConfirm,
     function(){    
       _this.setState({

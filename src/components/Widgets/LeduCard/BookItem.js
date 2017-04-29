@@ -40,6 +40,7 @@ class BookItem extends React.Component{
               <p className="text-muted pull-left">会员评价： </p>
               <div className="pull-left non-editable-stars" style={{marginTop: "-1px"}}>
                 <ReactStars
+                  color2="#f9c851" color1="#797979"
                   count={5}
                   size={18}
                   value={item.customerRate}                           

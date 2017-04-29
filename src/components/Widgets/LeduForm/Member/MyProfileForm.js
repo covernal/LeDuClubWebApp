@@ -48,7 +48,7 @@ class MyProfileForm extends React.Component{
       <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)} data-parsley-validate noValidate id="profile-form">
         <div className="form-group">
           <div className="col-xs-12">
-            <AgesRangeSelector value={this.state.data.childrenAgeGroup} placeholder="孩子所属年龄组" required handleChange={this.handleChange.bind(this, 'childrenAgeGroup')}/>
+            <AgesRangeSelector value={this.state.data.childrenAgeGroup} placeholder="孩子所属年龄组" required disabled={true} handleChange={this.handleChange.bind(this, 'childrenAgeGroup')}/>
           </div>
         </div>
 

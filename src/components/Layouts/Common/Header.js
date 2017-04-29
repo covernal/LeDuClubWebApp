@@ -7,6 +7,7 @@ import cookie from 'react-cookie';
 require("./_common.less");
 require("../../../assets/templates/images/defaultAvatar.jpg");
 require("../../../assets/templates/images/favicon.ico");
+require("../../../assets/templates/fonts/fontawesome-webfont.woff2");
 const logo = require("../../../assets/templates/images/logo.png");
 
 let AV = global.AV;
