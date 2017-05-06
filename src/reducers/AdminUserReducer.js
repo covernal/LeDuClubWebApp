@@ -91,6 +91,7 @@ function AdminUserReducer(state = initialState, action) {
   case AdminUserConstants.ADMIN_CONFIRM_MEMBER_MONTHLY_FEE_SUCCESS:
   case AdminUserConstants.ADMIN_CONFIRM_MEMBER_DEPOSIT_SUCCESS:
   case AdminUserConstants.ADMIN_APPROVE_MEMBER_APPLICATION_SUCCESS:
+  case AdminUserConstants.ADMIN_CONFIRM_MEMBER_START_TRIAL_SUCCESS:
     return Object.assign({}, state, {
       result: action.response,
       error: null
@@ -99,6 +100,7 @@ function AdminUserReducer(state = initialState, action) {
   case AdminUserConstants.ADMIN_CONFIRM_MEMBER_MONTHLY_FEE_ERROR:
   case AdminUserConstants.ADMIN_CONFIRM_MEMBER_DEPOSIT_ERROR:
   case AdminUserConstants.ADMIN_APPROVE_MEMBER_APPLICATION_ERROR:
+  case AdminUserConstants.ADMIN_CONFIRM_MEMBER_START_TRIAL_ERROR:
     return Object.assign({}, state, {
       result: [],
       error: action.error

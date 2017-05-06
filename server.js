@@ -28,9 +28,54 @@ if(env == 'local'){
 
   app.use(require('webpack-hot-middleware')(compiler));
 
-  app.get('*', function(req, res){
+  app.get('/login*', function(req, res){
       res.sendFile(path.join(__dirname, '/src/index.html'));
   });
+  app.get('/browsebooks*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/book*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/signup*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/forgot*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/member*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/admin*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/thisweek*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/my*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+
+  app.get('/', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/company/index.html'));
+  }); 
+
+  app.get('/terms', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/company/terms.html'));
+  });
+
+  app.get('/faq', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/company/faq.html'));
+  });
+
+  app.get('/careers', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/company/careers.html'));
+  });
+
+  app.get('/about-us', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/company/about-us.html'));
+  });
+
 
   app.listen(config.port, function(err){
     if (err) {
@@ -41,8 +86,52 @@ if(env == 'local'){
     console.log('Listening at non-production http://' + extIP + ':' + config.port);
   });
 }else{
-  app.get('*', function(req, res){
-    res.sendFile(path.join(__dirname, '/src/index.html'));
+  app.get('/login*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/browsebooks*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/book*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/signup*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/forgot*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/member*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/admin*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/thisweek*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+  app.get('/my*', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/index.html'));
+  });
+
+  app.get('/', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/company/index.html'));
+  }); 
+
+  app.get('/terms', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/company/terms.html'));
+  });
+
+  app.get('/faq', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/company/faq.html'));
+  });
+
+  app.get('/careers', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/company/careers.html'));
+  });
+
+  app.get('/about-us', function(req, res){
+      res.sendFile(path.join(__dirname, '/src/company/about-us.html'));
   });
 
   new WebpackDevServer(compiler, WebpackConfig.devServer)

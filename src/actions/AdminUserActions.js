@@ -345,6 +345,39 @@ let AdminUserActions = {
         });
   },
 
+  adminConfirmMemberStartTrialError:  function(error) {
+    return {
+      error,
+      type: AdminUserConstants.ADMIN_CONFIRM_MEMBER_START_TRIAL_ERROR
+    };
+  },
+
+  adminConfirmMemberStartTrialSuccess: function(response) {
+    return {
+      response,
+      type: AdminUserConstants.ADMIN_CONFIRM_MEMBER_START_TRIAL_SUCCESS
+    };
+  },
+
+  adminConfirmMemberStartTrial: function(memberId, cb){
+    let _obj = this;
+
+    return dispatch =>
+      AV.Cloud.run('adminConfirmMemberStartTrial', {memberId: memberId})
+        .then(response => {
+          dispatch(_obj.adminConfirmMemberStartTrialSuccess(response));
+          if(cb != null){
+            cb();
+          }
+        })
+        .catch(error => {
+          dispatch(_obj.adminConfirmMemberStartTrialError(error));
+          if(cb != null){
+            cb();
+          }
+        });
+  },  
+
   adminUpdateMemberProfileError:  function(error) {
     return {
       error,

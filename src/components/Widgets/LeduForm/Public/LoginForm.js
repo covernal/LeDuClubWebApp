@@ -50,6 +50,12 @@ class LoginForm extends React.Component{
 
     return (      
       <form className="form-horizontal" id="login-form" data-parsley-validate noValidate onSubmit={this.handleSubmit.bind(this)}>
+        <div className="form-group">
+          <div className="col-xs-12">
+            <h4 className="m-t-0 header-title text-muted"><b>会员登录</b></h4>
+          </div>
+        </div>
+      
         <div className="form-group ">
           <div className="col-xs-12">
             <input className="form-control" type="text" required placeholder="用户名" value={this.state.username} onChange={this.handleChange.bind(this, 'username')}/>

@@ -50,6 +50,7 @@ class MembersPage extends React.Component{
     this.adminApproveMemberApplication  = this.adminApproveMemberApplication.bind(this);
     this.adminConfirmMemberMonthlyFee = this.adminConfirmMemberMonthlyFee.bind(this);
     this.adminEditMemberProfile = this.adminEditMemberProfile.bind(this);
+    this.adminConfirmMemberStartTrial = this.adminConfirmMemberStartTrial.bind(this);
   }
 
   searchMembers(opt) {
@@ -175,9 +176,13 @@ class MembersPage extends React.Component{
           memberId: memberId,
           cb: () => {
             _this.setState({
+              serverError: _this.props.serverError,
               sendingRequest: false
             });
-            _this.refreshList();
+
+            if(_this.props.serverError === null) {
+              _this.refreshList();
+            }
           }
         });
       });
@@ -196,9 +201,13 @@ class MembersPage extends React.Component{
           memberId: memberId,
           cb: () => {
             _this.setState({
+              serverError: _this.props.serverError,
               sendingRequest: false
             });
-            _this.refreshList();
+
+            if(_this.props.serverError === null) {
+              _this.refreshList();
+            }
           }
         });
       });
@@ -217,9 +226,38 @@ class MembersPage extends React.Component{
           memberId: memberId,
           cb: () => {
             _this.setState({
+              serverError: _this.props.serverError,
               sendingRequest: false
             });
-            _this.refreshList();
+
+            if(_this.props.serverError === null) {
+              _this.refreshList();
+            }
+          }
+        });
+      });
+    });
+  }
+
+  adminConfirmMemberStartTrial(memberId) {
+    let _this = this;
+    optConfirm.text = "你确认开始体验?";
+    swal(optConfirm,
+    function(){    
+      _this.setState({
+        sendingRequest: true
+      }, () => {
+        _this.props.adminConfirmMemberStartTrial({
+          memberId: memberId,
+          cb: () => {
+            _this.setState({
+              serverError: _this.props.serverError,
+              sendingRequest: false
+            });
+
+            if(_this.props.serverError === null) {
+              _this.refreshList();
+            }
           }
         });
       });
@@ -261,6 +299,7 @@ class MembersPage extends React.Component{
               isInitTable={this.state.isInitTable} 
               members={this.state.members}
               adminConfirmMemberDeposit={this.adminConfirmMemberDeposit}
+              adminConfirmMemberStartTrial={this.adminConfirmMemberStartTrial}
               adminConfirmMemberMonthlyFee={this.adminConfirmMemberMonthlyFee}
               adminApproveMemberApplication={this.adminApproveMemberApplication}
               adminEditMemberProfile={this.adminEditMemberProfile}/>
@@ -338,6 +377,10 @@ const mapDispatchToProps = dispatch => {
 
     adminUpdateMemberProfile: (req) => {
       dispatch(AdminUserActions.adminUpdateMemberProfile(req.data, req.cb));
+    },
+
+    adminConfirmMemberStartTrial: (req) => {
+      dispatch(AdminUserActions.adminConfirmMemberStartTrial(req.memberId, req.cb));
     }
   };
 };

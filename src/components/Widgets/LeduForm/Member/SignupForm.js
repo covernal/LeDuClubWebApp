@@ -86,7 +86,7 @@ class SignupForm extends React.Component{
       <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)} data-parsley-validate noValidate id="signup-form">
       <div className="form-group">
         <div className="col-xs-12">
-          <h4 className="m-t-0 header-title"><b>注册会员免费试用一个月</b></h4>
+          <h4 className="m-t-0 header-title text-muted"><b>注册会员免费试用2周</b></h4>
         </div>
       </div>      
         <div className="form-group">
@@ -155,7 +155,7 @@ class SignupForm extends React.Component{
           <div className="col-xs-12">
             <div className="checkbox checkbox-success">
               <input id="checkbox-signup" type="checkbox" required value={this.state.data.agree} onChange={this.handleChange.bind(this, 'agree')} />
-              <label htmlFor="checkbox-signup">我接受<a href="https://www.leduclub.com/agreement.html">《乐读用户服务协议》</a></label>
+              <label htmlFor="checkbox-signup">我接受<a href="/terms">《乐读用户服务协议》</a></label>
             </div>
           </div>
         </div>

@@ -70,7 +70,6 @@ let requireAdminAuth = (nextState, replace) => {
 
 export default (
   <Route component={App}>
-	<Route path="/" component={LoginPage}/>
 	<Route path="/login" component={LoginPage}/>
 	<Route path="/browsebooks" component={PublicBooksPage}/>
 	<Route path="/book/:id" component={PublicBookDetailsPage}/>	

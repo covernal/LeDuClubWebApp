@@ -12,21 +12,15 @@ class MembersList extends React.Component{
       if(member.membershipStatus === "waitingForApproval") {
         operation = (<ul className="dropdown-menu"> <li><a onClick={()=>this.props.adminApproveMemberApplication(member.objectId)}>批准会员</a></li> </ul>);  
       }else {
+        let startExpLink = (member.allowTrial === true) ? <li><a onClick={()=>this.props.adminConfirmMemberStartTrial(member.objectId)}>开始体验</a></li> : '';
         operation = (
           <ul className="dropdown-menu">
-            <li><a onClick={()=>this.props.adminConfirmMemberDeposit(member.objectId)}>押金支付确认</a></li>
+            {(parseInt(member.deposit, 10) > 0) ? '' : <li><a onClick={()=>this.props.adminConfirmMemberDeposit(member.objectId)}>押金支付确认</a></li>}
+            {startExpLink}
             <li><a onClick={()=>this.props.adminConfirmMemberMonthlyFee(member.objectId)}>每月会员费支付</a></li>
             <li><a onClick={()=>this.props.adminEditMemberProfile(member.objectId)}>更改会员信息</a></li>
           </ul>
-        );        
-        if(parseInt(member.deposit, 10) > 0) {
-          operation = (
-            <ul className="dropdown-menu">
-              <li><a onClick={()=>this.props.adminConfirmMemberMonthlyFee(member.objectId)}>每月会员费支付</a></li>
-              <li><a onClick={()=>this.props.adminEditMemberProfile(member.objectId)}>更改会员信息</a></li>
-            </ul>
-          );
-        }
+        );
       }
 
       rows.push(
