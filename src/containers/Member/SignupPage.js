@@ -78,7 +78,7 @@ class SignupPage extends React.Component{
                 <div className="m-t-40 account-pages">
                   <div className="text-center account-logo-box">
                     <h2 className="text-uppercase">
-                      <a href="index.html" className="text-success">
+                      <a href="/" className="text-success">
                         <span><img src="assets/images/logo.png" alt="" height="36"/></span>
                       </a>
                     </h2>
