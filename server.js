@@ -12,9 +12,22 @@ var config = require('./cfg/NodeJS');
 var extIP = 'localhost';
 var app = express();
 var env = process.env.REACT_WEBPACK_ENV;
+var fs = require('fs');
 
 require('./cfg/NodeJS/express')(app);
 require('./cfg/NodeJS/routes')(app);
+
+function loadHTML(fp, callback) {
+  fs.readFile(fp, 'utf8', function(err, main){
+    fs.readFile(path.join(__dirname, '/src/company/_header.html'), 'utf8', function(err, header){
+      fs.readFile(path.join(__dirname, '/src/company/_footer.html'), 'utf8', function(err, footer){
+        var html = main.replace('{header}', header);
+        html = html.replace('{footer}', footer);
+        callback(html);
+      });
+    });
+  });  
+}
 
 //Server starts from here
 if(env == 'local'){
@@ -57,23 +70,33 @@ if(env == 'local'){
   });
 
   app.get('/', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/company/index.html'));
+    loadHTML(path.join(__dirname, '/src/company/index.html'), function(html){
+      res.send(html);
+    });
   }); 
 
   app.get('/terms', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/company/terms.html'));
+    loadHTML(path.join(__dirname, '/src/company/terms.html'), function(html){
+      res.send(html);
+    });      
   });
 
   app.get('/faq', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/company/faq.html'));
+    loadHTML(path.join(__dirname, '/src/company/faq.html'), function(html){
+      res.send(html);
+    });      
   });
 
   app.get('/careers', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/company/careers.html'));
+    loadHTML(path.join(__dirname, '/src/company/careers.html'), function(html){
+      res.send(html);
+    });      
   });
 
   app.get('/about-us', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/company/about-us.html'));
+    loadHTML(path.join(__dirname, '/src/company/about-us.html'), function(html){
+      res.send(html);
+    });      
   });
 
 
@@ -115,23 +138,33 @@ if(env == 'local'){
   });
 
   app.get('/', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/company/index.html'));
+    loadHTML(path.join(__dirname, '/src/company/index.html'), function(html){
+      res.send(html);
+    });
   }); 
 
   app.get('/terms', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/company/terms.html'));
+    loadHTML(path.join(__dirname, '/src/company/terms.html'), function(html){
+      res.send(html);
+    });      
   });
 
   app.get('/faq', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/company/faq.html'));
+    loadHTML(path.join(__dirname, '/src/company/faq.html'), function(html){
+      res.send(html);
+    });      
   });
 
   app.get('/careers', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/company/careers.html'));
+    loadHTML(path.join(__dirname, '/src/company/careers.html'), function(html){
+      res.send(html);
+    });      
   });
 
   app.get('/about-us', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/company/about-us.html'));
+    loadHTML(path.join(__dirname, '/src/company/about-us.html'), function(html){
+      res.send(html);
+    });      
   });
 
   new WebpackDevServer(compiler, WebpackConfig.devServer)
