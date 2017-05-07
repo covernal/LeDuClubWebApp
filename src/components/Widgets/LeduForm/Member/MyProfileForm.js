@@ -85,7 +85,7 @@ class MyProfileForm extends React.Component{
         <div className="row">
           <div className="col-md-12">
             <div className="text-muted font-13">
-              * 请联系客服修改孩子所属年龄组和书籍送去地址。
+              * 请联系您的VIP客户经理或客服修改孩子所属年龄组和书籍送去地址。
             </div>
           </div>
         </div>        
