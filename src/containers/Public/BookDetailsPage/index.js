@@ -227,16 +227,18 @@ class BookDetailsPage extends React.Component{
               (<div className="property-detail-wrapper">
                 <div className="row">
                   <div className="col-md-6">
-                    <ImageGallery
-                      items={images}
-                      autoPlay={true}
-                      showFullscreenButton={false}
-                      showPlayButton={true}
-                      slideDuration={2000}
-                      slideInterval={5000}
-                      renderPlayPauseButton={this.renderPlayPauseButton}
-                      onImageLoad={this.handleImageLoad}/>
-
+                    {
+                      (images.length === 0) ?  (<img src='/assets/images/bookImagePlaceholder.jpg' style={{width: "40%", margin: "0 auto", display: "block"}}/>) : 
+                      <ImageGallery
+                        items={images}
+                        autoPlay={true}
+                        showFullscreenButton={false}
+                        showPlayButton={true}
+                        slideDuration={2000}
+                        slideInterval={5000}
+                        renderPlayPauseButton={this.renderPlayPauseButton}
+                        onImageLoad={this.handleImageLoad}/>
+                    }
                     <div className="clearfix"></div>  
                     <div className="m-t-30">
                         <h5 className="text-primary m-t-0">建议阅读年龄：{this.props.book.ageGroup}</h5>
