@@ -12,7 +12,7 @@ class MembersList extends React.Component{
       if(member.membershipStatus === "waitingForApproval") {
         operation = (<ul className="dropdown-menu"> <li><a onClick={()=>this.props.adminApproveMemberApplication(member.objectId)}>批准会员</a></li> </ul>);  
       }else {
-        let startExpLink = (member.allowTrial === true && member.membershipStatus === "confirmed" && member.type === "member") ? <li><a onClick={()=>this.props.adminConfirmMemberStartTrial(member.objectId)}>开始体验</a></li> : '';
+        let startExpLink = ((member.allowTrial === true) && (member.membershipStatus === "confirmed" || member.membershipStatus === "pendingForPayment")) ? <li><a onClick={()=>this.props.adminConfirmMemberStartTrial(member.objectId)}>开始体验</a></li> : '';
         operation = (
           <ul className="dropdown-menu">
             {(parseInt(member.deposit, 10) > 0) ? '' : <li><a onClick={()=>this.props.adminConfirmMemberDeposit(member.objectId)}>押金支付确认</a></li>}
@@ -32,9 +32,9 @@ class MembersList extends React.Component{
             <a className="text-primary" href="">{member.deliveryAddressString}</a>
           </td>
           <td>{(member.mobilePhoneNumber) ? member.mobilePhoneNumber : '-'}</td>
-          <td>{(member.membershipStatus === "confirmed") ? `¥${member.deposit}` : '-'}</td>
-          <td>{(member.membershipStatus === "confirmed") ? moment(member.membershipStartDate).format('YYYY-MM-DD') : '-'}</td>
-          <td>{(member.membershipStatus === "confirmed") ? moment(member.membershipExpireOn).format('YYYY-MM-DD') : '-'}</td>
+          <td>{((member.membershipStatus === "confirmed") || (member.membershipStatus === "pendingForPayment" && member.deposit)) ? `¥${member.deposit}` : '-'}</td>
+          <td>{((member.membershipStatus === "confirmed" || member.membershipStatus === "pendingForPayment") && member.membershipStartDate) ? moment(member.membershipStartDate).format('YYYY-MM-DD') : '-'}</td>
+          <td>{((member.membershipStatus === "confirmed" || member.membershipStatus === "pendingForPayment") && member.membershipExpireOn) ? moment(member.membershipExpireOn).format('YYYY-MM-DD') : '-'}</td>
           <td>
             <div className="btn-group">
               <button type="button" className="btn btn-primary btn-sm dropdown-toggle waves-effect" data-toggle="dropdown" aria-expanded="false"> 操作 <span className="caret"></span> </button>
