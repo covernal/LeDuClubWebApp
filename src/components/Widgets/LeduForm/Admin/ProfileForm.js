@@ -63,7 +63,7 @@ class ProfileForm extends React.Component{
         state.data.lon = "";
       }
       
-      state.getLocation = false;
+      state.getLocationRequest = false;
       _this.setState(state);        
       if(state.data.lat === "" || state.data.lon === "") {
         swal({

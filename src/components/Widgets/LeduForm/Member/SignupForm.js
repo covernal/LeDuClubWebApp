@@ -4,6 +4,8 @@ import 'parsleyjs/dist/i18n/zh_cn';
 import $ from 'jquery';
 import AgesRangeSelector from '../../LeduInput/AgesRangeSelector';
 import ServerConfig from '../../../../../cfg/NodeJS';
+import LeduOverlay from '../../LeduOverlay';
+import swal from 'sweetalert';
 
 const AV = global.AV;
 
@@ -46,7 +48,35 @@ class SignupForm extends React.Component{
       return;
     }    
 
-    this.props.handleSignup(this.state.data);
+    let _this = this;
+
+    this.setState({
+      getLocationRequest: true
+    });
+
+    let state = this.state;
+    geocoder.getLocation(this.state.data.deliveryAddressString, function(status, result) {
+      if (status === 'complete' && result.info === 'OK') {
+        state.data.lat = "" + result.geocodes[0].location.lat;
+        state.data.lon = "" + result.geocodes[0].location.lng;          
+      }else {
+        state.data.lat = "";
+        state.data.lon = "";
+      }
+      
+      state.getLocationRequest = false;
+      _this.setState(state);        
+      if(state.data.lat === "" || state.data.lon === "") {
+        swal({
+          title: "错误...",
+          text: "请输入正确的地址。",
+          type: "error"
+        });
+        return;
+      }
+    
+      _this.props.handleSignup(_this.state.data);    
+    });    
   }
 
   setWarehouseId(id) {
@@ -66,22 +96,10 @@ class SignupForm extends React.Component{
       state.data[type] = value;
     }    
     this.setState(state);
-
-    if(type === "deliveryAddressString") {
-      geocoder.getLocation(value, function(status, result) {
-        if (status === 'complete' && result.info === 'OK') {
-          state.data.lat = "" + result.geocodes[0].location.lat;
-          state.data.lon = "" + result.geocodes[0].location.lng;          
-        }else {
-          state.data.lat = "";
-          state.data.lon = "";
-        }
-        _this.setState(state);
-      });
-    }
   }
 
   render() {
+    let overlayClass = (this.state.getLocationRequest) ? 'ledu-overlay show' : 'ledu-overlay';
     return (
       <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)} data-parsley-validate noValidate id="signup-form">
       <div className="form-group">
@@ -165,6 +183,11 @@ class SignupForm extends React.Component{
             <button className="btn btn-block btn-primary waves-effect waves-light" type="submit">加入等候名单</button>
           </div>
         </div>
+
+        <LeduOverlay
+          overlayClass={overlayClass}
+          message="请稍候..."
+        />        
       </form>
     );
   }
