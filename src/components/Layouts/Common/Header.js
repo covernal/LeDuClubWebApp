@@ -64,9 +64,9 @@ class Header extends Component {
       <div className="topbar-main">
         <div className="container">
           <div className="logo">
-            <Link to="/" className="logo">
+            <a href="/" className="logo">
               <img src={logo} height="30" />
-            </Link>
+            </a>
           </div>
 
           {actionBar}
