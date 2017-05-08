@@ -29,7 +29,7 @@ class MembersList extends React.Component{
           <td>{member.fullName}</td>
           <td>{member.email}</td>
           <td>
-            <a className="text-primary" href="">{member.deliveryAddressString}</a>
+            <div className="text-primary">{member.deliveryAddressString}</div>
           </td>
           <td>{(member.mobilePhoneNumber) ? member.mobilePhoneNumber : '-'}</td>
           <td>{((member.membershipStatus === "confirmed") || (member.membershipStatus === "pendingForPayment" && member.deposit)) ? `¥${member.deposit}` : '-'}</td>
