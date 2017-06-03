@@ -65,7 +65,7 @@ class ForgotPwdPage extends React.Component{
 
                 <div className="row m-t-50">
                     <div className="col-sm-12 text-center">
-                        <p className="text-muted">已经是乐读会员?<Link to="/login" className="text-primary m-l-5"><b>登录</b></Link></p>
+                        <p className="text-muted">已经是爱贝读会员?<Link to="/login" className="text-primary m-l-5"><b>登录</b></Link></p>
                     </div>
                 </div>
               </div>

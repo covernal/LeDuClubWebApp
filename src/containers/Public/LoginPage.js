@@ -156,7 +156,7 @@ class LoginPage extends React.Component{
                 </div>
                 <div className="row m-t-50">
                   <div className="col-sm-12 text-center">
-                    <p className="text-muted">还没有加入乐读? <Link to="/signup" className="text-primary m-l-5"><b>注册会员</b></Link></p>
+                    <p className="text-muted">还没有加入爱贝读? <Link to="/signup" className="text-primary m-l-5"><b>注册会员</b></Link></p>
                   </div>
                 </div>
               </div>

@@ -173,7 +173,7 @@ class SignupForm extends React.Component{
           <div className="col-xs-12">
             <div className="checkbox checkbox-success">
               <input id="checkbox-signup" type="checkbox" required value={this.state.data.agree} onChange={this.handleChange.bind(this, 'agree')} />
-              <label htmlFor="checkbox-signup">我接受<a href="/terms">《乐读用户服务协议》</a></label>
+              <label htmlFor="checkbox-signup">我接受<a href="/terms">《爱贝读用户服务协议》</a></label>
             </div>
           </div>
         </div>
