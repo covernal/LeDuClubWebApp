@@ -18,7 +18,8 @@
     "serve:dist": "node server.js --env=dist",
     "dist": "npm run copy & webpack --env=dist",
     "copy": "copyfiles -f ./src/index.html ./src/favicon.ico ./dist",
-    "postinstall": "npm run clean && npm run build"
+    "copycompany": "copyfiles --all ./company/**/*.* ./dist/assets",
+    "postinstall": "npm run clean && npm run build && npm run copycompany"
   },
   "author": {
     "name": "Vernal Liu",
