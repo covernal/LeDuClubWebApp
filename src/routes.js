@@ -5,7 +5,7 @@ import App from './App';
 import AdminMembersPage from './containers/Admin/MembersPage';
 import AdminRequestsPage from './containers/Admin/RequestsPage';
 import AdminBookDetailsPage from './containers/Admin/BookDetailsPage';
-import AdminProfilePage from './containers/admin/ProfilePage';
+import AdminProfilePage from './containers/Admin/ProfilePage';
 
 import MyRequestPage from './containers/Postman/MyRequestPage';
 

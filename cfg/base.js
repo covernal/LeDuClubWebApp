@@ -22,13 +22,13 @@ module.exports = {
     publicPath: defaultSettings.publicPath,
     noInfo: true,
     compress: true
-    // inline: true,
-    // proxy: {
-    //   '/functions/**': {
-    //     secure: false
-    //   }
-    // }
-    // https: true
+    inline: true,
+    proxy: {
+      '/functions/**': {
+        secure: false
+      }
+    }
+    https: true
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json'],
