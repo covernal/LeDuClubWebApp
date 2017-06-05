@@ -9,18 +9,15 @@ var settings = {
   leancloud: {
     local:{
       LEANCLOUD_APP_ID: 'i9cYx8YVlzbj2O4IdeXDKqAG-gzGzoHsz',
-      LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS',
-      LEANCLOUD_MASTER_KEY: 'CKQfHkg4YW2aiUAU7pkaGKHE'
+      LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS'
     },
     dev: {
       LEANCLOUD_APP_ID: 'i9cYx8YVlzbj2O4IdeXDKqAG-gzGzoHsz',
-      LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS',
-      LEANCLOUD_MASTER_KEY: 'CKQfHkg4YW2aiUAU7pkaGKHE'      
+      LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS'
     },
     dist: {
       LEANCLOUD_APP_ID: 'i9cYx8YVlzbj2O4IdeXDKqAG-gzGzoHsz',
-      LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS',
-      LEANCLOUD_MASTER_KEY: 'CKQfHkg4YW2aiUAU7pkaGKHE'      
+      LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS'
     }
   }
 };
