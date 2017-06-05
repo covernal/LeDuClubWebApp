@@ -9,11 +9,11 @@ var allowedEnvs = ['dev', 'dist', 'local'];
 // Set the correct environment
 var env;
 if(args._.length > 0 && args._.indexOf('start') !== -1) {
-  env = 'dev';
+  env = 'local';
 } else if (args.env) {
   env = args.env;
 } else {
-  env = 'dev';
+  env = 'local';
 }
 process.env.REACT_WEBPACK_ENV = env;
 

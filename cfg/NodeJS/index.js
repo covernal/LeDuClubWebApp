@@ -6,7 +6,7 @@ var settings = {
   env: process.env.NODE_ENV,
   root: path.dirname(require.main.filename),
   port: process.env.PORT || 9000,
-  leanclound: {
+  leancloud: {
     local:{
       LEANCLOUD_APP_ID: 'i9cYx8YVlzbj2O4IdeXDKqAG-gzGzoHsz',
       LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS',
