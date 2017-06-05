@@ -11,8 +11,14 @@ var settings = {
       LEANCLOUD_APP_ID: 'i9cYx8YVlzbj2O4IdeXDKqAG-gzGzoHsz',
       LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS'
     },
-    dev: {},
-    dist: {}
+    dev: {
+      LEANCLOUD_APP_ID: 'i9cYx8YVlzbj2O4IdeXDKqAG-gzGzoHsz',
+      LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS'
+    },
+    dist: {
+      LEANCLOUD_APP_ID: 'i9cYx8YVlzbj2O4IdeXDKqAG-gzGzoHsz',
+      LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS'
+    }
   }
 };
 
