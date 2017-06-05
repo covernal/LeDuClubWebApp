@@ -23,11 +23,11 @@ module.exports = {
     noInfo: true,
     compress: true,
     inline: true,
-    proxy: {
-      '/functions/**': {
-        secure: false
-      }
-    },
+//    proxy: {
+//      '/functions/**': {
+//        secure: false
+//      }
+//    },
     https: true,
   },
   resolve: {
