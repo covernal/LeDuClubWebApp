@@ -9,11 +9,11 @@ var allowedEnvs = ['dev', 'dist', 'local'];
 // Set the correct environment
 var env;
 if(args._.length > 0 && args._.indexOf('start') !== -1) {
-  env = 'local';
+  env = 'dist';
 } else if (args.env) {
   env = args.env;
 } else {
-  env = 'local';
+  env = 'dist';
 }
 process.env.REACT_WEBPACK_ENV = env;
 
@@ -32,7 +32,7 @@ var configs = {
  */
 function getValidEnv(env) {
   var isValid = env && env.length > 0 && allowedEnvs.indexOf(env) !== -1;
-  return isValid ? env : 'local';
+  return isValid ? env : 'dist';
 }
 
 /**
