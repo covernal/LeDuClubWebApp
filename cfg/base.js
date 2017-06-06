@@ -28,7 +28,7 @@ module.exports = {
 //        secure: false
 //      }
 //    },
-    https: true,
+    https: true
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json'],
