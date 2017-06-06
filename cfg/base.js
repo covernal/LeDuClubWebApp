@@ -21,7 +21,8 @@ module.exports = {
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
     noInfo: true,
-    compress: true
+    compress: true,
+    https: true
 //     inline: true,
 // //    proxy: {
 // //      '/functions/**': {
