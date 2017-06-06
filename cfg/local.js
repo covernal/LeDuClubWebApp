@@ -34,7 +34,10 @@ var config = Object.assign({}, baseConfig, {
       'process.env': {
         'BROWSER': JSON.stringify(true),
         'NODE_ENV': JSON.stringify('development'),
-        'REACT_WEBPACK_ENV': JSON.stringify(process.env.REACT_WEBPACK_ENV)
+        'REACT_WEBPACK_ENV': JSON.stringify(process.env.REACT_WEBPACK_ENV),
+        'LEANCLOUD_APP_ID': JSON.stringify(process.env.LEANCLOUD_APP_ID),
+        'LEANCLOUD_APP_KEY': JSON.stringify(process.env.LEANCLOUD_APP_KEY),
+        'LEANCLOUD_MASTER_KEY': JSON.stringify(process.env.LEANCLOUD_MASTER_KEY)
       }
     }),
     new webpack.optimize.DedupePlugin(),

@@ -22,7 +22,8 @@ module.exports = {
     publicPath: defaultSettings.publicPath,
     noInfo: true,
     compress: true,
-    https: true
+    https: true,
+    disableHostCheck: true
 //     inline: true,
 // //    proxy: {
 // //      '/functions/**': {
