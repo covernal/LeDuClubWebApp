@@ -21,14 +21,14 @@ module.exports = {
     port: defaultSettings.port,
     publicPath: defaultSettings.publicPath,
     noInfo: true,
-    compress: true,
-    inline: true,
-//    proxy: {
-//      '/functions/**': {
-//        secure: false
-//      }
-//    },
-    https: true,
+    compress: true
+//     inline: true,
+// //    proxy: {
+// //      '/functions/**': {
+// //        secure: false
+// //      }
+// //    },
+//     https: true,
   },
   resolve: {
     extensions: ['', '.js', '.jsx', '.json'],
