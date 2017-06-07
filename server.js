@@ -174,13 +174,13 @@ if(env == 'local'){
     }
     console.log('Listening webpack dev server at https://' + extIP + ':' + WebpackConfig.port);
   });
-  // 
-  // app.listen((parseInt(process.env.PORT)+1), function(err){
+  
+  // app.listen((parseInt(process.env.PORT)), function(err){
   //   if (err) {
   //     console.log(err);
   //     return;
   //   }
-  //
-  //   console.log('Listening node server at http://' + extIP + ':' + (parseInt(process.env.PORT)+1));
+  
+  //   console.log('Listening node server at https://' + extIP + ':' + (parseInt(process.env.PORT)));
   // });
 }
