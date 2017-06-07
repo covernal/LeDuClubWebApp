@@ -16,8 +16,8 @@ var settings = {
       LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS'
     },
     dist: {
-      LEANCLOUD_APP_ID: 'i9cYx8YVlzbj2O4IdeXDKqAG-gzGzoHsz',
-      LEANCLOUD_APP_KEY: 'b3GKIeOqiIHyewQtUjn6pXKS'
+      LEANCLOUD_APP_ID: 'AOIO1DF0fmN8YlH8S3FlQ3KB-gzGzoHsz',
+      LEANCLOUD_APP_KEY: 'FLofm5jDmXf1GS94W60MRhqo'
     }
   }
 };
