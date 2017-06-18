@@ -104,7 +104,7 @@ class SignupForm extends React.Component{
       <form className="form-horizontal" onSubmit={this.handleSubmit.bind(this)} data-parsley-validate noValidate id="signup-form">
       <div className="form-group">
         <div className="col-xs-12">
-          <h4 className="m-t-0 header-title text-muted"><b>注册会员免费试用2周</b></h4>
+          <h4 className="m-t-0 header-title text-muted"><b>会员注册</b></h4>
         </div>
       </div>      
         <div className="form-group">
