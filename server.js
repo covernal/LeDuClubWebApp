@@ -99,6 +99,18 @@ if(env == 'local'){
     });      
   });
 
+  app.get('/parents', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/parents.html'), function(html){
+      res.send(html);
+    });      
+  });
+
+  app.get('/institutions', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/institutions.html'), function(html){
+      res.send(html);
+    });      
+  });
+
 
   app.listen(config.port, function(err){
     if (err) {
@@ -163,6 +175,18 @@ if(env == 'local'){
 
   app.get('/about-us', function(req, res){
     loadHTML(path.join(__dirname, '/src/company/about-us.html'), function(html){
+      res.send(html);
+    });      
+  });
+
+  app.get('/parents', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/parents.html'), function(html){
+      res.send(html);
+    });      
+  });
+
+  app.get('/institutions', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/institutions.html'), function(html){
       res.send(html);
     });      
   });
