@@ -87,11 +87,11 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/careers', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/careers.html'), function(html){
-      res.send(html);
-    });      
-  });
+  //app.get('/careers', function(req, res){
+  //  loadHTML(path.join(__dirname, '/src/company/careers.html'), function(html){
+  //    res.send(html);
+  //  });      
+  //});
 
   app.get('/about-us', function(req, res){
     loadHTML(path.join(__dirname, '/src/company/about-us.html'), function(html){
@@ -167,11 +167,11 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/careers', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/careers.html'), function(html){
-      res.send(html);
-    });      
-  });
+  //app.get('/careers', function(req, res){
+  //  loadHTML(path.join(__dirname, '/src/company/careers.html'), function(html){
+  //    res.send(html);
+  //  });      
+  //});
 
   app.get('/about-us', function(req, res){
     loadHTML(path.join(__dirname, '/src/company/about-us.html'), function(html){
