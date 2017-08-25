@@ -99,8 +99,8 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/parents', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/parents.html'), function(html){
+  app.get('/abdmembers', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/members.html'), function(html){
       res.send(html);
     });      
   });
@@ -179,8 +179,8 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/parents', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/parents.html'), function(html){
+  app.get('/abdmembers', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/members.html'), function(html){
       res.send(html);
     });      
   });
