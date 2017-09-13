@@ -99,7 +99,7 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/abdmembers', function(req, res){
+  app.get('/parents', function(req, res){
     loadHTML(path.join(__dirname, '/src/company/members.html'), function(html){
       res.send(html);
     });      
@@ -179,7 +179,7 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/abdmembers', function(req, res){
+  app.get('/parents', function(req, res){
     loadHTML(path.join(__dirname, '/src/company/members.html'), function(html){
       res.send(html);
     });      
