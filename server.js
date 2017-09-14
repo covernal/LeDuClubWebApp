@@ -99,14 +99,14 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/parents', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/members.html'), function(html){
+  app.get('/superbags', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/superbags.html'), function(html){
       res.send(html);
     });      
   });
 
-  app.get('/institutions', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/institutions.html'), function(html){
+  app.get('/superbooks', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/superbooks.html'), function(html){
       res.send(html);
     });      
   });
@@ -179,14 +179,14 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/parents', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/members.html'), function(html){
+  app.get('/superbags', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/superbags.html'), function(html){
       res.send(html);
     });      
   });
 
-  app.get('/institutions', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/institutions.html'), function(html){
+  app.get('/superbooks', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/superbooks.html'), function(html){
       res.send(html);
     });      
   });
