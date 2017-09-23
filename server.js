@@ -111,6 +111,12 @@ if(env == 'local'){
     });      
   });
 
+  app.get('/blog/1', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/blog-1.html'), function(html){
+      res.send(html);
+    });      
+  });
+
 
   app.listen(config.port, function(err){
     if (err) {
@@ -187,6 +193,12 @@ if(env == 'local'){
 
   app.get('/superbooks', function(req, res){
     loadHTML(path.join(__dirname, '/src/company/superbooks.html'), function(html){
+      res.send(html);
+    });      
+  });
+
+  app.get('/blog/1', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/blog-1.html'), function(html){
       res.send(html);
     });      
   });
