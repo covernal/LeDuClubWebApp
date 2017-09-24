@@ -111,8 +111,8 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/blog/1', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/blog-1.html'), function(html){
+  app.get('/blog/template123', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/blog-template123.html'), function(html){
       res.send(html);
     });      
   });
@@ -197,8 +197,8 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/blog/1', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/blog-1.html'), function(html){
+  app.get('/blog/template123', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/blog-template123.html'), function(html){
       res.send(html);
     });      
   });
