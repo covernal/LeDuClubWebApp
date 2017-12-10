@@ -105,8 +105,14 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/superbooks', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/superbooks.html'), function(html){
+  app.get('/education-partners', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/education-partners.html'), function(html){
+      res.send(html);
+    });      
+  });
+
+  app.get('/education-parents', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/education-parents.html'), function(html){
       res.send(html);
     });      
   });
@@ -191,8 +197,14 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/superbooks', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/superbooks.html'), function(html){
+  app.get('/education-partners', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/education-partners.html'), function(html){
+      res.send(html);
+    });      
+  });
+
+    app.get('/education-parents', function(req, res){
+    loadHTML(path.join(__dirname, '/src/company/education-parents.html'), function(html){
       res.send(html);
     });      
   });
