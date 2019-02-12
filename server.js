@@ -41,33 +41,33 @@ if(env == 'local'){
 
   app.use(require('webpack-hot-middleware')(compiler));
 
-  app.get('/login*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/browsebooks*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/book*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/signup*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/forgot*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/member*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/admin*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/thisweek*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/my*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
+  // app.get('/login*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/browsebooks*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/book*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/signup*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/forgot*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/member*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/admin*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/thisweek*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/my*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
 
   app.get('/', function(req, res){
     loadHTML(path.join(__dirname, '/src/company/index.html'), function(html){
@@ -81,11 +81,11 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/faq', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/faq.html'), function(html){
-      res.send(html);
-    });      
-  });
+  // app.get('/faq', function(req, res){
+  //   loadHTML(path.join(__dirname, '/src/company/faq.html'), function(html){
+  //     res.send(html);
+  //   });      
+  // });
 
   //app.get('/careers', function(req, res){
   //  loadHTML(path.join(__dirname, '/src/company/careers.html'), function(html){
@@ -99,11 +99,11 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/superbags', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/superbags.html'), function(html){
-      res.send(html);
-    });      
-  });
+  // app.get('/superbags', function(req, res){
+  //   loadHTML(path.join(__dirname, '/src/company/superbags.html'), function(html){
+  //     res.send(html);
+  //   });      
+  // });
 
   app.get('/education-partners', function(req, res){
     loadHTML(path.join(__dirname, '/src/company/education-partners.html'), function(html){
@@ -117,11 +117,11 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/blog/template123', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/blog-template123.html'), function(html){
-      res.send(html);
-    });      
-  });
+  // app.get('/blog/template123', function(req, res){
+  //   loadHTML(path.join(__dirname, '/src/company/blog-template123.html'), function(html){
+  //     res.send(html);
+  //   });      
+  // });
 
 
   app.listen(config.port, function(err){
@@ -133,33 +133,33 @@ if(env == 'local'){
     console.log('Listening at non-production http://' + extIP + ':' + config.port);
   });
 }else{
-  app.get('/login*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/browsebooks*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/book*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/signup*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/forgot*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/member*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/admin*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/thisweek*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
-  app.get('/my*', function(req, res){
-      res.sendFile(path.join(__dirname, '/src/index.html'));
-  });
+  // app.get('/login*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/browsebooks*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/book*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/signup*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/forgot*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/member*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/admin*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/thisweek*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
+  // app.get('/my*', function(req, res){
+  //     res.sendFile(path.join(__dirname, '/src/index.html'));
+  // });
 
   app.get('/', function(req, res){
     loadHTML(path.join(__dirname, '/src/company/index.html'), function(html){
@@ -173,11 +173,11 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/faq', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/faq.html'), function(html){
-      res.send(html);
-    });      
-  });
+  // app.get('/faq', function(req, res){
+  //   loadHTML(path.join(__dirname, '/src/company/faq.html'), function(html){
+  //     res.send(html);
+  //   });      
+  // });
 
   //app.get('/careers', function(req, res){
   //  loadHTML(path.join(__dirname, '/src/company/careers.html'), function(html){
@@ -191,11 +191,11 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/superbags', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/superbags.html'), function(html){
-      res.send(html);
-    });      
-  });
+  // app.get('/superbags', function(req, res){
+  //   loadHTML(path.join(__dirname, '/src/company/superbags.html'), function(html){
+  //     res.send(html);
+  //   });      
+  // });
 
   app.get('/education-partners', function(req, res){
     loadHTML(path.join(__dirname, '/src/company/education-partners.html'), function(html){
@@ -209,11 +209,11 @@ if(env == 'local'){
     });      
   });
 
-  app.get('/blog/template123', function(req, res){
-    loadHTML(path.join(__dirname, '/src/company/blog-template123.html'), function(html){
-      res.send(html);
-    });      
-  });
+  // app.get('/blog/template123', function(req, res){
+  //   loadHTML(path.join(__dirname, '/src/company/blog-template123.html'), function(html){
+  //     res.send(html);
+  //   });      
+  // });
 
   new WebpackDevServer(compiler, WebpackConfig.devServer)
   .listen(WebpackConfig.port, (err) => {
