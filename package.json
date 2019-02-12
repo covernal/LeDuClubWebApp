@@ -47,6 +47,7 @@
     "babel-preset-react": "^6.5.0",
     "babel-preset-react-hmre": "^1.1.0",
     "babel-register": "^6.11.6",
+    "babel-runtime": "^6.26.0",
     "body-parser": "^1.15.2",
     "bootstrap": "^3.3.7",
     "bootstrap-webpack": "0.0.5",
